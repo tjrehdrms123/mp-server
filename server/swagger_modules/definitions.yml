@@ -1,0 +1,1400 @@
+## Request
+definitions:
+  AdminLogin:
+    type: "object"
+    properties:
+      admin_id:
+        type: "string"
+        example: "아이디"
+      password:
+        type: "string"
+        example: "비밀번호"
+  AdminEdit:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        example: "이름"
+      password:
+        type: "string"
+        example: "비밀번호"
+      email:
+        type: "string"
+        example: "이메일"
+      phone:
+        type: "string"
+        example: "전화번호"
+      bank_name:
+        type: "string"
+        example: "은행명"
+      account:
+        type: "string"
+        example: "예금주"
+      account_number:
+        type: "string"
+        example: "계좌번호"
+      account_image:
+        type: "string"
+        example: "통장 사본 이미지"
+  AdminCheck:
+    type: "object"
+    properties:
+      password:
+        type: "string"
+        example: "비밀번호"
+  SchoolRegister:
+    type: "object"
+    properties:
+      school:
+        type: "string"
+        example: "학교 이름"
+      address:
+        type: "string"
+        example: "학교 주소"
+  SchoolEdit:
+    type: "object"
+    properties:
+      schoolId:
+        type: "string"
+        example: "학교 objectId"
+      schoolName:
+        type: "string"
+        example: "학교 이름"
+      address:
+        type: "string"
+        example: "학교 주소"
+  ServiceCreate:
+    type: "object"
+    properties:
+      shop:
+        type: "String"
+        example: "서비스를 등록 할 제휴사 objectId"
+      status(게시 상태):
+        type: "Boolean"
+        example: false
+      recommend(추천 여부):
+        type: "Boolean"
+        example: false
+      category:
+        type: "String"
+        example: "세부 카테고리"
+      desc:
+        type: "String"
+        example: "제품 설명"
+      minimum(최소 수량):
+        type: "Number"
+        example: 5
+      maximum(최대 수량):
+        type: "Number"
+        example: 10
+      cost(판매가):
+        type: "Number"
+        example: 10000
+      discount(할인율):
+        type: "Number"
+        example: 10
+      finally_cost(할인가):
+        type: "Number"
+        example: 9000
+      image:
+        type: "String"
+        example: 대표 사진
+  ServiceEdit:
+    type: "object"
+    properties:
+      objectId:
+        type: "string"
+        example: "변경 할 서비스 objectId"
+      status(게시 상태):
+        type: "Boolean"
+        example: false
+      recommend(추천 여부):
+        type: "Boolean"
+        example: false
+      category:
+        type: "string"
+        example: "세부 카테고리"
+      name:
+        type: "string"
+        example: "상품명"
+      desc:
+        type: "string"
+        example: "제품 설명"
+      minimum(최소 수량):
+        type: "Number"
+        example: 5
+      maximum(최대 수량):
+        type: "Number"
+        example: 10
+      cost(판매가):
+        type: "Number"
+        example: 10000
+      discount(할인율):
+        type: "Number"
+        example: 10
+      finally_cost(할인가):
+        type: "Number"
+        example: 9000
+      image:
+        type: "String"
+        example: "대표사진"
+  ShopCreate:
+    type: "object"
+    properties:
+      status(게시상태):
+        type: "Boolean"
+        example: false
+      open_date(게시일):
+        type: "Date"
+        example: Date 타입
+      admin_id:
+        type: "String"
+        example: "제휴사 아이디"
+      admin_email:
+        type: "String"
+        example: "제휴사 관리자 이메일"
+      password:
+        type: "String"
+        example: "제휴사 비밀번호"
+      category:
+        type: "String"
+        example: "제휴 분야"
+      brand_name:
+        type: "String"
+        example: "프랜차이즈 이름"
+      branch_name:
+        type: "String"
+        example: "지점 이름"
+      address:
+        type: "String"
+        example: "주소"
+      sub_addresss:
+        type: "String"
+        example: "상세 주소"
+      school(주변 대학):
+        type: "Array"
+        example: [학교1 objectId, 학교2 objectId]
+      phone:
+        type: "String"
+        example: "전화번호"
+      email:
+        type: "String"
+        example: "이메일"
+      open_time:
+        type: "Date"
+        example: "오픈시간"
+      close_time:
+        type: "Date"
+        example: "마감시간"
+      facility:
+        type: "String"
+        example: "편의시설"
+      sub_information(부가정보):
+        type: "String"
+        example: "주차가능 |  발렛가능 |  wifi 제공  |  음료 및 간식 제공 | 반려견동반가능  |  영어가능"
+      benefits:
+        type: "String"
+        example: "안내 및 혜택"
+      owner:
+        type: "String"
+        example: "대표자명"
+      business_address:
+        type: "String"
+        example: "사업자 주소"
+      business_number:
+        type: "String"
+        example: "사업자 등록번호"
+      images(사진 등록):
+        type: "Array"
+        example: [대표사진, 사진1, 사진2]
+      tax_manager:
+        type: "String"
+        example: "세금 계산서 담당자 이름"
+      tax_manager_email:
+        type: "String"
+        example: "세금 계산서 담당자 이메일"
+      regular_holiday_day:
+        type: "Array"
+        example: [0, 3, 5]
+      regular_holiday_date:
+        type: "Array"
+        example: [10, 15, 25]
+      irregular_holiday:
+        type: "Array"
+        example: ["2022.07.17", "2022.07.19", "2022.08.25"]
+      offline_payment_10000:
+        type: "Boolean"
+        example: true = on | false = off
+      offline_payment_0:
+        type: "Boolean"
+        example: true = on | false = off
+      refund_rule:
+        type: "Array"
+        example: [0, 10, 20, 30, 40, 50, 60, 100]
+  ShopEdit:
+    type: "object"
+    properties:
+      objectId:
+        type: "String"
+        example: "변경 할 제휴사 objectId"
+      status(게시상태):
+        type: "Boolean"
+        example: false
+      open_date(게시일):
+        type: "Date"
+        example: Date 타입
+      admin_id:
+        type: "String"
+        example: "제휴사 아이디"
+      password:
+        type: "String"
+        example: "제휴사 비밀번호"
+      category:
+        type: "String"
+        example: "제휴 분야"
+      brand_name:
+        type: "String"
+        example: "프랜차이즈 이름"
+      branch_name:
+        type: "String"
+        example: "지점 이름"
+      address:
+        type: "String"
+        example: "주소"
+      sub_addresss:
+        type: "String"
+        example: "상세 주소"
+      school(주변 대학):
+        type: "Array"
+        example: [학교1 objectId, 학교2 objectId]
+      phone:
+        type: "String"
+        example: "전화번호"
+      email:
+        type: "String"
+        example: "이메일"
+      open_time:
+        type: "Date"
+        example: "오픈시간"
+      close_time:
+        type: "Date"
+        example: "마감시간"
+      facility:
+        type: "String"
+        example: "편의시설"
+      sub_information:
+        type: "String"
+        example: "부가정보"
+      benefits:
+        type: "String"
+        example: "안내 및 혜택"
+      owner:
+        type: "String"
+        example: "대표자명"
+      business_address:
+        type: "String"
+        example: "사업자 주소"
+      business_number:
+        type: "String"
+        example: "사업자 등록번호"
+      images(사진 등록):
+        type: "Array"
+        example: [대표사진, 사진1, 사진2]
+      tax_manager:
+        type: "String"
+        example: "세금 계산서 담당자 이름"
+      tax_manager_email:
+        type: "String"
+        example: "세금 계산서 담당자 이메일"
+      regular_holiday_day:
+        type: "Array"
+        example: [0, 3, 5]
+      regular_holiday_date:
+        type: "Array"
+        example: [10, 15, 25]
+      irregular_holiday:
+        type: "Array"
+        example: ["2022.07.17", "2022.07.19", "2022.08.25"]
+  adminIdCheck:
+    type: "object"
+    properties:
+      admin_id:
+        type: "String"
+        example: "중복 확인 할 아이디"
+  CategoryAdd:
+    type: "object"
+    properties:
+      objectId:
+        type: "String"
+        example: "제휴사 objectId"
+      category:
+        type: "String"
+        example: "카테고리 이름"
+  ShopState:
+    type: "object"
+    properties:
+      objectId:
+        type: "String"
+        example: "제휴사 objectId"
+      state(게시 상태):
+        type: "Boolean"
+        example: false
+      open_date(게시일):
+        type: "Date"
+        example: Date 타입
+  ProductAdd:
+    type: "object"
+    properties:
+      category:
+        type: "String"
+        example: "카테고리"
+      name:
+        type: "String"
+        example: "제품명"
+      cost(판매가):
+        type: "Number"
+        example: 1000
+      discount(할인율):
+        type: "Number"
+        example: 5
+      finally_cost(할인가):
+        type: "Number"
+        example: 950
+      delivery(배송비):
+        type: "Number"
+        example: 2000
+      represent_images:
+        type: "Array"
+        example: ["대표 사진1", "대표 사진2"]
+      desc_image:
+        type: "String"
+        example: "상품 설명 사진1"
+      brand_name:
+        type: "String"
+        example: "상호명"
+      delivery_info:
+        type: "String"
+        example: "무료 배송비 안내"
+      detail_info:
+        type: "String"
+        exmaple: "상품 상세"
+      option:
+        type: "Array"
+        example:
+          [
+            { "name": "옵션1", "cost": 20000 },
+            { "name": "옵션2", "cost": 10000 },
+          ]
+  ProductEdit:
+    type: "object"
+    properties:
+      productId:
+        type: "String"
+        example: "상품 objectId"
+      category:
+        type: "String"
+        example: "카테고리"
+      name:
+        type: "String"
+        example: "제품명"
+      cost(판매가):
+        type: "Number"
+        example: 1000
+      discount(할인율):
+        type: "Number"
+        example: 5
+      finally_cost(할인가):
+        type: "Number"
+        example: 950
+      delivery(배송비):
+        type: "Number"
+        example: 2000
+      represent_images:
+        type: "Array"
+        example: ["대표 사진1", "대표 사진2"]
+      desc_image:
+        type: "String"
+        example: "상품 설명 사진1"
+      brand_name:
+        type: "String"
+        example: "상호명"
+      delivery_info:
+        type: "String"
+        example: "무료 배송비 안내"
+      detail_info:
+        type: "String"
+        exmaple: "상품 상세"
+      option:
+        type: "Array"
+        example:
+          [
+            {
+              "objectId": "기존에 있던 옵션 objectId",
+              "name": "옵션1",
+              "cost": 20000,
+              "delete_status": false,
+            },
+            { "name": "옵션2", "cost": 10000 },
+          ]
+  QuestionReply:
+    type: "object"
+    properties:
+      title:
+        type: "String"
+        example: "답변 제목"
+      content:
+        type: "String"
+        example: "답변 내용"
+  QuestionReplyEdit:
+    type: "object"
+    properties:
+      objectId:
+        type: "String"
+        example: "답변 objectId"
+      title:
+        type: "String"
+        example: "답변 제목"
+      content:
+        type: "String"
+        example: "답변 내용"
+  BannerCreate:
+    type: "object"
+    properties:
+      title:
+        type: "String"
+        example: "제목"
+      content:
+        type: "String"
+        example: "상세"
+      thumbnail:
+        type: "String"
+        example: "썸네일"
+      main_image:
+        type: "String"
+        example: "상세 이미지"
+      type:
+        type: "String"
+        example: "상단 = advertisement 하단 = event"
+      link:
+        type: "String"
+        example: "관련 링크"
+      duration_start:
+        type: "String"
+        example: "시작일"
+      duration_end:
+        type: "String"
+        example: "종료일"
+      delete_status:
+        type: "Boolean"
+        example: "게시중 = false, 게시중단 = true"
+  BannerEdit:
+    type: "object"
+    properties:
+      objectId:
+        type: "String"
+        example: "수정 할 배너 objectId"
+      title:
+        type: "String"
+        example: "제목"
+      content:
+        type: "String"
+        example: "상세"
+      thumbnail:
+        type: "String"
+        example: "썸네일"
+      main_image:
+        type: "String"
+        example: "상세 이미지"
+      type:
+        type: "String"
+        example: "상단 = advertisement 하단 = event"
+      link:
+        type: "String"
+        example: "링크"
+      delete_status:
+        type: "Boolean"
+        example: "게시중 = false, 게시중단 = true"
+  ServicePurchase:
+    type: "object"
+    properties:
+      serviceId:
+        type: "String"
+        example: "서비스 objectId"
+      designerId:
+        type: "String"
+        example: "디자이너 objectId, 없을 시 빈 문자열"
+      imp_uid:
+        type: "String"
+        example: "영수증 번호"
+      date(예약 날짜):
+        type: "String"
+        example: "2022.02.08"
+      time(예약 시간):
+        type: "String"
+        example: "12:30"
+      reserve_add:
+        type: "Boolean"
+        example: "false = default, true = 추가 및 수정"
+      reserver_name:
+        type: "String"
+        example: "예약자 이름"
+      reserver_phone:
+        type: "String"
+        example: "예약자 연락처"
+      couponId:
+        type: "String"
+        example: "쿠폰 objectId"
+      use_point(사용 포인트):
+        type: "Number"
+        example: 500
+      cost(상품 금액):
+        type: "Number"
+        example: 49000
+      finally_cost(결제 금액):
+        type: "Number"
+        example: 48000
+  ProductPurchase:
+    type: "object"
+    properties:
+      productId:
+        type: "String"
+        example: "상품 objectId"
+      imp_uid:
+        type: "String"
+        example: "영수증 번호"
+      count(수량):
+        type: "Number"
+        example: 2
+      receiver_name:
+        type: "String"
+        example: "구매자 이름"
+      receiver_phone:
+        type: "String"
+        example: "구매자 연락처"
+      address_name:
+        type: "String"
+        example: "배송지명"
+      address_add(배송지 목록에 추가 여부):
+        type: "Boolean"
+        example: "true = 추가 false = 추가 안함"
+      zipcode:
+        type: "String"
+        example: 우편번호
+      main_address:
+        type: "String"
+        example: "주소"
+      sub_address:
+        type: "String"
+        example: "상세 주소"
+      couponId:
+        type: "String"
+        example: "쿠폰 objectId"
+      use_point(사용 포인트):
+        type: "Number"
+        example: 500
+      finally_cost(총 결제 금액):
+        type: "Number"
+        example: 48000
+      coupon_discount(쿠폰 할인 금액):
+        type: "Number"
+        example: 1000
+  ShopViews:
+    type: "object"
+    properties:
+      shopId:
+        type: "String"
+        example: "제휴사 objectId"
+  ProductViews:
+    type: "object"
+    properties:
+      productId:
+        type: "String"
+        example: "상품 objectId"
+  UserHistory:
+    type: "object"
+    properties:
+      shopId:
+        type: "String"
+        example: "제휴사 objectId"
+  PostReview:
+    type: "object"
+    properties:
+      purchaseId:
+        type: "String"
+        example: "구매내역 objectId"
+      rating(별점):
+        type: "Number"
+        example: 5
+      content:
+        type: "String"
+        example: "리뷰 내용"
+      image:
+        type: "String"
+        example: "리뷰 이미지"
+  PatchReview:
+    type: "object"
+    properties:
+      reviewId:
+        type: "String"
+        example: "리뷰 objectId"
+      rating(별점):
+        type: "Number"
+        example: 5
+      content:
+        type: "String"
+        example: "리뷰 내용"
+      image:
+        type: "String"
+        example: "리뷰 이미지"
+  PostQuestion:
+    type: "object"
+    properties:
+      purchaseId:
+        type: "String"
+        example: "구매내역 objectId"
+      title:
+        type: "String"
+        example: "문의 제목"
+      content:
+        type: "String"
+        example: "문의 내용"
+      question_type(Number):
+        type: "Number"
+        example: 0 = 상품, 1 = 배송, 2 = 교환/반품, 3 = 기타
+      images:
+        type: "Array"
+        example: ["base64", "base64"]
+  QuestionEdit:
+    type: "object"
+    properties:
+      questionId:
+        type: "String"
+        example: "문의 objectId"
+      title:
+        type: "String"
+        example: "문의 제목"
+      content:
+        type: "String"
+        example: "문의 내용"
+      question_type(Number):
+        type: "Number"
+        example: 0 = 상품, 1 = 배송, 2 = 교환/반품, 3 = 기타
+      images:
+        type: "Array"
+        example: ["base64", "base64"]
+  PurchaseDeliveryEdit:
+    type: "object"
+    properties:
+      purchaseId:
+        type: "String"
+        example: "구매내역 objectId"
+      receiver_name:
+        type: "String"
+        example: "수령인"
+      receiver_phone:
+        type: "String"
+        example: "연락처"
+      zipcode:
+        type: "String"
+        example: 우편번호
+      main_address:
+        type: "String"
+        example: "주소"
+      sub_address:
+        type: "String"
+        example: "상세 주소"
+      address_name:
+        type: "String"
+        example: "배송지명"
+      address_add(배송지 목록에 추가 여부):
+        type: "Boolean"
+        example: "true = 추가 false = 추가 안함"
+  PurchaseDeliveryCancel:
+    type: "object"
+    properties:
+      purchaseId:
+        type: "String"
+        example: "구매내역 objectId"
+      reason:
+        type: "String"
+        example: "취소 사유"
+  PurchaseServiceEdit:
+    type: "object"
+    properties:
+      purchaseId:
+        type: "String"
+        example: "구매내역 objectId"
+      date(예약 날짜):
+        type: "String"
+        example: "2022.02.08"
+      time(예약 시간):
+        type: "String"
+        example: "12:30"
+      designerId:
+        type: "String"
+        example: "디자이너 objectId, 없을 시 빈 문자열"
+  PurchaseServiceCancel:
+    type: "object"
+    properties:
+      purchaseId:
+        type: "String"
+        example: "구매내역 objectId"
+      reason:
+        type: "String"
+        example: "취소 사유"
+  UserLogin:
+    type: "object"
+    properties:
+      auth_type(Number):
+        type: "Number"
+        example: "0 = abm, 1 = 애플, 2 = 네이버, 3 = 카카오, 4 = 구글"
+      userId:
+        type: "String"
+        example: "유저 아이디"
+      password:
+        type: "String"
+        example: "유저 비밀번호"
+      device_token:
+        type: "String"
+        example: "로그인 한 기기의 토큰"
+  DeliveryInfo:
+    type: "object"
+    properties:
+      purchaseId:
+        type: "String"
+        example: "구매내역 objectId"
+      tracking_number:
+        type: "String"
+        example: "운송장 번호"
+      courier:
+        type: "String"
+        example: "택배사"
+  UserSignUp:
+    type: "object"
+    properties:
+      auth_type:
+        type: "Number"
+        example: "0 = abm, 1 = 애플, 2 = 네이버, 3 = 카카오, 4 = 구글"
+      userId:
+        type: "String"
+        example: "소셜 아이디"
+      email:
+        type: "String"
+        example: "소셜 이메일 or 유저 이메일(아이디)"
+      password:
+        type: "String"
+        example: "비밀번호"
+      phone:
+        type: "String"
+        example: "전화번호"
+      device_token:
+        type: "String"
+        example: "로그인 한 기기의 토큰"
+      os:
+        type: "String"
+        example: "ios, android"
+  CouponRegister:
+    type: "object"
+    properties:
+      coupon_number(쿠폰번호):
+        type: "Number"
+        example: 123456789
+  UserEdit:
+    type: "object"
+    properties:
+      nickname:
+        type: "String"
+        example: "닉네임"
+      exPassword:
+        type: "String"
+        example: "기존 비밀번호"
+      changePassword:
+        type: "String"
+        example: "변경 할 비밀번호"
+      profile_img:
+        type: "String"
+        example: "프로필 사진"
+  CouponCreate:
+    type: "object"
+    properties:
+      admin_id:
+        type: "String"
+        example: "관리자 objectId"
+      auth_level:
+        type: "String"
+        example: "관리자 권한 레벨"
+      brand_name:
+        type: "String"
+        example: "프랜차이즈 이름"
+      branch_name:
+        type: "String"
+        example: "지점 이름"
+      category:
+        type: "String"
+        example: "카테고리"
+      shop_id:
+        type: "String"
+        example: "제휴사 objectId"
+      school_id:
+        type: "String"
+        example: "학교 objectId"
+      name:
+        type: "String"
+        example: "쿠폰 이름"
+      date_start:
+        type: "Date"
+        example: "쿠폰 유효기간 시작일"
+      date_end:
+        type: "Date"
+        example: "쿠폰 유효기간 종료일"
+      minimum(최소 금액):
+        type: "Number"
+        example: 15000
+      discount(할인율):
+        type: "Number"
+        example: 10
+      cost(할인가):
+        type: "Number"
+        example: 2000
+      count(발행수):
+        type: "Number"
+        example: 10
+      max_discount(최대 할인금액):
+        type: "Number"
+        example: 100000
+  CouponShopCreate:
+    type: "object"
+    properties:
+      category:
+        type: "String"
+        example: "카테고리"
+      shop_id:
+        type: "String"
+        example: "제휴사 objectId"
+      name:
+        type: "String"
+        example: "쿠폰 이름"
+      date_start:
+        type: "Date"
+        example: "쿠폰 유효기간 시작일"
+      date_end:
+        type: "Date"
+        example: "쿠폰 유효기간 종료일"
+      minimum(최소 금액):
+        type: "Number"
+        example: 15000
+      discount(할인율):
+        type: "Number"
+        example: 10
+      cost(할인가):
+        type: "Number"
+        example: 2000
+      count(발행수):
+        type: "Number"
+        example: 10
+      max_discount(최대 할인금액):
+        type: "Number"
+        example: 100000
+  DesignerCreate:
+    type: "object"
+    properties:
+      shop_id:
+        type: "String"
+        example: "제휴사 objectId"
+      designer_name:
+        type: "String"
+        exmaple: "디자이너 이름"
+      designer_description:
+        type: "String"
+        example: "디자이너 상세"
+      designer_image:
+        type: "String"
+        example: "디자이너 사진"
+      designer_cost(추가 가격):
+        type: "Number"
+        example: 20000
+  DesignerEdit:
+    type: "object"
+    properties:
+      designer_id:
+        type: "String"
+        example: "디자이너 objectId"
+      designer_name:
+        type: "String"
+        exmaple: "디자이너 이름"
+      designer_description:
+        type: "String"
+        example: "디자이너 상세"
+      designer_image:
+        type: "String"
+        example: "디자이너 사진"
+      designer_cost(추가 가격):
+        type: "Number"
+        example: 20000
+  DesignerService:
+    type: "object"
+    properties:
+      designerId:
+        type: "String"
+        example: "디자이너 objectId"
+      serviceId:
+        type: "String"
+        example: "추가 할 서비스 objectId"
+  UserLike:
+    type: "object"
+    properties:
+      type(Number):
+        type: "Number"
+        example: "0 = 상품, 1 = 제휴사"
+      objectId:
+        type: "String"
+        example: "제휴사, 상품 objectId"
+      status(Number):
+        type: "Number"
+        example: "0 = 추가, 1 = 삭제"
+  UserReserveAdd:
+    type:
+    properties:
+      reserverId:
+        type: "String"
+        example: "예약자 정보 objectId"
+      reserverName:
+        type: "String"
+        example: "예약자 이름"
+      reserverPhone:
+        type: "String"
+        example: "예약자 연락처"
+  UserSchoolStatus:
+    type:
+    properties:
+      objectId:
+        type: "String"
+        example: "유저 objectId"
+      pass_status:
+        type: "Number"
+        example: "2 = 승인, 3 = 거부"
+  CommunityCreate:
+    type:
+    properties:
+      title:
+        type: "String"
+        example: "게시글 제목"
+      content:
+        type: "String"
+        example: "게시글 내용"
+      category(Number):
+        type: "Number"
+        example: 0 = 자유, 1 = 정보, 2 = 취업, 3 = 솔직 후기
+      images:
+        type: "Array"
+        example: ["base64 image1", "base64 image2"]
+  CommunityComment:
+    type:
+    properties:
+      postId:
+        type: "String"
+        example: "게시글 objectId"
+      content:
+        type: "String"
+        example: "댓글 내용"
+  CommunityEdit:
+    type:
+    properties:
+      postId:
+        type: "String"
+        example: "게시글 objectId"
+      title:
+        type: "String"
+        example: "게시글 제목"
+      content:
+        type: "String"
+        example: "게시글 내용"
+      category:
+        type: "String"
+        example: "게시글 카테고리"
+      images:
+        type: "Array"
+        example: ["base64 image1", "base64 image2"]
+  CommunityCommentEdit:
+    type:
+    properties:
+      commentId:
+        type: "String"
+        example: "댓글 objectId"
+      content:
+        type: "String"
+        example: "댓글 내용"
+  CouponEdit:
+    type:
+    properties:
+      objectId:
+        type: "String"
+        example: "쿠폰 objectId"
+      name:
+        type: "String"
+        example: "쿠폰 이름"
+      date_end:
+        type: "Date"
+        example: "쿠폰 유효기간 종료일"
+      minimum(최소 금액):
+        type: "Number"
+        example: 15000
+  FAQCreate:
+    type:
+    properties:
+      title:
+        type: "String"
+        example: "제목"
+      content:
+        type: "String"
+        example: "내용"
+      link:
+        type: "String"
+        example: "관련 링크"
+      images:
+        type: "Array"
+        example: ["이미지1", "이미지2"]
+  FAQEdit:
+    type:
+    properties:
+      objectId:
+        type: "String"
+        example: "자주묻는질문 objectId"
+      title:
+        type: "String"
+        example: "제목"
+      content:
+        type: "String"
+        example: "내용"
+      link:
+        type: "String"
+        example: "관련 링크"
+      images:
+        type: "Array"
+        example: ["이미지1", "이미지2"]
+  UserEmailVerify:
+    type:
+    properties:
+      userId:
+        type: "String"
+        example: "유저 objectId"
+      name:
+        type: "String"
+        example: "유저 이름"
+      schoolId:
+        type: "String"
+        example: "학교 objectId"
+      school_email:
+        type: "String"
+        example: "학교 이메일"
+  SettleEdit:
+    type:
+    properties:
+      objectId:
+        type: "String"
+        example: "정산내역 objectId"
+      pay_status(지급 상태):
+        type: "Number"
+        example: "0 = 지급예정, 1 = 지급확정, 2 = 지급보류"
+      pay_commission(판매 수수료):
+        type: "Number"
+        example: 50000
+      pay_holding(보류/공제액):
+        type: "Number"
+        example: 30000
+      reason:
+        type: "String"
+        example: "사유"
+  UserLikeProduct:
+    type:
+    properties:
+      type(Number):
+        type: "Number"
+        example: "0 = 추가, 1 = 삭제, 2 = 수량 변경"
+      productId:
+        type: "String"
+        example: "상품 objectId"
+      count(Number):
+        type: "Number"
+        example: 3
+  CommunityReply:
+    type:
+    properties:
+      commentId:
+        type: "String"
+        example: "댓글 objectId"
+      content:
+        type: "String"
+        example: "답글 내용"
+  CommunityReplyEdit:
+    type:
+    properties:
+      replyId:
+        type: "String"
+        example: "답글 objectId"
+      content:
+        type: "String"
+        example: "답글 내용"
+  CommunityLike:
+    type:
+    properties:
+      postId:
+        type: "String"
+        example: "게시글 objectId"
+  CommunityScrap:
+    type:
+    properties:
+      status(Number):
+        type: "Number"
+        example: "0 = 추가, 1 = 삭제"
+      postId:
+        type: "String"
+        example: "게시글 objectId"
+  UserDeliveryEdit:
+    type:
+    properties:
+      addressId:
+        type: "String"
+        example: "배송지 objectId"
+      addressName:
+        type: "String"
+        example: "배송지명"
+      mainAddress:
+        type: "String"
+        example: "주소"
+      subAddress:
+        type: "String"
+        example: "상세 주소"
+      zipcode:
+        type: "String"
+        example: 우편번호
+      receiverName:
+        type: "String"
+        example: "수령인"
+      receiverPhone:
+        type: "String"
+        example: "연락처"
+  AdminFindId:
+    type:
+    properties:
+      email:
+        type: "String"
+        example: "관리자 이메일"
+  AdminFindPw:
+    type:
+    properties:
+      adminId:
+        type: "String"
+        example: "관리자 아이디"
+      email:
+        type: "String"
+        example: "관리자 이메일"
+  UserFindId:
+    type:
+    properties:
+      phone:
+        type: "String"
+        example: "핸드폰 번호"
+  UserFindPw:
+    type:
+    properties:
+      userId:
+        type: "String"
+        example: "유저 아이디"
+  BookmarkAdd:
+    type:
+    properties:
+      bookmarkName:
+        type: "String"
+        example: "별명"
+      bookmarkAddress:
+        type: "String"
+        example: "주소"
+  BookmarkEdit:
+    type:
+    properties:
+      bookmarkId:
+        type: "String"
+        example: "즐겨찾기 objectId"
+      bookmarkName:
+        type: "String"
+        example: "별명"
+      bookmarkAddress:
+        type: "String"
+        example: "주소"
+  ShopCategoryEdit:
+    type:
+    properties:
+      shopId:
+        type: "String"
+        example: "제휴사 objectId"
+      categoryList:
+        type: "Array"
+        example: ["변경 된 카테고리1", "변경 된 카테고리2"]
+      exCategory:
+        type: "String"
+        example: "변경하기 전 카테고리명"
+      changeCategory:
+        type: "String"
+        example: "변경 된 카테고리명"
+  ReportRegister:
+    type:
+    properties:
+      reasonType:
+        type: "Array"
+        example: [1, 3, 5]
+      type(Number):
+        type: "Number"
+        example: "0 = 게시글, 1 = 댓글, 2 = 답글, 3 = 리뷰, 4 = 문의"
+      objectId:
+        type: "String"
+        example: "신고 접수 된 objectId"
+      reason:
+        type: "String"
+        example: "신고 사유"
+  ReportCheck:
+    type:
+    properties:
+      objectId:
+        type: "String"
+        example: "신고 접수 된 objectId"
+      status(Number):
+        type: "Number"
+        example: "1 = 승인, 2 = 반려"
+  UserSchoolVerify:
+    type:
+    properties:
+      type(Number):
+        type: "Number"
+        example: "1 = 재학생 인증, 2 = 합격자 인증"
+      userId:
+        type: "String"
+        example: "유저 objectId"
+      schoolId:
+        type: "String"
+        example: "학교 objectId"
+      image:
+        type: "String"
+        example: "유저가 인증 할 자료"
+  MessageSend:
+    type:
+    properties:
+      receiverId:
+        type: "String"
+        example: "받는 사람 objectId"
+      content:
+        type: "String"
+        example: "쪽지 내용"
+  NotiStatusSetting:
+    type:
+    properties:
+      totalNoti(Number):
+        type: "Number"
+        example: "전체 푸쉬 알림 (0 = true, 1 = false)"
+      totalEventNoti(Number):
+        type: "Number"
+        example: "이벤트 및 할인 혜택 전체 알림 (0 = true, 1 = false)"
+      kakaoEventNoti(Number):
+        type: "Number"
+        example: "이벤트 및 할인 혜택 카카오 알림 (0 = true, 1 = false)"
+      pushEventNoti(Number):
+        type: "Number"
+        example: "이벤트 및 할인 혜택 푸쉬 알림 (0 = true, 1 = false)"
+      chattingNoti(Number):
+        type: "Number"
+        example: "채팅 푸쉬 알림 (0 = true, 1 = false)"
+      commentNoti(Number):
+        type: "Number"
+        example: "댓글/답글 푸쉬 알림 (0 = true, 1 = false)"
+      questionNoti(Number):
+        type: "Number"
+        example: "문의답변 푸쉬 알림 (0 = true, 1 = false)"
+  CreateRoom:
+    type:
+    properties:
+      opponentId:
+        type: "String"
+        example: "상대방 objectId"
+  UserBlock:
+    type:
+    properties:
+      opponentId:
+        type: "String"
+        example: "상대방 objectId"
+      blockStatus:
+        type: "Boolean"
+        example: "차단 = true, 차단 해제 = false"
+  ChattingRoomLeave:
+    type:
+    properties:
+      roomId:
+        type: "String"
+        example: "채팅방 rocketId"
+  ChattingNoti:
+    type:
+    properties:
+      opponentId:
+        type: "String"
+        example: "상대방 objectId"
+      content:
+        type: "String"
+        example: "메세지 내용"
+  ShopOptionNameEdit:
+    type:
+    properties:
+      shopId:
+        type: "String"
+        example: "제휴사 objectId"
+      optionName:
+        type: "String"
+        example: "변경 할 옵션명"
+  ShopHolidayCheck:
+    type:
+    properties:
+      shopId:
+        type: "String"
+        example: "제휴사 objectId"
+      regular_holiday_day:
+        type: "Array"
+        example: [0, 1, 2, 3, 4, 5, 6, (일 ~ 월)]
+      regular_holiday_date:
+        type: "Array"
+        example: [5, 12, 15]
+      irregular_holiday:
+        type: "Array"
+        example: ["2022-07-15", "2022-07-22"]
+
+  ## Response
+  PurchaseStatus:
+    type:
+    properties:
+      shop:
+        type: "Object"
+        example: "제휴사 객체"
+      reserve_date:
+        type: "Date"
+        example: "예약한 날짜"
+      reserve_time:
+        type: "String"
+        example: "예약한 시간"
+      service_name:
+        type: "String"
+        example: "예약한 서비스 이름"
+      purchase_id:
+        type: "String"
+        example: "예약 내역 objectId"
+      purchase_cost:
+        type: "Number"
+        example: "결제 가격"
+      purchase_date:
+        type: "Date"
+        example: "결제 날짜"
+      purchase_status:
+        type: "Number"
+        example: "0: 결제 완료 및 이용 대기, 1: 사용 완료, 2: 유저 취소, 3: 제휴사 취소, 4: 미방문"
+      cancel_date:
+        type: "Date"
+        example: "취소 날짜"
+      cancel_reason:
+        type: "String"
+        example: "취소 사유"

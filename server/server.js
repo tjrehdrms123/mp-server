@@ -2,19 +2,20 @@ const express = require("express");
 const config = require("./config");
 const cors = require("cors");
 const morgan = require("morgan");
-//const routes = require("./routes");
+// morgan: 로그 패키지
+const routes = require("./routes");
 const bodyParser = require("body-parser");
 const { default: ParseServer, ParseGraphQLServer } = require("parse-server");
 var FSFilesAdapter = require("@parse/fs-files-adapter");
 var fsAdapter = new FSFilesAdapter();
 var S3Adapter = require("@parse/s3-files-adapter");
-// const { swaggerUi, specs } = require("./swagger_modules/swagger");
+const { swaggerUi, specs } = require("./swagger_modules/swagger");
 
 const app = express();
 
 app.use(express.static("public"));
 app.use(bodyParser.json({ limit: "50mb" }));
-// app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 app.use(
   morgan(":method :url | :status | :response-time ms | :date[iso] | ", {
     skip: (req, res) => {
@@ -22,7 +23,7 @@ app.use(
     },
   })
 );
-// app.use(morgan(':method :url | :status | :response-time ms | :date[iso] | '));
+app.use(morgan(":method :url | :status | :response-time ms | :date[iso] | "));
 
 app.use(express.json());
 app.use(
@@ -90,13 +91,22 @@ const dashboard = new ParseDashboard(
 app.use("/parse", parseServer.app);
 app.use("/dashboard", dashboard);
 
-//app.use("/", routes);
+app.use("/", routes);
 app.get("/", (req, res) => {
-  return res.send("Welcome to MB Server");
+  return res.send("Welcome to ABM Server");
 });
 
 app.use((req, res) => {
-  return res.status(404).send({ message: "API를 확인해주세요." });
+  return res.status(404).send({ content: "API를 확인해주세요." });
+});
+
+app.use((err, req, res, next) => {
+  return res.status(err.status).send({
+    content: err.content,
+    data: {
+      errorCode: err.errorCode,
+    },
+  });
 });
 
 app.listen(config.port, () => {
