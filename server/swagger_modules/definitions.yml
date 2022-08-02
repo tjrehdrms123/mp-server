@@ -1,0 +1,11 @@
+## Request
+definitions:
+  AdminLogin:
+    type: "object"
+    properties:
+      admin_id:
+        type: "string"
+        example: "아이디"
+      password:
+        type: "string"
+        example: "비밀번호"
