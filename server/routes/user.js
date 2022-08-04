@@ -1,30 +1,16 @@
 const { Router } = require("express");
 const router = Router();
-
-const axios = require("axios");
 const crypto = require("crypto");
-const nodemailer = require("nodemailer");
-const Parse = require("parse/node");
-const path = require("path");
-
 const config = require("../config");
-
-Parse.initialize(
-  config.parseAppId,
-  config.parseJavascriptKey,
-  config.parseMasterKey
-);
-Parse.serverURL = config.parseServerURL;
-Parse.User.enableUnsafeCurrentUser();
-
+const { signUpQuery } = require("../model/user");
 /**
  * @swagger
  *  /user/signup:
  *    post:
  *      tags:
- *      - admin
- *      summary: test 로그인
- *      description: test 로그인
+ *      - user
+ *      summary: 유저 회원가입
+ *      description: 유저 회원가입
  *      consumes:
  *      - application/json
  *      produces:
@@ -35,13 +21,44 @@ Parse.User.enableUnsafeCurrentUser();
  *          required: true
  *          description :
  *          schema:
- *              $ref: '#/definitions/AdminLogin'
+ *              $ref: '#/definitions/UserSignUp'
  */
-router.get("/signup", (req, res) => {
-  return res.status(200).send({
-    content: "test",
-    data: null,
-  });
+router.post("/signup", async (req, res, next) => {
+  const { uid, name, email, password, verify_type } = req.body;
+
+  // 비밀번호 sha256 알고리즘으로 해시값으로 변경
+  const passwordHash = crypto
+    .createHmac("sha256", config.SALT)
+    .update(uid + name)
+    .digest("hex");
+
+  const result = await signUpQuery(uid, name, email, passwordHash);
+  if (verify_type === 0) {
+    if (result.status === 200) {
+      res.status(200).send(result);
+    }
+    if (result.status === 500) {
+      res.status(500).send(result);
+    }
+  }
 });
 
 module.exports = router;
+
+/**
+ 
+{
+    "status": 500,
+    "data": {
+        "content": "schema mismatch for user.email; expected String but got Number"
+    }
+}
+{
+    "status": 200,
+    "data": {
+        "userId": "eyWuepo0OT",
+        "content": "회원가입이 완료되었습니다"
+    }
+}
+
+ */
