@@ -1,11 +1,22 @@
 ## Request
+
+## user
 definitions:
-  AdminLogin:
+  UserSignUp:
     type: "object"
     properties:
-      admin_id:
+      uid:
         type: "string"
-        example: "아이디"
+        example: "유저 아이디"
+      name:
+        type: "string"
+        example: "유저 이름"
+      email:
+        type: "string"
+        example: "이메일"
       password:
         type: "string"
         example: "비밀번호"
+      verify_type:
+        type: "number"
+        example: "인증 타입(0 = 일반,1 = 네이버, 2 = 카카오, 3 = 구글)"
