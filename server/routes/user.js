@@ -44,21 +44,3 @@ router.post("/signup", async (req, res, next) => {
 });
 
 module.exports = router;
-
-/**
- 
-{
-    "status": 500,
-    "data": {
-        "content": "schema mismatch for user.email; expected String but got Number"
-    }
-}
-{
-    "status": 200,
-    "data": {
-        "userId": "eyWuepo0OT",
-        "content": "회원가입이 완료되었습니다"
-    }
-}
-
- */
