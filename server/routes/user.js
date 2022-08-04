@@ -23,6 +23,7 @@ const { signUpQuery } = require("../model/user");
  *          schema:
  *              $ref: '#/definitions/UserSignUp'
  */
+
 router.post("/signup", async (req, res, next) => {
   const { uid, name, email, password, verify_type } = req.body;
 
@@ -36,6 +37,9 @@ router.post("/signup", async (req, res, next) => {
   if (verify_type === 0) {
     if (result.status === 200) {
       res.status(200).send(result);
+    }
+    if (result.status === 400) {
+      res.status(400).send(result);
     }
     if (result.status === 500) {
       res.status(500).send(result);
