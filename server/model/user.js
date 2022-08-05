@@ -41,6 +41,7 @@ async function signUpQuery(uid, name, email, passwordHash, verify_type) {
     user.set("email", email);
     user.set("password", passwordHash);
     user.set("verify_type", verify_type);
+    user.set("delete_status", false);
     await user.save();
     signUpSuccess.data.objectId = user.id;
     signUpSuccess.data.uid = uid;
