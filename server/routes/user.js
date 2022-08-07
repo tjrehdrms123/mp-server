@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const router = Router();
-const { signUpController } = require("../controller/user");
+const { signUpController, loginController } = require("../controller/user");
 
 /**
  * @swagger
@@ -24,5 +24,6 @@ const { signUpController } = require("../controller/user");
  */
 
 router.post("/signup", signUpController);
+router.post("/login", loginController);
 
 module.exports = router;
