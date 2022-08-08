@@ -14,15 +14,7 @@ async function signUpController(req, res, next) {
 
   const result = await signUpQuery(uid, name, email, passwordHash);
   if (verify_type === 0) {
-    if (result.status === 200) {
-      res.status(200).send(result);
-    }
-    if (result.status === 400) {
-      res.status(400).send(result);
-    }
-    if (result.status === 500) {
-      res.status(500).send(result);
-    }
+    next(result);
   }
 }
 
@@ -35,15 +27,7 @@ async function loginController(req, res, next) {
     .digest("hex");
 
   const result = await loginQuery(uid, password, passwordHash);
-  if (result.status === 200) {
-    res.status(200).send(result);
-  }
-  if (result.status === 400) {
-    res.status(400).send(result);
-  }
-  if (result.status === 500) {
-    res.status(500).send(result);
-  }
+  next(result);
 }
 
 module.exports = {
