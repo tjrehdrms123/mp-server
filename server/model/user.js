@@ -65,7 +65,7 @@ async function signUpQuery(uid, name, email, passwordHash, verify_type) {
     signUpSuccess.data.email = email;
     return signUpSuccess;
   } catch (error) {
-    errorCode.data = error;
+    errorCode.data.message = error;
     return errorCode;
   }
 }
@@ -95,7 +95,7 @@ async function loginQuery(uid, password, passwordHash) {
       }
     }
   } catch (error) {
-    errorCode.data.content = error.message;
+    errorCode.data.message = error.message;
     return errorCode;
   }
 }
