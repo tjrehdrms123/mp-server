@@ -100,7 +100,12 @@ app.use((req, res) => {
   return res.status(404).send({ content: "API를 확인해주세요." });
 });
 
+// 응답 미들웨어
 app.use((result, req, res, next) => {
+  if (result[0].data.type === "cookie") {
+    // [loginSuccess, loginToken]
+    res.status(200).cookie("refreshToken", result[1]).send(result[0]);
+  }
   if (result.status === 200) {
     res.status(200).send(result);
   }
