@@ -11,6 +11,7 @@ const {
   loginSuccess,
   infoNotfound,
   // 그외
+  loginToken, //로그인 리프래쉬 토큰
   errorCode,
 } = require("../res_code/code");
 
@@ -89,7 +90,11 @@ async function loginQuery(uid, password, passwordHash) {
         let refreshToken = generateRefreshToken(passwordHash);
         loginSuccess.data.accessToken = accessToken;
         loginSuccess.data.refreshToken = refreshToken;
-        return loginSuccess;
+        loginToken.data.refreshToken = refreshToken;
+        loginToken.data.sameSite = "none";
+        loginToken.data.secure = true;
+        loginToken.data.httpOnly = true;
+        return [loginSuccess, loginToken];
       } else {
         return infoNotfound;
       }
