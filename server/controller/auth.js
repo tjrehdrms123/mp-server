@@ -4,10 +4,10 @@ const { hash } = require("../middleware/common");
 
 // 이메일 인증 컨트롤러
 async function emailAuthController(req, res, next) {
-  const { email, auth_type, email_auth_code } = req.body;
-  const emailCodeAuthHash = hash(email_auth_code);
+  const { email, auth_type } = req.body;
   const uid = await emailUidQuery(email);
-  const result = await emailAuthQuery(uid, emailCodeAuthHash);
+  const emailCodeAuthHash = hash(uid + email);
+  const result = await emailAuthQuery(uid, emailCodeAuthHash, email);
   next(result);
 }
 

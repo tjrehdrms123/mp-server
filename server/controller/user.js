@@ -5,13 +5,18 @@ const { hash } = require("../middleware/common");
 
 // 회원가입 컨트롤러
 async function signUpController(req, res, next) {
-  const { uid, name, email, password, verify_type } = req.body;
+  const { uid, name, email, password } = req.body;
   // 비밀번호 sha256 알고리즘으로 해시값으로 변경
   const passwordHash = hash(password);
-  const result = await signUpQuery(uid, name, email, passwordHash);
-  if (verify_type === 0) {
-    next(result);
-  }
+  const emailCodeAuthHash = hash(uid + email);
+  const result = await signUpQuery(
+    uid,
+    name,
+    email,
+    passwordHash,
+    emailCodeAuthHash
+  );
+  next(result);
 }
 
 async function loginController(req, res, next) {

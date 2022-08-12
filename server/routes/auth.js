@@ -23,6 +23,6 @@ const { emailAuthController } = require("../controller/auth");
  *              $ref: '#/definitions/UserSignUp'
  */
 
-router.post("/emailauth", emailAuthController);
+router.post("/email", emailAuthController);
 
 module.exports = router;

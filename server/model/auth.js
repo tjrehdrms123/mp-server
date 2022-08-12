@@ -6,6 +6,7 @@ const {
   // 그외
   errorCode,
 } = require("../res_code/code");
+const { mailer } = require("../middleware/mailer");
 
 Parse.initialize(
   config.parseAppId,
@@ -17,13 +18,24 @@ Parse.User.enableUnsafeCurrentUser();
 
 const Auth = Parse.Object.extend("auth");
 const auth = new Auth();
+const authQry = new Parse.Query(Auth);
 
 // 유저 회원가입
-async function emailAuthQuery(uid, emailCodeAuthHash) {
-  auth.set("auth_id", uid);
-  auth.save();
-  console.log("emailCodeAuthHash : ", emailCodeAuthHash);
-  return emailAuthSuccess;
+async function emailAuthQuery(uid, emailCodeAuthHash, email) {
+  const authIdCheck = await authQry.first("auth_id", uid);
+  if (authIdCheck) {
+    //authId 같음
+    const authIdDuplicate = await authQry.first("auth_id", uid);
+    authIdDuplicate.set("auth_id", uid);
+    authIdDuplicate.save();
+    mailer(email, emailCodeAuthHash).catch(console.error);
+    return emailAuthSuccess;
+  } else {
+    auth.set("auth_id", uid);
+    auth.save();
+    mailer(email, emailCodeAuthHash).catch(console.error);
+    return emailAuthSuccess;
+  }
 }
 
 module.exports = {
