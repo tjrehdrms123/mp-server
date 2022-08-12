@@ -23,7 +23,12 @@ module.exports = {
       httpOnly: "", // 브라우저에서 쿠키 접근
     },
   },
-
+  emailAuthSuccess: {
+    status: 200,
+    data: {
+      message: "인증이 완료되었습니다",
+    },
+  },
   // status : 400
   // 아이디 중복
   idDuplicate: {
