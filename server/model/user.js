@@ -30,11 +30,10 @@ Parse.User.enableUnsafeCurrentUser();
 
 const User = Parse.Object.extend("user");
 const user = new User();
-// 유저 회원가입 id, email 중복 체크
 const userQry = new Parse.Query(User);
 
 // 유저 회원가입
-async function signUpQuery(uid, name, email, passwordHash, verify_type) {
+async function signUpQuery(uid, name, email, passwordHash, emailCodeAuthHash) {
   userQry.equalTo("uid", uid);
   userQry.equalTo("email", email);
   const idCheck = await userQry.first();
@@ -52,9 +51,9 @@ async function signUpQuery(uid, name, email, passwordHash, verify_type) {
     user.set("name", name);
     user.set("email", email);
     user.set("password", passwordHash);
-    user.set("verify_type", verify_type);
     user.set("delete_status", false);
     user.set("member_level", 0);
+    user.set("email_auth_code", emailCodeAuthHash);
     await user.save();
     signUpSuccess.data.objectId = user.id;
     signUpSuccess.data.uid = uid;
