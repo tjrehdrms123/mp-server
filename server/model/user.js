@@ -30,19 +30,14 @@ Parse.User.enableUnsafeCurrentUser();
 
 const User = Parse.Object.extend("user");
 const user = new User();
-// 유저 회원가입 id, email 중복 체크
-const idQry = new Parse.Query(User);
-const emailQry = new Parse.Query(User);
-
-// 유저 로그인
-const userLoginQry = new Parse.Query(User);
+const userQry = new Parse.Query(User);
 
 // 유저 회원가입
-async function signUpQuery(uid, name, email, passwordHash, verify_type) {
-  idQry.equalTo("uid", uid);
-  emailQry.equalTo("email", email);
-  const idCheck = await idQry.first();
-  const emailCheck = await emailQry.first();
+async function signUpQuery(uid, name, email, passwordHash, emailCodeAuthHash) {
+  userQry.equalTo("uid", uid);
+  userQry.equalTo("email", email);
+  const idCheck = await userQry.first();
+  const emailCheck = await userQry.first();
   if (idCheck) {
     idDuplicate.data.uid = uid;
     return idDuplicate;
@@ -56,9 +51,9 @@ async function signUpQuery(uid, name, email, passwordHash, verify_type) {
     user.set("name", name);
     user.set("email", email);
     user.set("password", passwordHash);
-    user.set("verify_type", verify_type);
     user.set("delete_status", false);
     user.set("member_level", 0);
+    user.set("email_auth_code", emailCodeAuthHash);
     await user.save();
     signUpSuccess.data.objectId = user.id;
     signUpSuccess.data.uid = uid;
@@ -73,8 +68,8 @@ async function signUpQuery(uid, name, email, passwordHash, verify_type) {
 
 // 유저 로그인
 async function loginQuery(uid, password, passwordHash) {
-  userLoginQry.equalTo("uid", uid);
-  const userLogin = await userLoginQry.first();
+  userQry.equalTo("uid", uid);
+  const userLogin = await userQry.first();
   const userInfo = userLogin?.toJSON();
   try {
     if (!uid) {
@@ -105,7 +100,14 @@ async function loginQuery(uid, password, passwordHash) {
   }
 }
 
+async function emailUidQuery(email) {
+  userQry.equalTo("email", email);
+  const uid = await userQry.first();
+  return uid;
+}
+
 module.exports = {
   signUpQuery,
   loginQuery,
+  emailUidQuery,
 };
