@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const router = Router();
-const { signUpController, loginController } = require("../controller/user");
+const { emailAuthController } = require("../controller/auth");
 
 /**
  * @swagger
@@ -23,7 +23,6 @@ const { signUpController, loginController } = require("../controller/user");
  *              $ref: '#/definitions/UserSignUp'
  */
 
-router.post("/signup", signUpController);
-router.post("/login", loginController);
+router.post("/email", emailAuthController);
 
 module.exports = router;
