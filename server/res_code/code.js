@@ -23,7 +23,12 @@ module.exports = {
       httpOnly: "", // 브라우저에서 쿠키 접근
     },
   },
-
+  emailAuthSuccess: {
+    status: 200,
+    data: {
+      message: "이메일 인증이 완료되었습니다",
+    },
+  },
   // status : 400
   // 아이디 중복
   idDuplicate: {
@@ -57,7 +62,13 @@ module.exports = {
       message: "입력하신 이메일이 중복 되었습니다",
     },
   },
-
+  // 이메일 인증에 실패 했습니다
+  emailAuthFail: {
+    status: 400,
+    data: {
+      message: "이메일 인증이 실패 입니다",
+    },
+  },
   // status : 500
   errorCode: {
     status: 500,
