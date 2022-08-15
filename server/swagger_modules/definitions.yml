@@ -17,6 +17,32 @@ definitions:
       password:
         type: "string"
         example: "비밀번호"
-      verify_type:
+      delete_status:
+        type: "boolean"
+        example: "유저 삭제 여부"
+      member_level:
         type: "number"
-        example: "인증 타입(0 = 일반,1 = 네이버, 2 = 카카오, 3 = 구글)"
+        example: "유저 레벨"
+      auth_type:
+        type: "number"
+        example: "인증 타입(0 = 일반, 1 = 카카오, 2 = 구글)"
+  UserLogin:
+    type: "object"
+    properties:
+      auth_type:
+        type: "Number"
+        example: "인증 타입(0 = 일반, 1 = 카카오, 2 = 구글)"
+      uid:
+        type: "String"
+        example: "유저 아이디"
+      password:
+        type: "String"
+        example: "유저 비밀번호"
+
+  ## auth
+  AuthEmail:
+    type: "object"
+    properties:
+      email:
+        type: "String"
+        example: "유저 이메일"
