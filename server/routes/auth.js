@@ -4,12 +4,12 @@ const { emailAuthController } = require("../controller/auth");
 
 /**
  * @swagger
- *  /user/signup:
+ *  /auth/email:
  *    post:
  *      tags:
- *      - user
- *      summary: 유저 회원가입
- *      description: 유저 회원가입
+ *      - email
+ *      summary: 유저 메일 인증
+ *      description: 유저 메일 인증
  *      consumes:
  *      - application/json
  *      produces:
@@ -20,9 +20,9 @@ const { emailAuthController } = require("../controller/auth");
  *          required: true
  *          description :
  *          schema:
- *              $ref: '#/definitions/UserSignUp'
+ *              $ref: '#/definitions/AuthEmail'
  */
 
-router.post("/email", emailAuthController);
+router.post("/emcail", emailAuthController);
 
 module.exports = router;
