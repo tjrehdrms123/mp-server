@@ -1,11 +1,24 @@
 const Parse = require("parse/node");
 const config = require("../config");
 const {
+  // 회원가입 에러
   signUpSuccess,
   idDuplicate,
   emailDuplicate,
+  // 로그인 에러
+  idNotfound,
+  passwordNotfound,
+  loginSuccess,
+  infoNotfound,
+  // 그외
+  loginToken, //로그인 리프래쉬 토큰
   errorCode,
 } = require("../res_code/code");
+
+const {
+  generateAccessToken,
+  generateRefreshToken,
+} = require("../middleware/jwt");
 
 Parse.initialize(
   config.parseAppId,
@@ -17,16 +30,14 @@ Parse.User.enableUnsafeCurrentUser();
 
 const User = Parse.Object.extend("user");
 const user = new User();
-// id, email 중복 체크
-const idQry = new Parse.Query(User);
-const emailQry = new Parse.Query(User);
+const userQry = new Parse.Query(User);
 
 // 유저 회원가입
-async function signUpQuery(uid, name, email, passwordHash, verify_type) {
-  idQry.equalTo("uid", uid);
-  emailQry.equalTo("email", email);
-  const idCheck = await idQry.first();
-  const emailCheck = await emailQry.first();
+async function signUpQuery(uid, name, email, passwordHash, emailCodeAuthHash) {
+  userQry.equalTo("uid", uid);
+  userQry.equalTo("email", email);
+  const idCheck = await userQry.first();
+  const emailCheck = await userQry.first();
   if (idCheck) {
     idDuplicate.data.uid = uid;
     return idDuplicate;
@@ -40,8 +51,9 @@ async function signUpQuery(uid, name, email, passwordHash, verify_type) {
     user.set("name", name);
     user.set("email", email);
     user.set("password", passwordHash);
-    user.set("verify_type", verify_type);
     user.set("delete_status", false);
+    user.set("member_level", 0);
+    user.set("email_auth_code", emailCodeAuthHash);
     await user.save();
     signUpSuccess.data.objectId = user.id;
     signUpSuccess.data.uid = uid;
@@ -49,11 +61,53 @@ async function signUpQuery(uid, name, email, passwordHash, verify_type) {
     signUpSuccess.data.email = email;
     return signUpSuccess;
   } catch (error) {
-    errorCode.data = error;
+    errorCode.data.message = error;
     return errorCode;
   }
 }
 
+// 유저 로그인
+async function loginQuery(uid, password, passwordHash) {
+  userQry.equalTo("uid", uid);
+  const userLogin = await userQry.first();
+  const userInfo = userLogin?.toJSON();
+  try {
+    if (!uid) {
+      return idNotfound;
+    }
+    if (!password) {
+      return passwordNotfound;
+    }
+    if (uid && password) {
+      if (passwordHash === userInfo?.password) {
+        // DB에 있는 해시 패스워드랑 입력한 비밀번호의 해쉬 값이 같을 경우 토큰 생성
+        let accessToken = generateAccessToken(uid);
+        let refreshToken = generateRefreshToken(passwordHash);
+        loginSuccess.data.accessToken = accessToken;
+        loginSuccess.data.refreshToken = refreshToken;
+        loginToken.data.refreshToken = refreshToken;
+        loginToken.data.sameSite = "none";
+        loginToken.data.secure = true;
+        loginToken.data.httpOnly = true;
+        return [loginSuccess, loginToken];
+      } else {
+        return infoNotfound;
+      }
+    }
+  } catch (error) {
+    errorCode.data.message = error.message;
+    return errorCode;
+  }
+}
+
+async function emailUidQuery(email) {
+  userQry.equalTo("email", email);
+  const uid = await userQry.first();
+  return uid;
+}
+
 module.exports = {
   signUpQuery,
+  loginQuery,
+  emailUidQuery,
 };
