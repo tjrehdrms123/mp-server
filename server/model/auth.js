@@ -3,6 +3,8 @@ const config = require("../config");
 const {
   // 이메일 인증 완료
   emailAuthSuccess,
+  // 이메일 인증 실패
+  emailAuthFail,
   // 그외
   errorCode,
 } = require("../res_code/code");
@@ -24,17 +26,30 @@ const authQry = new Parse.Query(Auth);
 async function emailAuthQuery(uid, emailCodeAuthHash, email) {
   const authIdCheck = await authQry.first("auth_id", uid);
   if (authIdCheck) {
-    //authId 같음
-    const authIdDuplicate = await authQry.first("auth_id", uid);
-    authIdDuplicate.set("auth_id", uid);
-    authIdDuplicate.save();
-    mailer(email, emailCodeAuthHash).catch(console.error);
-    return emailAuthSuccess;
+    /*
+      emailAuthQuery API를 호출할때 새로운 user를 생성하는 이슈가 있어서
+      user테이블에 유저가 있다면 해당 유저 auth행에 업데이트 즉 patch(업데이트), post(생성) 두가지의 기능을 지원 
+    */
+    try {
+      const authIdDuplicate = await authQry.first("auth_id", uid);
+      authIdDuplicate.set("auth_id", uid);
+      authIdDuplicate.save();
+      mailer(email, emailCodeAuthHash).catch(console.error);
+      return emailAuthSuccess;
+    } catch (error) {
+      errorCode.data.message = error;
+      return errorCode;
+    }
   } else {
-    auth.set("auth_id", uid);
-    auth.save();
-    mailer(email, emailCodeAuthHash).catch(console.error);
-    return emailAuthSuccess;
+    try {
+      auth.set("auth_id", uid);
+      auth.save();
+      mailer(email, emailCodeAuthHash).catch(console.error);
+      return emailAuthFail;
+    } catch (error) {
+      errorCode.data.message = error;
+      return errorCode;
+    }
   }
 }
 

@@ -26,7 +26,7 @@ module.exports = {
   emailAuthSuccess: {
     status: 200,
     data: {
-      message: "인증이 완료되었습니다",
+      message: "이메일 인증이 완료되었습니다",
     },
   },
   // status : 400
@@ -62,7 +62,13 @@ module.exports = {
       message: "입력하신 이메일이 중복 되었습니다",
     },
   },
-
+  // 이메일 인증에 실패 했습니다
+  emailAuthFail: {
+    status: 400,
+    data: {
+      message: "이메일 인증이 실패 입니다",
+    },
+  },
   // status : 500
   errorCode: {
     status: 500,
