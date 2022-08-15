@@ -33,7 +33,14 @@ const user = new User();
 const userQry = new Parse.Query(User);
 
 // 유저 회원가입
-async function signUpQuery(uid, name, email, passwordHash, emailCodeAuthHash) {
+async function signUpQuery(
+  uid,
+  name,
+  email,
+  passwordHash,
+  emailCodeAuthHash,
+  auth_type
+) {
   userQry.equalTo("uid", uid);
   userQry.equalTo("email", email);
   const idCheck = await userQry.first();
@@ -53,12 +60,14 @@ async function signUpQuery(uid, name, email, passwordHash, emailCodeAuthHash) {
     user.set("password", passwordHash);
     user.set("delete_status", false);
     user.set("member_level", 0);
+    user.set("auth_type", auth_type);
     user.set("email_auth_code", emailCodeAuthHash);
     await user.save();
     signUpSuccess.data.objectId = user.id;
     signUpSuccess.data.uid = uid;
     signUpSuccess.data.name = name;
     signUpSuccess.data.email = email;
+    signUpSuccess.data.auth_type = auth_type;
     return signUpSuccess;
   } catch (error) {
     errorCode.data.message = error;
@@ -67,7 +76,7 @@ async function signUpQuery(uid, name, email, passwordHash, emailCodeAuthHash) {
 }
 
 // 유저 로그인
-async function loginQuery(uid, password, passwordHash) {
+async function loginQuery(uid, password, passwordHash, auth_type) {
   userQry.equalTo("uid", uid);
   const userLogin = await userQry.first();
   const userInfo = userLogin?.toJSON();
