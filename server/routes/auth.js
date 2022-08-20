@@ -23,6 +23,6 @@ const { emailAuthController } = require("../controller/auth");
  *              $ref: '#/definitions/AuthEmail'
  */
 
-router.post("/emcail", emailAuthController);
+router.post("/email", emailAuthController);
 
 module.exports = router;
