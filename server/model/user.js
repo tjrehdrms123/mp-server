@@ -115,8 +115,41 @@ async function emailUidQuery(email) {
   return uid;
 }
 
+// passport
+async function signUpPassportQuery(uid, name, email, auth_type) {
+  userQry.equalTo("uid", uid);
+  const idCheck = await userQry.first();
+  const emailCheck = await userQry.first();
+  if (idCheck) {
+    idDuplicate.data.uid = uid;
+    return idDuplicate;
+  }
+  try {
+    user.set("uid", uid);
+    user.set("name", name);
+    user.set("email", email);
+    user.set("password", null);
+    user.set("delete_status", false);
+    user.set("member_level", 0);
+    user.set("auth_type", auth_type);
+    user.set("email_auth_code", null);
+    await user.save();
+    signUpSuccess.data.objectId = user.id;
+    signUpSuccess.data.uid = uid;
+    signUpSuccess.data.name = name;
+    signUpSuccess.data.email = email;
+    signUpSuccess.data.auth_type = auth_type;
+    signUpSuccess.data.provider = "kakao";
+    return signUpSuccess;
+  } catch (error) {
+    errorCode.data.message = error;
+    return errorCode;
+  }
+}
+
 module.exports = {
   signUpQuery,
   loginQuery,
   emailUidQuery,
+  signUpPassportQuery,
 };
