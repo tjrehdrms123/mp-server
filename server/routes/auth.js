@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const router = Router();
-const { emailAuthController } = require("../controller/auth");
-
+const { emailAuthController, passportKakao } = require("../controller/auth");
+const passport = require("passport");
 /**
  * @swagger
  *  /auth/email:
@@ -24,5 +24,22 @@ const { emailAuthController } = require("../controller/auth");
  */
 
 router.post("/email", emailAuthController);
+router.get(
+  "/kakao",
+  passport.authenticate("kakao", {
+    accessType: "offline",
+    prompt: "consent",
+  })
+);
+router.get(
+  "/kakao/secrets",
+  passport.authenticate("kakao", {
+    failureRedirect: "/login", // kakaoStrategy에서 실패한다면 실행
+  }),
+  // kakaoStrategy에서 성공한다면 콜백 실행
+  (req, res) => {
+    res.redirect("/");
+  }
+);
 
 module.exports = router;
