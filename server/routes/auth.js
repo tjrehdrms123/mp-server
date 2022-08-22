@@ -1,7 +1,11 @@
 const { Router } = require("express");
 const router = Router();
-const { emailAuthController } = require("../controller/auth");
-
+const {
+  emailAuthController,
+  passportKakao,
+  passportKakaoCallBack,
+} = require("../controller/auth");
+const passport = require("passport");
 /**
  * @swagger
  *  /auth/email:
@@ -24,5 +28,7 @@ const { emailAuthController } = require("../controller/auth");
  */
 
 router.post("/email", emailAuthController);
+router.get("/kakao", passportKakao);
+router.get("/kakao/secrets", passportKakaoCallBack);
 
 module.exports = router;
