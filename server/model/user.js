@@ -119,7 +119,6 @@ async function emailUidQuery(email) {
 async function signUpPassportQuery(uid, name, email, auth_type) {
   userQry.equalTo("uid", uid);
   const idCheck = await userQry.first();
-  const emailCheck = await userQry.first();
   console.log("uid", uid);
   console.log("name", name);
   console.log("email", email);

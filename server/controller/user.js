@@ -17,7 +17,23 @@ passport.use(
       clientID: passports.kakao.rest_api_key,
       callbackURL: passports.kakao.callbackURL,
     },
-    function (accessToken, refreshToken, profile, cb) {
+    async function (accessToken, refreshToken, profile, cb) {
+      try {
+        console.log(
+          typeof profile.id,
+          typeof profile.username,
+          typeof profile._json.kakao_account.email
+        );
+        const result = await signUpPassportQuery(
+          String(profile.id),
+          profile.username,
+          profile._json.kakao_account.email,
+          1
+        );
+        console.log("result : ", result);
+      } catch (err) {
+        console.log("err :", err);
+      }
       return cb(null, {
         user_id: profile.name,
         provider: profile.provider,
