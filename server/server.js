@@ -106,35 +106,6 @@ const dashboard = new ParseDashboard(
   { allowInsecureHTTP: true }
 );
 
-// passport kakao
-passport.use(
-  new KakaoStrategy(
-    {
-      clientID: passports.kakao.rest_api_key,
-      callbackURL: passports.kakao.callbackURL,
-    },
-    function (accessToken, refreshToken, profile, cb) {
-      console.log("accessToken : ", accessToken);
-      console.log("refreshToken : ", refreshToken);
-      console.log("profile : ", profile);
-      console.log("profile id : ", profile.id);
-      return cb(null, {
-        user_id: profile.name,
-        provider: profile.provider,
-      });
-    }
-  )
-);
-
-// serializeUser, deserializeUser
-passport.serializeUser(function (user, done) {
-  done(null, user);
-});
-
-passport.deserializeUser(function (user, done) {
-  done(null, user);
-});
-
 // Route
 app.use("/parse", parseServer.app);
 app.use("/dashboard", dashboard);
