@@ -120,6 +120,10 @@ async function signUpPassportQuery(uid, name, email, auth_type) {
   userQry.equalTo("uid", uid);
   const idCheck = await userQry.first();
   const emailCheck = await userQry.first();
+  console.log("uid", uid);
+  console.log("name", name);
+  console.log("email", email);
+  console.log("auth_type", auth_type);
   if (idCheck) {
     idDuplicate.data.uid = uid;
     return idDuplicate;
@@ -128,11 +132,17 @@ async function signUpPassportQuery(uid, name, email, auth_type) {
     user.set("uid", uid);
     user.set("name", name);
     user.set("email", email);
-    user.set("password", null);
+    user.set(
+      "password",
+      "44fa35b41dbe1199e8a41307ab9d1dd541fe64d9a656d8e07efc7e21488ef5e8"
+    );
     user.set("delete_status", false);
     user.set("member_level", 0);
     user.set("auth_type", auth_type);
-    user.set("email_auth_code", null);
+    user.set(
+      "email_auth_code",
+      "44fa35b41dbe1199e8a41307ab9d1dd541fe64d9a656d8e07efc7e21488ef5e8"
+    );
     await user.save();
     signUpSuccess.data.objectId = user.id;
     signUpSuccess.data.uid = uid;
