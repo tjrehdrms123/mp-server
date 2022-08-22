@@ -18,24 +18,19 @@ passport.use(
       callbackURL: passports.kakao.callbackURL,
     },
     async function (accessToken, refreshToken, profile, cb) {
+      let result;
       try {
-        console.log(
-          typeof profile.id,
-          typeof profile.username,
-          typeof profile._json.kakao_account.email
-        );
-        const result = await signUpPassportQuery(
+        result = await signUpPassportQuery(
           String(profile.id),
           profile.username,
           profile._json.kakao_account.email,
           1
         );
-        console.log("result : ", result);
       } catch (err) {
         console.log("err :", err);
       }
       return cb(null, {
-        user_id: profile.name,
+        ...result,
         provider: profile.provider,
       });
     }
