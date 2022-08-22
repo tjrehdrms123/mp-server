@@ -18,10 +18,6 @@ passport.use(
       callbackURL: passports.kakao.callbackURL,
     },
     function (accessToken, refreshToken, profile, cb) {
-      console.log("accessToken : ", accessToken);
-      console.log("refreshToken : ", refreshToken);
-      console.log("profile : ", profile);
-      console.log("profile id : ", profile.id);
       return cb(null, {
         user_id: profile.name,
         provider: profile.provider,
