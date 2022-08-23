@@ -50,6 +50,27 @@ const passport = require("passport");
  *              $ref: '#/definitions/UserLogin'
  */
 
+/**
+ * @swagger
+ *  /user/kakao:
+ *    get:
+ *      tags:
+ *      - user
+ *      summary: 카카오톡 로그인
+ *      description: 카카오톡 로그인
+ *      consumes:
+ *      - application/json
+ *      produces:
+ *      - application/json
+ *      parameters:
+ *        - in: body
+ *          name: Body
+ *          required: true
+ *          description :
+ *          schema:
+ *              $ref: '#'
+ */
+
 router.post("/signup", signUpController);
 router.get("/kakao", passportKakao);
 router.get("/kakao/secrets", passportKakaoCallBack, (req, res) => {
