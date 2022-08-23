@@ -8,6 +8,7 @@ const {
 const { hash } = require("../middleware/common");
 const passport = require("passport");
 const KakaoStrategy = require("passport-kakao").Strategy;
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const { passports } = require("../config");
 
 // passport kakao
@@ -21,11 +22,39 @@ passport.use(
       let result;
       const passwordHash = hash(String(profile.id) + profile.provider);
       try {
-        //console.log("profile :", profile);
         result = await signUpPassportQuery(
           String(profile.id),
           profile.username,
           profile._json.kakao_account.email,
+          1,
+          passwordHash
+        );
+      } catch (err) {
+        console.log("err :", err);
+      }
+      return cb(null, {
+        ...result,
+        provider: profile.provider,
+      });
+    }
+  )
+);
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: passports.google.client_id,
+      clientSecret: passports.google.client_secret,
+      callbackURL: passports.google.callbackURL,
+    },
+    async function (accessToken, refreshToken, profile, cb) {
+      let result;
+      const passwordHash = hash(String(profile.id) + profile.provider);
+      console.log("profile : ", profile);
+      try {
+        result = await signUpPassportQuery(
+          String(profile.id),
+          String(profile.id),
+          profile._json.email,
           1,
           passwordHash
         );
@@ -90,9 +119,22 @@ const passportKakaoCallBack = passport.authenticate("kakao", {
   failureRedirect: "/login",
 });
 
+const passportGoogle = passport.authenticate("google", {
+  scope: ["email"],
+  accessType: "offline",
+  prompt: "consent",
+});
+
+const passportGoogleCallBack = passport.authenticate("google", {
+  successRedirect: "/",
+  failureRedirect: "/login",
+});
+
 module.exports = {
   signUpController,
   loginController,
   passportKakao,
   passportKakaoCallBack,
+  passportGoogle,
+  passportGoogleCallBack,
 };
