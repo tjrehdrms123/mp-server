@@ -1,6 +1,12 @@
 const { Router } = require("express");
 const router = Router();
-const { signUpController, loginController } = require("../controller/user");
+const {
+  signUpController,
+  loginController,
+  passportKakao,
+  passportKakaoCallBack,
+} = require("../controller/user");
+const passport = require("passport");
 
 /**
  * @swagger
@@ -45,6 +51,10 @@ const { signUpController, loginController } = require("../controller/user");
  */
 
 router.post("/signup", signUpController);
+router.get("/kakao", passportKakao);
+router.get("/kakao/secrets", passportKakaoCallBack, (req, res) => {
+  res.redirect("/");
+});
 router.post("/login", loginController);
 
 module.exports = router;
