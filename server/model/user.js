@@ -116,7 +116,7 @@ async function emailUidQuery(email) {
 }
 
 // passport
-async function signUpPassportQuery(uid, name, email, auth_type) {
+async function signUpPassportQuery(uid, name, email, auth_type, passwordHash) {
   userQry.equalTo("uid", uid);
   const idCheck = await userQry.first();
   console.log("uid", uid);
@@ -131,7 +131,7 @@ async function signUpPassportQuery(uid, name, email, auth_type) {
     user.set("uid", uid);
     user.set("name", name);
     user.set("email", email);
-    user.set("password", "MP KAKAO");
+    user.set("password", passwordHash);
     user.set("delete_status", false);
     user.set("member_level", 0);
     user.set("auth_type", auth_type);
