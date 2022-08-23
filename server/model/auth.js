@@ -32,21 +32,33 @@ async function emailAuthQuery(uid, emailCodeAuthHash, email) {
     */
     try {
       const authIdDuplicate = await authQry.first("auth_id", uid);
-      authIdDuplicate.set("auth_id", uid);
+      authIdDuplicate.set("auth_id", {
+        __type: "Pointer",
+        className: "user",
+        objectId: uid,
+      });
       authIdDuplicate.save();
       mailer(email, emailCodeAuthHash).catch(console.error);
+      emailAuthSuccess.data.message = "이메일 재인증이 완료되었습니다";
       return emailAuthSuccess;
     } catch (error) {
+      console.log("A error : ", error);
       errorCode.data.message = error;
       return errorCode;
     }
   } else {
     try {
-      auth.set("auth_id", uid);
+      auth.set("auth_id", {
+        __type: "Pointer",
+        className: "user",
+        objectId: uid,
+      });
       auth.save();
       mailer(email, emailCodeAuthHash).catch(console.error);
-      return emailAuthFail;
+      emailAuthSuccess.data.message = "이메일 인증이 완료되었습니다";
+      return emailAuthSuccess;
     } catch (error) {
+      console.log("B error : ", error);
       errorCode.data.message = error;
       return errorCode;
     }
