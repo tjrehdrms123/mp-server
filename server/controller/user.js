@@ -1,7 +1,53 @@
 const crypto = require("crypto");
 const config = require("../config");
-const { signUpQuery, loginQuery } = require("../model/user");
+const {
+  signUpQuery,
+  loginQuery,
+  signUpPassportQuery,
+} = require("../model/user");
 const { hash } = require("../middleware/common");
+const passport = require("passport");
+const KakaoStrategy = require("passport-kakao").Strategy;
+const { passports } = require("../config");
+
+// passport kakao
+passport.use(
+  new KakaoStrategy(
+    {
+      clientID: passports.kakao.rest_api_key,
+      callbackURL: passports.kakao.callbackURL,
+    },
+    async function (accessToken, refreshToken, profile, cb) {
+      let result;
+      const passwordHash = hash(String(profile.id) + profile.provider);
+      try {
+        //console.log("profile :", profile);
+        result = await signUpPassportQuery(
+          String(profile.id),
+          profile.username,
+          profile._json.kakao_account.email,
+          1,
+          passwordHash
+        );
+      } catch (err) {
+        console.log("err :", err);
+      }
+      return cb(null, {
+        ...result,
+        provider: profile.provider,
+      });
+    }
+  )
+);
+
+// serializeUser, deserializeUser
+passport.serializeUser(function (user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function (user, done) {
+  done(null, user);
+});
 
 // 회원가입 컨트롤러
 async function signUpController(req, res, next) {
@@ -27,7 +73,19 @@ async function loginController(req, res, next) {
   next(result);
 }
 
+const passportKakao = passport.authenticate("kakao", {
+  accessType: "offline",
+  prompt: "consent",
+});
+
+const passportKakaoCallBack = passport.authenticate("kakao", {
+  successRedirect: "/",
+  failureRedirect: "/login",
+});
+
 module.exports = {
   signUpController,
   loginController,
+  passportKakao,
+  passportKakaoCallBack,
 };
