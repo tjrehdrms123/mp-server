@@ -19,12 +19,15 @@ passport.use(
     },
     async function (accessToken, refreshToken, profile, cb) {
       let result;
+      const passwordHash = hash(String(profile.id) + profile.provider);
       try {
+        //console.log("profile :", profile);
         result = await signUpPassportQuery(
           String(profile.id),
           profile.username,
           profile._json.kakao_account.email,
-          1
+          1,
+          passwordHash
         );
       } catch (err) {
         console.log("err :", err);
