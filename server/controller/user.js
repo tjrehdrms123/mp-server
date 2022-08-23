@@ -66,10 +66,17 @@ async function signUpController(req, res, next) {
   next(result);
 }
 
+//로그인 컨트롤러
 async function loginController(req, res, next) {
-  const { uid, password, auth_type } = req.body;
+  const { uid, password, auth_type, email_auth_code } = req.body;
   const passwordHash = hash(password);
-  const result = await loginQuery(uid, password, passwordHash, auth_type);
+  const result = await loginQuery(
+    uid,
+    password,
+    passwordHash,
+    auth_type,
+    email_auth_code
+  );
   next(result);
 }
 
