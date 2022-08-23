@@ -42,7 +42,6 @@ async function emailAuthQuery(uid, emailCodeAuthHash, email) {
       emailAuthSuccess.data.message = "이메일 재인증이 완료되었습니다";
       return emailAuthSuccess;
     } catch (error) {
-      console.log("A error : ", error);
       errorCode.data.message = error;
       return errorCode;
     }
@@ -58,7 +57,6 @@ async function emailAuthQuery(uid, emailCodeAuthHash, email) {
       emailAuthSuccess.data.message = "이메일 인증이 완료되었습니다";
       return emailAuthSuccess;
     } catch (error) {
-      console.log("B error : ", error);
       errorCode.data.message = error;
       return errorCode;
     }

@@ -10,6 +10,9 @@ const {
   passwordNotfound,
   loginSuccess,
   infoNotfound,
+  emailAuthCodeNotfound,
+  authTypeNotfound,
+  emailAuthCodeFail,
   // 그외
   loginToken, //로그인 리프래쉬 토큰
   errorCode,
@@ -76,36 +79,81 @@ async function signUpQuery(
 }
 
 // 유저 로그인
-async function loginQuery(uid, password, passwordHash, auth_type) {
+async function loginQuery(
+  uid,
+  password,
+  passwordHash,
+  auth_type,
+  email_auth_code
+) {
   userQry.equalTo("uid", uid);
   const userLogin = await userQry.first();
   const userInfo = userLogin?.toJSON();
-  try {
-    if (!uid) {
-      return idNotfound;
-    }
-    if (!password) {
-      return passwordNotfound;
-    }
-    if (uid && password) {
-      if (passwordHash === userInfo?.password) {
-        // DB에 있는 해시 패스워드랑 입력한 비밀번호의 해쉬 값이 같을 경우 토큰 생성
-        let accessToken = generateAccessToken(uid);
-        let refreshToken = generateRefreshToken(passwordHash);
-        loginSuccess.data.accessToken = accessToken;
-        loginSuccess.data.refreshToken = refreshToken;
-        loginToken.data.refreshToken = refreshToken;
-        loginToken.data.sameSite = "none";
-        loginToken.data.secure = true;
-        loginToken.data.httpOnly = true;
-        return [loginSuccess, loginToken];
-      } else {
-        return infoNotfound;
+  // 자체 로그인
+  if (auth_type === 0) {
+    try {
+      if (!uid) {
+        return idNotfound;
       }
+      if (!password) {
+        return passwordNotfound;
+      }
+      if (!email_auth_code) {
+        return emailAuthCodeNotfound;
+      } else if (email_auth_code != userInfo?.email_auth_code) {
+        return emailAuthCodeFail;
+      }
+      if (uid && password) {
+        if (passwordHash === userInfo?.password) {
+          // DB에 있는 해시 패스워드랑 입력한 비밀번호의 해쉬 값이 같을 경우 토큰 생성
+          let accessToken = generateAccessToken(uid);
+          let refreshToken = generateRefreshToken(passwordHash);
+          loginSuccess.data.accessToken = accessToken;
+          loginSuccess.data.refreshToken = refreshToken;
+          loginToken.data.refreshToken = refreshToken;
+          loginToken.data.sameSite = "none";
+          loginToken.data.secure = true;
+          loginToken.data.httpOnly = true;
+          return [loginSuccess, loginToken];
+        } else {
+          return infoNotfound;
+        }
+      }
+    } catch (error) {
+      errorCode.data.message = error.message;
+      return errorCode;
     }
-  } catch (error) {
-    errorCode.data.message = error.message;
-    return errorCode;
+  } else if (auth_type === 1) {
+    // Kakao 로그인
+    try {
+      if (!uid) {
+        return idNotfound;
+      }
+      if (!password) {
+        return passwordNotfound;
+      }
+      if (uid && password) {
+        if (passwordHash === userInfo?.password) {
+          // DB에 있는 해시 패스워드랑 입력한 비밀번호의 해쉬 값이 같을 경우 토큰 생성
+          let accessToken = generateAccessToken(uid);
+          let refreshToken = generateRefreshToken(passwordHash);
+          loginSuccess.data.accessToken = accessToken;
+          loginSuccess.data.refreshToken = refreshToken;
+          loginToken.data.refreshToken = refreshToken;
+          loginToken.data.sameSite = "none";
+          loginToken.data.secure = true;
+          loginToken.data.httpOnly = true;
+          return [loginSuccess, loginToken];
+        } else {
+          return infoNotfound;
+        }
+      }
+    } catch (error) {
+      errorCode.data.message = error.message;
+      return errorCode;
+    }
+  } else if (!auth_type) {
+    return authTypeNotfound;
   }
 }
 

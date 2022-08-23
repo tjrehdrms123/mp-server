@@ -69,6 +69,27 @@ module.exports = {
       message: "이메일 인증이 실패 입니다",
     },
   },
+  // 인증 타입을 찾을 수 없습니다
+  authTypeNotfound: {
+    status: 400,
+    data: {
+      message: "인증 타입을 찾을 수 없습니다",
+    },
+  },
+  // 이메일 인증코드를 찾을 수 없습니다
+  emailAuthCodeNotfound: {
+    status: 400,
+    data: {
+      message: "이메일 인증코드를 찾을 수 없습니다",
+    },
+  },
+  // (Client)이메일 인증 코드 값과 (DB)값과 일치 하지 않음
+  emailAuthCodeFail: {
+    status: 400,
+    data: {
+      message: "이메일 인증 코드를 다시 확인해주세요",
+    },
+  },
   // status : 500
   errorCode: {
     status: 500,
