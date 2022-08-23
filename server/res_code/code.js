@@ -26,7 +26,7 @@ module.exports = {
   emailAuthSuccess: {
     status: 200,
     data: {
-      message: "이메일 인증이 완료되었습니다",
+      message: "",
     },
   },
   // status : 400
