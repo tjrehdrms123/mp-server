@@ -1,5 +1,5 @@
 const express = require("express");
-const config = require("./config");
+require("dotenv").config();
 const cors = require("cors");
 const morgan = require("morgan");
 // morgan: 로그 패키지
@@ -35,15 +35,15 @@ app.use(
 );
 
 const s3Adapter = new S3Adapter(
-  config.S3accessKey,
-  config.S3secretKey,
-  config.S3bucket,
+  process.env.S3ACCESSKEY,
+  process.env.S3SECERTKEY,
+  process.env.S3BUCKET,
   {
-    region: config.S3region,
+    region: process.env.S3REGION,
     bucketPrefix: "",
     directAccess: true,
-    baseUrl: config.S3baseUrl,
-    signatureVersion: config.S3signatureVersion,
+    baseUrl: process.env.S3BASEURL,
+    signatureVersion: process.env.S3SIGNATUREVERSION,
     globalCacheControl: "public, max-age=86400", // 24 hrs Cache-Control.
     validateFilename: (filename) => {
       if (filename.length > 1024) {
@@ -58,16 +58,16 @@ const s3Adapter = new S3Adapter(
 );
 
 const parseServer = new ParseServer({
-  publicServerURL: config.parseServerURL,
+  publicServerURL: process.env.PARSESERVERURL,
   // filesAdapter: fsAdapter,
   filesAdapter: s3Adapter,
-  databaseURI: config.databaseURI,
-  appId: config.parseAppId,
-  masterKey: config.parseMasterKey,
-  clientKey: config.parseClientKey,
-  restAPIKey: config.parseRestAPIKey,
-  javascriptKey: config.parseJavascriptKey,
-  port: config.port,
+  databaseURI: process.env.DATABASEURI,
+  appId: process.env.PARSEAPPID,
+  masterKey: process.env.PARSEMASTERKEY,
+  clientKey: process.env.PARSECLIENTKEY,
+  restAPIKey: process.env.PARSERESTAPIKEY,
+  javascriptKey: process.env.PARSEJAVASCRIPTKEY,
+  port: process.env.port,
 });
 
 const ParseDashboard = require("parse-dashboard");
@@ -76,14 +76,14 @@ const dashboard = new ParseDashboard(
     // 배열로 해야 함.
     apps: [
       {
-        appId: config.parseAppId,
-        appName: config.parseAppName,
-        serverURL: config.parseServerURL,
-        masterKey: config.parseMasterKey,
-        javascriptKey: config.parseJavascriptKey,
+        appId: process.env.PARSEAPPID,
+        appName: process.env.PARSEAPPNAME,
+        serverURL: process.env.PARSESERVERURL,
+        masterKey: process.env.PARSEMASTERKEY,
+        javascriptKey: process.env.PARSEJAVASCRIPTKEY,
       },
     ],
-    users: [config.parseDashboardAdmin],
+    users: [{ user: process.env.PARSEADMINID, pass: process.env.PARSEADMINPW }],
   },
   { allowInsecureHTTP: true }
 );
@@ -129,6 +129,6 @@ app.use((result, req, res, next) => {
   }
 });
 
-app.listen(config.port, () => {
+app.listen(process.env.PORT, () => {
   console.log("server is running");
 });

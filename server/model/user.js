@@ -1,5 +1,5 @@
 const Parse = require("parse/node");
-const config = require("../config");
+require("dotenv").config();
 const {
   // 회원가입 에러
   signUpSuccess,
@@ -24,11 +24,11 @@ const {
 } = require("../middleware/jwt");
 
 Parse.initialize(
-  config.parseAppId,
-  config.parseJavascriptKey,
-  config.parseMasterKey
+  process.env.PARSEAPPID,
+  process.env.PARSEJAVASCRIPTKEY,
+  process.env.PARSEMASTERKEY
 );
-Parse.serverURL = config.parseServerURL;
+Parse.serverURL = process.env.PARSESSERVERURL;
 Parse.User.enableUnsafeCurrentUser();
 
 const User = Parse.Object.extend("user");

@@ -10,13 +10,13 @@ const passport = require("passport");
 const KakaoStrategy = require("passport-kakao").Strategy;
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const { passports } = require("../config");
-
+require("dotenv").config();
 // passport kakao
 passport.use(
   new KakaoStrategy(
     {
-      clientID: passports.kakao.rest_api_key,
-      callbackURL: passports.kakao.callbackURL,
+      clientID: process.env.PASSPORTKAKAORESTAPIKEY,
+      callbackURL: process.env.PASSPORTKAKAOCALLBACKURL,
     },
     async function (accessToken, refreshToken, profile, cb) {
       let result;
@@ -42,9 +42,9 @@ passport.use(
 passport.use(
   new GoogleStrategy(
     {
-      clientID: passports.google.client_id,
-      clientSecret: passports.google.client_secret,
-      callbackURL: passports.google.callbackURL,
+      clientID: process.env.PASSPORTGOOGLECLIENTID,
+      clientSecret: process.env.PASSPORTGOOGLECLINETSECRET,
+      callbackURL: process.env.PASSPORTGOOGLECALLBACKURL,
     },
     async function (accessToken, refreshToken, profile, cb) {
       let result;
