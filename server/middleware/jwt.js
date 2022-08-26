@@ -1,18 +1,18 @@
-const config = require("../config");
+require("dotenv").config();
 const { sign, verify } = require("jsonwebtoken");
 
 function generateAccessToken(data) {
   // accessToken 생성
-  return sign({ data }, config.access_secret, { expiresIn: "24h" });
+  return sign({ data }, process.env.ACCESS_SECRET, { expiresIn: "24h" });
 }
 function generateRefreshToken(data) {
   // refreshToken 생성
-  return sign({ data }, config.refresh_secret, { expiresIn: "24h" });
+  return sign({ data }, process.env.REFRESH_SECRET, { expiresIn: "24h" });
 }
 function checkRefreshToken(refreshToken) {
   // refreshToken 인증
   try {
-    return verify(refreshToken, config.refresh_secret);
+    return verify(refreshToken, process.env.REFRESH_SECRET);
   } catch (error) {
     return null;
   }

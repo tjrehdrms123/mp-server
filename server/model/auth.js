@@ -1,5 +1,5 @@
 const Parse = require("parse/node");
-const config = require("../config");
+require("dotenv").config();
 const {
   // 이메일 인증 완료
   emailAuthSuccess,
@@ -11,11 +11,11 @@ const {
 const { mailer } = require("../middleware/mailer");
 
 Parse.initialize(
-  config.parseAppId,
-  config.parseJavascriptKey,
-  config.parseMasterKey
+  process.env.PARSEAPPID,
+  process.env.PARSEJAVASCRIPTKEY,
+  process.env.PARSEMASTERKEY
 );
-Parse.serverURL = config.parseServerURL;
+Parse.serverURL = process.env.PARSESERVERURL;
 Parse.User.enableUnsafeCurrentUser();
 
 const Auth = Parse.Object.extend("auth");
