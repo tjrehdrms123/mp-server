@@ -1,5 +1,5 @@
 const Parse = require("parse/node");
-const config = require("../config");
+require("dotenv").config();
 const {
   // 회원가입 에러
   signUpSuccess,
@@ -24,11 +24,11 @@ const {
 } = require("../middleware/jwt");
 
 Parse.initialize(
-  config.parseAppId,
-  config.parseJavascriptKey,
-  config.parseMasterKey
+  process.env.PARSEAPPID,
+  process.env.PARSEJAVASCRIPTKEY,
+  process.env.PARSEMASTERKEY
 );
-Parse.serverURL = config.parseServerURL;
+Parse.serverURL = process.env.PARSESSERVERURL;
 Parse.User.enableUnsafeCurrentUser();
 
 const User = Parse.Object.extend("user");
@@ -123,7 +123,7 @@ async function loginQuery(
       errorCode.data.message = error.message;
       return errorCode;
     }
-  } else if (auth_type === 1) {
+  } else if (auth_type === 1 || auth_type === 2) {
     // Kakao 로그인
     try {
       if (!uid) {
@@ -167,10 +167,7 @@ async function emailUidQuery(email) {
 async function signUpPassportQuery(uid, name, email, auth_type, passwordHash) {
   userQry.equalTo("uid", uid);
   const idCheck = await userQry.first();
-  console.log("uid", uid);
-  console.log("name", name);
-  console.log("email", email);
-  console.log("auth_type", auth_type);
+  const provider = auth_type === 1 ? "kakao" : "google";
   if (idCheck) {
     idDuplicate.data.uid = uid;
     return idDuplicate;
@@ -190,7 +187,7 @@ async function signUpPassportQuery(uid, name, email, auth_type, passwordHash) {
     signUpSuccess.data.name = name;
     signUpSuccess.data.email = email;
     signUpSuccess.data.auth_type = auth_type;
-    signUpSuccess.data.provider = "kakao";
+    signUpSuccess.data.provider = provider;
     return signUpSuccess;
   } catch (error) {
     errorCode.data.message = error;

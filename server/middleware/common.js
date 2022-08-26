@@ -1,9 +1,9 @@
 const crypto = require("crypto");
-const config = require("../config");
+require("dotenv").config();
 
 function hash(value) {
   const hash = crypto
-    .createHmac("sha256", config.SALT)
+    .createHmac("sha256", process.env.SALT)
     .update(value)
     .digest("hex");
   return hash;
