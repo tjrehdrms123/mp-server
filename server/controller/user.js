@@ -1,5 +1,4 @@
 const crypto = require("crypto");
-const config = require("../config");
 const {
   signUpQuery,
   loginQuery,
@@ -9,7 +8,6 @@ const { hash } = require("../middleware/common");
 const passport = require("passport");
 const KakaoStrategy = require("passport-kakao").Strategy;
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
-const { passports } = require("../config");
 require("dotenv").config();
 // passport kakao
 passport.use(
