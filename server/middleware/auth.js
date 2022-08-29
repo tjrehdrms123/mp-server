@@ -1,5 +1,4 @@
 const { sign, verify } = require("jsonwebtoken");
-const config = require("../config");
 async function tokenVerify(req, res, next) {
   try {
     const token = req.headers.authorization;
