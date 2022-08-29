@@ -1,6 +1,6 @@
 const { emailAuthQuery } = require("../model/auth");
 const { emailUidQuery, signUpPassportQuery } = require("../model/user");
-const { hash } = require("../middleware/common");
+const { hash, emailUidQuery } = require("../middleware/common");
 
 // 이메일 인증 컨트롤러
 async function emailAuthController(req, res, next) {
