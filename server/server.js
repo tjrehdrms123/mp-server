@@ -5,6 +5,7 @@ const morgan = require("morgan");
 // morgan: 로그 패키지
 const routes = require("./routes");
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 const { default: ParseServer, ParseGraphQLServer } = require("parse-server");
 var FSFilesAdapter = require("@parse/fs-files-adapter");
 var fsAdapter = new FSFilesAdapter();
@@ -33,6 +34,7 @@ app.use(
     credentials: true,
   })
 );
+app.use(cookieParser());
 
 const s3Adapter = new S3Adapter(
   process.env.S3ACCESSKEY,
@@ -120,12 +122,14 @@ app.use((req, res) => {
 app.use((result, req, res, next) => {
   if (result[0]?.data?.type === "cookie") {
     // [loginSuccess, loginToken]
-    res.status(200).cookie("refreshToken", result[1]).send(result[0]);
+    return res.status(200).cookie("refreshToken", result[1]).send(result[0]);
   } else if (result.status === 200) {
-    res.status(200).send(result);
+    return res.status(200).send(result);
   }
   if (result.status === 400 && 500) {
-    res.status(200).send(result);
+    return res.status(200).send(result);
+  } else {
+    return res.send(result);
   }
 });
 

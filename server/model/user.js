@@ -106,8 +106,8 @@ async function loginQuery(
       if (uid && password) {
         if (passwordHash === userInfo?.password) {
           // DB에 있는 해시 패스워드랑 입력한 비밀번호의 해쉬 값이 같을 경우 토큰 생성
-          let accessToken = generateAccessToken(uid);
-          let refreshToken = generateRefreshToken(passwordHash);
+          let accessToken = generateAccessToken(userInfo.uid);
+          let refreshToken = generateRefreshToken(userInfo.uid);
           loginSuccess.data.accessToken = accessToken;
           loginSuccess.data.refreshToken = refreshToken;
           loginToken.data.refreshToken = refreshToken;
@@ -135,8 +135,8 @@ async function loginQuery(
       if (uid && password) {
         if (passwordHash === userInfo?.password) {
           // DB에 있는 해시 패스워드랑 입력한 비밀번호의 해쉬 값이 같을 경우 토큰 생성
-          let accessToken = generateAccessToken(uid);
-          let refreshToken = generateRefreshToken(passwordHash);
+          let accessToken = generateAccessToken(userInfo);
+          let refreshToken = generateRefreshToken(userInfo);
           loginSuccess.data.accessToken = accessToken;
           loginSuccess.data.refreshToken = refreshToken;
           loginToken.data.refreshToken = refreshToken;

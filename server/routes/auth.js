@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const router = Router();
-const { emailAuthController } = require("../controller/auth");
+const { emailAuthController, test } = require("../controller/auth");
 /**
  * @swagger
  *  /auth/email:
