@@ -9,12 +9,12 @@ async function mailer(toEmail = "", emailCodeAuthHash) {
 
   // create reusable transporter object using the default SMTP transport
   let transporter = nodemailer.createTransport({
-    host: config.mailerHost,
+    host: process.env.MAILERHOST,
     port: 587,
     secure: false, // true for 465, false for other ports
     auth: {
-      user: config.mailerUser, // generated ethereal user
-      pass: config.mailerPass, // generated ethereal password
+      user: process.env.MAILERUSER, // generated ethereal user
+      pass: process.env.MAILERPASS, // generated ethereal password
     },
     tls: {
       rejectUnauthorized: false,
@@ -23,7 +23,7 @@ async function mailer(toEmail = "", emailCodeAuthHash) {
 
   // send mail with defined transport object
   let info = await transporter.sendMail({
-    from: config.mailerUser, // sender address
+    from: process.env.MAILERUSER, // sender address
     to: toEmail, // list of receivers
     subject: "[Mom Page] 회원가입 인증 메일 입니다", // Subject line
     // text: "text", // plain text body
