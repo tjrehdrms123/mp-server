@@ -106,8 +106,15 @@ async function loginQuery(
       if (uid && password) {
         if (passwordHash === userInfo?.password) {
           // DB에 있는 해시 패스워드랑 입력한 비밀번호의 해쉬 값이 같을 경우 토큰 생성
-          let accessToken = generateAccessToken(userInfo.uid);
-          let refreshToken = generateRefreshToken(userInfo.uid);
+          let accessToken = generateAccessToken({
+            uid: userInfo.uid,
+            password: userInfo.password,
+          });
+          let refreshToken = generateRefreshToken({
+            uid: userInfo.uid,
+            password: userInfo.password,
+          });
+          loginSuccess.data.message = "로그인이 완료되었습니다";
           loginSuccess.data.accessToken = accessToken;
           loginSuccess.data.refreshToken = refreshToken;
           loginToken.data.refreshToken = refreshToken;
@@ -135,10 +142,17 @@ async function loginQuery(
       if (uid && password) {
         if (passwordHash === userInfo?.password) {
           // DB에 있는 해시 패스워드랑 입력한 비밀번호의 해쉬 값이 같을 경우 토큰 생성
-          let accessToken = generateAccessToken(userInfo);
-          let refreshToken = generateRefreshToken(userInfo);
+          let accessToken = generateAccessToken({
+            uid: userInfo.uid,
+            password: userInfo.password,
+          });
+          let refreshToken = generateRefreshToken({
+            uid: userInfo.uid,
+            password: userInfo.password,
+          });
           loginSuccess.data.accessToken = accessToken;
           loginSuccess.data.refreshToken = refreshToken;
+          loginSuccess.data.message = "로그인이 완료되었습니다";
           loginToken.data.refreshToken = refreshToken;
           loginToken.data.sameSite = "none";
           loginToken.data.secure = true;
@@ -151,6 +165,31 @@ async function loginQuery(
     } catch (error) {
       errorCode.data.message = error.message;
       return errorCode;
+    }
+  } else if (auth_type === 3) {
+    //JWT
+    if (uid && password) {
+      if (password === userInfo?.password) {
+        // DB에 있는 해시 패스워드랑 입력한 비밀번호의 해쉬 값이 같을 경우 토큰 생성
+        let accessToken = generateAccessToken({
+          uid: userInfo.uid,
+          password: userInfo.password,
+        });
+        let refreshToken = generateRefreshToken({
+          uid: userInfo.uid,
+          password: userInfo.password,
+        });
+        loginSuccess.data.accessToken = accessToken;
+        loginSuccess.data.refreshToken = refreshToken;
+        loginSuccess.data.message = "새로운 토큰이 발급 되었습니다";
+        loginToken.data.refreshToken = refreshToken;
+        loginToken.data.sameSite = "none";
+        loginToken.data.secure = true;
+        loginToken.data.httpOnly = true;
+        return [loginSuccess, loginToken];
+      } else {
+        return infoNotfound;
+      }
     }
   } else if (!auth_type) {
     return authTypeNotfound;

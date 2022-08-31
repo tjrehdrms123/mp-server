@@ -11,7 +11,7 @@ module.exports = {
     status: 200,
     data: {
       type: "cookie",
-      message: "로그인이 완료되었습니다",
+      message: "",
     },
   },
   loginToken: {

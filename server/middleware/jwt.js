@@ -4,11 +4,11 @@ const { errorCode, loginToken, loginSuccess } = require("../res_code/code");
 
 function generateAccessToken(data) {
   // accessToken 생성
-  return sign({ data }, process.env.ACCESS_SECRET, { expiresIn: "24h" });
+  return sign(data, process.env.ACCESS_SECRET, { expiresIn: "24h" });
 }
 function generateRefreshToken(data) {
   // refreshToken 생성
-  return sign({ data }, process.env.REFRESH_SECRET, { expiresIn: "24h" });
+  return sign(data, process.env.REFRESH_SECRET, { expiresIn: "24h" });
 }
 function checkRefreshToken(refreshToken) {
   // refreshToken 인증
@@ -44,33 +44,10 @@ function refreshTokenValidation(req, res, next) {
   }
 }
 
-function resendAccesToken(req, res, next) {
-  const { uid } = req.body;
-  try {
-    if (uid && refreshTokenValidation(req)) {
-      let accessToken = generateAccessToken(uid);
-      let refreshToken = generateRefreshToken(uid);
-      loginSuccess.data.accessToken = accessToken;
-      loginSuccess.data.refreshToken = refreshToken;
-      loginToken.data.refreshToken = refreshToken;
-      loginToken.data.sameSite = "none";
-      loginToken.data.secure = true;
-      loginToken.data.httpOnly = true;
-      //loginSuccess.data.message = "accessToken이 재발급 완료되었습니다";
-      return [loginSuccess, loginToken];
-    } else {
-      next(errorCode);
-    }
-  } catch (err) {
-    next(errorCode);
-  }
-}
-
 module.exports = {
   generateAccessToken,
   generateRefreshToken,
   checkRefreshToken,
-  resendAccesToken,
   tokenValidation,
   refreshTokenValidation,
 };

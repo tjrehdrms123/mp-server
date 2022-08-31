@@ -1,8 +1,8 @@
 const {
   tokenValidation,
   refreshTokenValidation,
-  resendAccesToken,
 } = require("../middleware/jwt");
+const { resendAccesToken } = require("../model/jwt");
 
 // JWT 토근 유효성 검사
 function tokenValidationController(req, res, next) {
@@ -13,9 +13,8 @@ function refreshTokenValidationController(req, res, next) {
   const token = refreshTokenValidation(req);
   next(token);
 }
-function resendAccesTokenController(req, res, next) {
-  console.log("ABC");
-  const result = resendAccesToken(req);
+async function resendAccesTokenController(req, res, next) {
+  const result = await resendAccesToken(req);
   next(result);
 }
 

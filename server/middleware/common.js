@@ -1,5 +1,4 @@
 const crypto = require("crypto");
-const { emailUidQuery } = require("../model/user");
 require("dotenv").config();
 
 function hash(value) {
@@ -10,12 +9,6 @@ function hash(value) {
   return hash;
 }
 
-async function emailUidQueryCommon(email) {
-  const userInfo = emailUidQuery(email);
-  return userInfo;
-}
-
 module.exports = {
   hash,
-  emailUidQueryCommon,
 };
