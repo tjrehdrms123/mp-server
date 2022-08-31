@@ -45,14 +45,18 @@ async function signUpQuery(
   auth_type
 ) {
   userQry.equalTo("uid", uid);
-  userQry.equalTo("email", email);
-  const idCheck = await userQry.first();
-  const emailCheck = await userQry.first();
-  if (idCheck) {
+  const userFirst = await userQry.first();
+  const userInfo = userFirst?.toJSON();
+  console.log("A: ", userInfo);
+  if (userInfo?.uid === uid) {
+    console.log("uid");
     idDuplicate.data.uid = uid;
     return idDuplicate;
   }
-  if (emailCheck) {
+  console.log("B: ", userInfo);
+  console.log(userInfo?.email);
+  console.log(email);
+  if (userInfo?.email === email) {
     emailDuplicate.data.email = email;
     return emailDuplicate;
   }
@@ -87,8 +91,8 @@ async function loginQuery(
   email_auth_code
 ) {
   userQry.equalTo("uid", uid);
-  const userLogin = await userQry.first();
-  const userInfo = userLogin?.toJSON();
+  const userFirst = await userQry.first();
+  const userInfo = userFirst?.toJSON();
   // 자체 로그인
   if (auth_type === 0) {
     try {
@@ -107,12 +111,12 @@ async function loginQuery(
         if (passwordHash === userInfo?.password) {
           // DB에 있는 해시 패스워드랑 입력한 비밀번호의 해쉬 값이 같을 경우 토큰 생성
           let accessToken = generateAccessToken({
-            uid: userInfo.uid,
+            uid: userInfo?.uid,
             password: userInfo.password,
           });
           let refreshToken = generateRefreshToken({
-            uid: userInfo.uid,
-            password: userInfo.password,
+            uid: userInfo?.uid,
+            password: userInfo?.password,
           });
           loginSuccess.data.message = "로그인이 완료되었습니다";
           loginSuccess.data.accessToken = accessToken;
@@ -143,12 +147,12 @@ async function loginQuery(
         if (passwordHash === userInfo?.password) {
           // DB에 있는 해시 패스워드랑 입력한 비밀번호의 해쉬 값이 같을 경우 토큰 생성
           let accessToken = generateAccessToken({
-            uid: userInfo.uid,
+            uid: userInfo?.uid,
             password: userInfo.password,
           });
           let refreshToken = generateRefreshToken({
-            uid: userInfo.uid,
-            password: userInfo.password,
+            uid: userInfo?.uid,
+            password: userInfo?.password,
           });
           loginSuccess.data.accessToken = accessToken;
           loginSuccess.data.refreshToken = refreshToken;
@@ -172,12 +176,12 @@ async function loginQuery(
       if (password === userInfo?.password) {
         // DB에 있는 해시 패스워드랑 입력한 비밀번호의 해쉬 값이 같을 경우 토큰 생성
         let accessToken = generateAccessToken({
-          uid: userInfo.uid,
-          password: userInfo.password,
+          uid: userInfo?.uid,
+          password: userInfo?.password,
         });
         let refreshToken = generateRefreshToken({
-          uid: userInfo.uid,
-          password: userInfo.password,
+          uid: userInfo?.uid,
+          password: userInfo?.password,
         });
         loginSuccess.data.accessToken = accessToken;
         loginSuccess.data.refreshToken = refreshToken;
@@ -196,18 +200,19 @@ async function loginQuery(
   }
 }
 
-async function emailUidQuery(email) {
+async function emailFirstUserQuery(email) {
   userQry.equalTo("email", email);
-  const uid = await userQry.first();
-  return uid;
+  const userFirst = await userQry.first();
+  return userFirst;
 }
 
 // passport
 async function signUpPassportQuery(uid, name, email, auth_type, passwordHash) {
   userQry.equalTo("uid", uid);
-  const idCheck = await userQry.first();
+  const userFirst = await userQry.first();
+  const userInfo = userFirst?.toJSON();
   const provider = auth_type === 1 ? "kakao" : "google";
-  if (idCheck) {
+  if (userInfo?.uid === uid) {
     idDuplicate.data.uid = uid;
     return idDuplicate;
   }
@@ -237,6 +242,6 @@ async function signUpPassportQuery(uid, name, email, auth_type, passwordHash) {
 module.exports = {
   signUpQuery,
   loginQuery,
-  emailUidQuery,
+  emailFirstUserQuery,
   signUpPassportQuery,
 };
