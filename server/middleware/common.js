@@ -9,6 +9,20 @@ function hash(value) {
   return hash;
 }
 
+async function equalToQuery(instance, key, value) {
+  let userQry = [];
+  let userequaltoQry = {};
+  let userInfo = [];
+  for (let i = 0; i < value.length; i++) {
+    userQry.push(new Parse.Query(instance));
+    userQry[i]?.equalToA(key[i], value[i]);
+    userequaltoQry = await userQry[i]?.first();
+    userInfo.push(userequaltoQry?.toJSON());
+  }
+  return userInfo;
+}
+
 module.exports = {
   hash,
+  equalToQuery,
 };
