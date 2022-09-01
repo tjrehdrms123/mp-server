@@ -134,5 +134,5 @@ app.use((result, req, res, next) => {
 });
 
 app.listen(process.env.PORT, () => {
-  console.log("server is running");
+  console.log(`server is running ${process.env.PORT}`);
 });
