@@ -9,6 +9,7 @@ const {
   errorCode,
 } = require("../res_code/code");
 const { mailer } = require("../middleware/mailer");
+const { equalToQuery } = require("../middleware/common");
 
 Parse.initialize(
   process.env.PARSEAPPID,
@@ -20,12 +21,11 @@ Parse.User.enableUnsafeCurrentUser();
 
 const Auth = Parse.Object.extend("auth");
 const auth = new Auth();
-const authQry = new Parse.Query(Auth);
 
 // 유저 회원가입
 async function emailAuthQuery(uid, emailCodeAuthHash, email) {
-  const authIdCheck = await authQry.first("auth_id", uid);
-  if (authIdCheck) {
+  const userInfo = await equalToQuery(Auth, ["auth_id"], [uid]);
+  if (userInfo[0]?.uid) {
     /*
       emailAuthQuery API를 호출할때 새로운 user를 생성하는 이슈가 있어서
       user테이블에 유저가 있다면 해당 유저 auth행에 업데이트 즉 patch(업데이트), post(생성) 두가지의 기능을 지원 
