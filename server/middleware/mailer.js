@@ -1,7 +1,11 @@
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 
-// async..await is not allowed in global scope, must use a wrapper
+/**
+ * @description 보낼 이메일과 인증 코드를 받아 인증 메일을 보내주는 함수
+ * @param {string} toEmail
+ * @param {string} emailCodeAuthHash
+ */
 async function mailer(toEmail = "", emailCodeAuthHash) {
   // Generate test SMTP service account from ethereal.email
   // Only needed if you don't have a real mail account for testing

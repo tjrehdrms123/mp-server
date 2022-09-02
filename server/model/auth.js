@@ -39,7 +39,7 @@ async function emailAuthQuery(uid, emailCodeAuthHash, email) {
       });
       authIdDuplicate.save();
       mailer(email, emailCodeAuthHash).catch(console.error);
-      emailAuthSuccess.data.message = "이메일 재인증이 완료되었습니다";
+      emailAuthSuccess.data.message = "이메일 인증이 완료되었습니다";
       return emailAuthSuccess;
     } catch (error) {
       errorCode.data.message = error;

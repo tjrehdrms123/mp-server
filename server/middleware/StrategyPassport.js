@@ -2,6 +2,10 @@ const passport = require("passport");
 const KakaoStrategy = require("passport-kakao").Strategy;
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
+/**
+ * @description [NOT USE] Passport 카카오톡 로그인 인증 전략
+ * @param {*} user
+ */
 function kakaoStrategy(user) {
   passport.use(
     new KakaoStrategy(
@@ -18,6 +22,10 @@ function kakaoStrategy(user) {
     )
   );
 }
+/**
+ * @description [NOT USE] Passport 구글 로그인 인증 전략
+ * @param {*} user
+ */
 function googleStrategy(user) {
   passport.use(
     new GoogleStrategy(
