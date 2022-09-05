@@ -20,7 +20,6 @@ Parse.serverURL = process.env.PARSESERVERURL;
 Parse.User.enableUnsafeCurrentUser();
 
 const Auth = Parse.Object.extend("auth");
-const auth = new Auth();
 
 // 유저 회원가입
 async function emailAuthQuery(uid, emailCodeAuthHash, email) {
@@ -47,6 +46,7 @@ async function emailAuthQuery(uid, emailCodeAuthHash, email) {
     }
   } else {
     try {
+      const auth = new Auth();
       auth.set("auth_id", {
         __type: "Pointer",
         className: "user",

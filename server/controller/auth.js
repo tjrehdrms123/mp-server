@@ -6,9 +6,9 @@ const { emailFirstUserQuery } = require("../model/user");
 async function emailAuthController(req, res, next) {
   const { email } = req.body;
   const userInfo = await emailFirstUserQuery(email);
-  const emailCodeAuthHash = hash(userInfo[0]?.uid + email);
+  const emailCodeAuthHash = hash(userInfo?.uid + email);
   const result = await emailAuthQuery(
-    userInfo[0]?.objectId,
+    userInfo?.objectId,
     emailCodeAuthHash,
     email
   );
