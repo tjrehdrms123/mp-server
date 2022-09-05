@@ -33,7 +33,6 @@ Parse.serverURL = process.env.PARSESSERVERURL;
 Parse.User.enableUnsafeCurrentUser();
 
 const User = Parse.Object.extend("user");
-const user = new User();
 
 // 유저 회원가입
 async function signUpQuery(
@@ -55,6 +54,7 @@ async function signUpQuery(
     return emailDuplicate;
   }
   try {
+    const user = new User();
     user.set("uid", uid);
     user.set("name", name);
     user.set("email", email);
@@ -206,6 +206,7 @@ async function signUpPassportQuery(uid, name, email, auth_type, passwordHash) {
     return idDuplicate;
   }
   try {
+    const user = new User();
     user.set("uid", uid);
     user.set("name", name);
     user.set("email", email);
