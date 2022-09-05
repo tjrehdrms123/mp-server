@@ -1,6 +1,11 @@
 const { Router } = require("express");
+const {
+  boardListController,
+  boardCreateController,
+  boardUpdateController,
+  boardDeleteController,
+} = require("../controller/board");
 const router = Router();
-const { emailAuthController } = require("../controller/auth");
 /**
  * @swagger
  *  /auth/email:
@@ -22,6 +27,9 @@ const { emailAuthController } = require("../controller/auth");
  *              $ref: '#/definitions/AuthEmail'
  */
 
-router.post("/email", emailAuthController);
+router.get("/:id", boardListController);
+router.post("/:id", boardCreateController);
+router.patch("/:id", boardUpdateController);
+router.delete("/:id", boardDeleteController);
 
 module.exports = router;

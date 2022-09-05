@@ -34,7 +34,17 @@ async function equalToQuery(instance, key, value) {
   return userInfo;
 }
 
+/**
+ * @description 넘어온 형을 Number형으로 변환해주는 함수
+ * @param {*} id
+ * @returns
+ */
+function trsformNumber(id) {
+  return Number(id);
+}
+
 module.exports = {
   hash,
   equalToQuery,
+  trsformNumber,
 };
