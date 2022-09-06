@@ -4,15 +4,20 @@ const { emailFirstUserQuery } = require("../model/user");
 
 // 이메일 인증 컨트롤러
 async function emailAuthController(req, res, next) {
-  const { email } = req.body;
-  const userInfo = await emailFirstUserQuery(email);
-  const emailCodeAuthHash = hash(userInfo?.uid + email);
-  const result = await emailAuthQuery(
-    userInfo?.objectId,
-    emailCodeAuthHash,
-    email
-  );
-  next(result);
+  try {
+    const { email } = req.body;
+    const userInfo = await emailFirstUserQuery(email);
+    const emailCodeAuthHash = hash(userInfo?.uid + email);
+    const result = await emailAuthQuery(
+      userInfo?.objectId,
+      emailCodeAuthHash,
+      email
+    );
+    next(result);
+  } catch (error) {
+    errorCode.message = error.message;
+    return errorCode;
+  }
 }
 module.exports = {
   emailAuthController,

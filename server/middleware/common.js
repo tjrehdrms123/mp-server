@@ -1,4 +1,5 @@
 const crypto = require("crypto");
+const { errorCode } = require("../res_code/code");
 require("dotenv").config();
 
 /**
@@ -7,11 +8,16 @@ require("dotenv").config();
  * @returns {string} HASH화 된 문자열
  */
 function hash(value) {
-  const hash = crypto
-    .createHmac("sha256", process.env.SALT)
-    .update(value)
-    .digest("hex");
-  return hash;
+  try {
+    const hash = crypto
+      .createHmac("sha256", process.env.SALT)
+      .update(value)
+      .digest("hex");
+    return hash;
+  } catch (error) {
+    errorCode.message = error.message;
+    return errorCode;
+  }
 }
 
 /**
@@ -22,16 +28,21 @@ function hash(value) {
  * @returns {Array} 유저 정보에 대한 배열
  */
 async function equalToQuery(instance, key, value) {
-  let userQry = [];
-  let userequaltoQry = {};
-  let userInfo = [];
-  for (let i = 0; i < value.length; i++) {
-    userQry.push(new Parse.Query(instance));
-    userQry[i]?.equalTo(key[i], value[i]);
-    userequaltoQry = await userQry[i]?.first();
-    userInfo.push(userequaltoQry?.toJSON());
+  try {
+    let userQry = [];
+    let userequaltoQry = {};
+    let userInfo = [];
+    for (let i = 0; i < value.length; i++) {
+      userQry.push(new Parse.Query(instance));
+      userQry[i]?.equalTo(key[i], value[i]);
+      userequaltoQry = await userQry[i]?.first();
+      userInfo.push(userequaltoQry?.toJSON());
+    }
+    return userInfo;
+  } catch (error) {
+    errorCode.message = error.message;
+    return errorCode;
   }
-  return userInfo;
 }
 
 /**
@@ -40,7 +51,12 @@ async function equalToQuery(instance, key, value) {
  * @returns
  */
 function trsformNumber(id) {
-  return Number(id);
+  try {
+    return Number(id);
+  } catch (error) {
+    errorCode.message = error.message;
+    return errorCode;
+  }
 }
 
 module.exports = {

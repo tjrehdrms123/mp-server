@@ -43,17 +43,17 @@ async function signUpQuery(
   emailCodeAuthHash,
   auth_type
 ) {
-  const userInfo = await equalToQuery(User, ["uid", "email"], [uid, email]);
-
-  if (userInfo[0]?.uid != null) {
-    idDuplicate.data.uid = uid;
-    return idDuplicate;
-  }
-  if (userInfo[1]?.email === email) {
-    emailDuplicate.data.email = email;
-    return emailDuplicate;
-  }
   try {
+    const userInfo = await equalToQuery(User, ["uid", "email"], [uid, email]);
+
+    if (userInfo[0]?.uid != null) {
+      idDuplicate.data.uid = uid;
+      return idDuplicate;
+    }
+    if (userInfo[1]?.email === email) {
+      emailDuplicate.data.email = email;
+      return emailDuplicate;
+    }
     const user = new User();
     user.set("uid", uid);
     user.set("name", name);
@@ -71,7 +71,7 @@ async function signUpQuery(
     signUpSuccess.data.auth_type = auth_type;
     return signUpSuccess;
   } catch (error) {
-    errorCode.data.message = error;
+    errorCode.message = error.message;
     return errorCode;
   }
 }
@@ -84,10 +84,10 @@ async function loginQuery(
   auth_type,
   email_auth_code
 ) {
-  const userInfo = await equalToQuery(User, ["uid"], [uid]);
   // 자체 로그인
-  if (auth_type === 0) {
-    try {
+  try {
+    const userInfo = await equalToQuery(User, ["uid"], [uid]);
+    if (auth_type === 0) {
       if (!uid) {
         return idNotfound;
       }
@@ -122,13 +122,8 @@ async function loginQuery(
           return infoNotfound;
         }
       }
-    } catch (error) {
-      errorCode.data.message = error.message;
-      return errorCode;
-    }
-  } else if (auth_type === 1 || auth_type === 2) {
-    // Kakao 로그인
-    try {
+    } else if (auth_type === 1 || auth_type === 2) {
+      // Kakao 로그인
       if (!uid) {
         return idNotfound;
       }
@@ -158,54 +153,59 @@ async function loginQuery(
           return infoNotfound;
         }
       }
-    } catch (error) {
-      errorCode.data.message = error.message;
-      return errorCode;
-    }
-  } else if (auth_type === 3) {
-    //JWT
-    if (uid && password) {
-      if (password === userInfo[0]?.password) {
-        // DB에 있는 해시 패스워드랑 입력한 비밀번호의 해쉬 값이 같을 경우 토큰 생성
-        let accessToken = generateAccessToken({
-          uid: userInfo[0]?.uid,
-          password: userInfo[0]?.password,
-        });
-        let refreshToken = generateRefreshToken({
-          uid: userInfo[0]?.uid,
-          password: userInfo[0]?.password,
-        });
-        loginSuccess.data.accessToken = accessToken;
-        loginSuccess.data.refreshToken = refreshToken;
-        loginSuccess.data.message = "새로운 토큰이 발급 되었습니다";
-        loginToken.data.refreshToken = refreshToken;
-        loginToken.data.sameSite = "none";
-        loginToken.data.secure = true;
-        loginToken.data.httpOnly = true;
-        return [loginSuccess, loginToken];
-      } else {
-        return infoNotfound;
+    } else if (auth_type === 3) {
+      //JWT
+      if (uid && password) {
+        if (password === userInfo[0]?.password) {
+          // DB에 있는 해시 패스워드랑 입력한 비밀번호의 해쉬 값이 같을 경우 토큰 생성
+          let accessToken = generateAccessToken({
+            uid: userInfo[0]?.uid,
+            password: userInfo[0]?.password,
+          });
+          let refreshToken = generateRefreshToken({
+            uid: userInfo[0]?.uid,
+            password: userInfo[0]?.password,
+          });
+          loginSuccess.data.accessToken = accessToken;
+          loginSuccess.data.refreshToken = refreshToken;
+          loginSuccess.data.message = "새로운 토큰이 발급 되었습니다";
+          loginToken.data.refreshToken = refreshToken;
+          loginToken.data.sameSite = "none";
+          loginToken.data.secure = true;
+          loginToken.data.httpOnly = true;
+          return [loginSuccess, loginToken];
+        } else {
+          return infoNotfound;
+        }
       }
+    } else if (!auth_type) {
+      return authTypeNotfound;
     }
-  } else if (!auth_type) {
-    return authTypeNotfound;
+  } catch (error) {
+    errorCode.message = error.message;
+    return errorCode;
   }
 }
 
 async function emailFirstUserQuery(email) {
-  const userInfo = await equalToQuery(User, ["email"], [email]);
-  return userInfo[0];
+  try {
+    const userInfo = await equalToQuery(User, ["email"], [email]);
+    return userInfo[0];
+  } catch (error) {
+    errorCode.message = error.message;
+    return errorCode;
+  }
 }
 
 // passport
 async function signUpPassportQuery(uid, name, email, auth_type, passwordHash) {
-  const userInfo = await equalToQuery(User, ["uid"], [uid]);
-  const provider = auth_type === 1 ? "kakao" : "google";
-  if (userInfo[0]?.uid === uid) {
-    idDuplicate.data.uid = uid;
-    return idDuplicate;
-  }
   try {
+    const userInfo = await equalToQuery(User, ["uid"], [uid]);
+    const provider = auth_type === 1 ? "kakao" : "google";
+    if (userInfo[0]?.uid === uid) {
+      idDuplicate.data.uid = uid;
+      return idDuplicate;
+    }
     const user = new User();
     user.set("uid", uid);
     user.set("name", name);
@@ -224,7 +224,7 @@ async function signUpPassportQuery(uid, name, email, auth_type, passwordHash) {
     signUpSuccess.data.provider = provider;
     return signUpSuccess;
   } catch (error) {
-    errorCode.data.message = error;
+    errorCode.message = error.message;
     return errorCode;
   }
 }

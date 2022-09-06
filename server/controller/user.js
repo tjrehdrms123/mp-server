@@ -78,33 +78,43 @@ passport.deserializeUser(function (user, done) {
 
 // 회원가입 컨트롤러
 async function signUpController(req, res, next) {
-  const { uid, name, email, password, auth_type } = req.body;
-  // 비밀번호 sha256 알고리즘으로 해시값으로 변경
-  const passwordHash = hash(password);
-  const emailCodeAuthHash = hash(uid + email);
-  const result = await signUpQuery(
-    uid,
-    name,
-    email,
-    passwordHash,
-    emailCodeAuthHash,
-    auth_type
-  );
-  next(result);
+  try {
+    const { uid, name, email, password, auth_type } = req.body;
+    // 비밀번호 sha256 알고리즘으로 해시값으로 변경
+    const passwordHash = hash(password);
+    const emailCodeAuthHash = hash(uid + email);
+    const result = await signUpQuery(
+      uid,
+      name,
+      email,
+      passwordHash,
+      emailCodeAuthHash,
+      auth_type
+    );
+    next(result);
+  } catch (error) {
+    errorCode.message = error.message;
+    return errorCode;
+  }
 }
 
 //로그인 컨트롤러
 async function loginController(req, res, next) {
-  const { uid, password, auth_type, email_auth_code } = req.body;
-  const passwordHash = hash(password);
-  const result = await loginQuery(
-    uid,
-    password,
-    passwordHash,
-    auth_type,
-    email_auth_code
-  );
-  next(result);
+  try {
+    const { uid, password, auth_type, email_auth_code } = req.body;
+    const passwordHash = hash(password);
+    const result = await loginQuery(
+      uid,
+      password,
+      passwordHash,
+      auth_type,
+      email_auth_code
+    );
+    next(result);
+  } catch (error) {
+    errorCode.message = error.message;
+    return errorCode;
+  }
 }
 
 const passportKakao = passport.authenticate("kakao", {
