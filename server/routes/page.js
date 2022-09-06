@@ -28,7 +28,7 @@ const router = Router();
  */
 
 router.get("/:id", pageListController);
-router.post("/:id", pageCreateController);
+router.post("", pageCreateController);
 router.patch("/:id", pageUpdateController);
 router.delete("/:id", pageDeleteController);
 

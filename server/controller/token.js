@@ -10,7 +10,7 @@ function tokenValidationController(req, res, next) {
     const token = tokenValidation(req);
     next(token);
   } catch (error) {
-    errorCode.message = error.message;
+    errorCode.data.message = error.message;
     return errorCode;
   }
 }
@@ -19,7 +19,7 @@ function refreshTokenValidationController(req, res, next) {
     const token = refreshTokenValidation(req);
     next(token);
   } catch (error) {
-    errorCode.message = error.message;
+    errorCode.data.message = error.message;
     return errorCode;
   }
 }
@@ -28,7 +28,7 @@ async function resendAccesTokenController(req, res, next) {
     const result = await resendAccesToken(req);
     next(result);
   } catch (error) {
-    errorCode.message = error.message;
+    errorCode.data.message = error.message;
     return errorCode;
   }
 }

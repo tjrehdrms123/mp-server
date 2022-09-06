@@ -14,7 +14,7 @@ async function resendAccesToken(req, res, next) {
     );
     return result;
   } catch (error) {
-    errorCode.message = error.message;
+    errorCode.data.message = error.message;
     return errorCode;
   }
 }

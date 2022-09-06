@@ -93,7 +93,7 @@ async function signUpController(req, res, next) {
     );
     next(result);
   } catch (error) {
-    errorCode.message = error.message;
+    errorCode.data.message = error.message;
     return errorCode;
   }
 }
@@ -112,7 +112,7 @@ async function loginController(req, res, next) {
     );
     next(result);
   } catch (error) {
-    errorCode.message = error.message;
+    errorCode.data.message = error.message;
     return errorCode;
   }
 }

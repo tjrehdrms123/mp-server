@@ -1,25 +1,26 @@
 const { trsformNumber } = require("../middleware/common");
 const { refreshTokenValidation } = require("../middleware/jwt");
 const { pageCreateQuery } = require("../model/page");
-const { useRefreshTokenValidationController } = require("./token");
 
 // 이메일 인증 컨트롤러
 async function pageListController(req, res, next) {
   try {
     const id = trsformNumber(req.params.id);
   } catch (error) {
-    errorCode.message = error.message;
+    errorCode.data.message = error.message;
     return errorCode;
   }
 }
 async function pageCreateController(req, res, next) {
   try {
+    console.log("ok");
     const id = trsformNumber(req.params.id);
     const { title, description, active } = req.body;
     const token = refreshTokenValidation(req);
-    const result = pageCreateQuery(id, token, title, description, active);
+    const result = await pageCreateQuery(id, token, title, description, active);
+    next(result);
   } catch (error) {
-    errorCode.message = error.message;
+    errorCode.data.message = error.message;
     return errorCode;
   }
 }

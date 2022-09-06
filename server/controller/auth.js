@@ -15,7 +15,7 @@ async function emailAuthController(req, res, next) {
     );
     next(result);
   } catch (error) {
-    errorCode.message = error.message;
+    errorCode.data.message = error.message;
     return errorCode;
   }
 }

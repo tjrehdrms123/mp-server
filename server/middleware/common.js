@@ -15,7 +15,7 @@ function hash(value) {
       .digest("hex");
     return hash;
   } catch (error) {
-    errorCode.message = error.message;
+    errorCode.data.message = error.message;
     return errorCode;
   }
 }
@@ -40,7 +40,7 @@ async function equalToQuery(instance, key, value) {
     }
     return userInfo;
   } catch (error) {
-    errorCode.message = error.message;
+    errorCode.data.message = error.message;
     return errorCode;
   }
 }
@@ -54,7 +54,7 @@ function trsformNumber(id) {
   try {
     return Number(id);
   } catch (error) {
-    errorCode.message = error.message;
+    errorCode.data.message = error.message;
     return errorCode;
   }
 }

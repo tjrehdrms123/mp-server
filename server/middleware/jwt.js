@@ -11,7 +11,7 @@ function generateAccessToken(data) {
   try {
     return sign(data, process.env.ACCESS_SECRET, { expiresIn: "24h" });
   } catch (error) {
-    errorCode.message = error.message;
+    errorCode.data.message = error.message;
     return errorCode;
   }
 }
@@ -24,7 +24,7 @@ function generateRefreshToken(data) {
   try {
     return sign(data, process.env.REFRESH_SECRET, { expiresIn: "24h" });
   } catch (error) {
-    errorCode.message = error.message;
+    errorCode.data.message = error.message;
     return errorCode;
   }
 }
@@ -45,7 +45,7 @@ function tokenValidation(req, res, next) {
     const data = verify(payload, process.env.ACCESS_SECRET);
     return data;
   } catch (error) {
-    errorCode.message = error.message;
+    errorCode.data.message = error.message;
     return errorCode;
   }
 }
@@ -65,7 +65,7 @@ function refreshTokenValidation(req, res, next) {
     const data = verify(refreshToken, process.env.REFRESH_SECRET);
     return data;
   } catch (error) {
-    errorCode.message = error.message;
+    errorCode.data.message = error.message;
     return errorCode;
   }
 }

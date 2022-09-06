@@ -50,7 +50,7 @@ async function emailAuthQuery(uid, emailCodeAuthHash, email) {
       return successCode;
     }
   } catch (error) {
-    errorCode.message = error.message;
+    errorCode.data.message = error.message;
     return errorCode;
   }
 }
