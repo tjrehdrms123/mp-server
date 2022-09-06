@@ -13,11 +13,9 @@ async function pageListController(req, res, next) {
 }
 async function pageCreateController(req, res, next) {
   try {
-    console.log("ok");
-    const id = trsformNumber(req.params.id);
     const { title, description, active } = req.body;
     const token = refreshTokenValidation(req);
-    const result = await pageCreateQuery(id, token, title, description, active);
+    const result = await pageCreateQuery(token, title, description, active);
     next(result);
   } catch (error) {
     errorCode.data.message = error.message;
