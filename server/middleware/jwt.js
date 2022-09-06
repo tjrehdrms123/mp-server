@@ -1,6 +1,6 @@
 require("dotenv").config();
 const { sign, verify } = require("jsonwebtoken");
-const { errorCode, loginToken, loginSuccess } = require("../res_code/code");
+const { errorCode } = require("../res_code/code");
 
 /**
  * @description accessToken을 생성하는 함수

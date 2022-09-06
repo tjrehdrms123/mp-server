@@ -13,10 +13,15 @@ async function pageListController(req, res, next) {
   }
 }
 async function pageCreateController(req, res, next) {
-  const id = trsformNumber(req.params.id);
-  const { title, description, active } = req.body;
-  const token = refreshTokenValidation(req);
-  const result = pageCreateQuery(id, token, title, description, active);
+  try {
+    const id = trsformNumber(req.params.id);
+    const { title, description, active } = req.body;
+    const token = refreshTokenValidation(req);
+    const result = pageCreateQuery(id, token, title, description, active);
+  } catch (error) {
+    errorCode.message = error.message;
+    return errorCode;
+  }
 }
 async function pageUpdateController(req, res, next) {}
 async function pageDeleteController(req, res, next) {}

@@ -1,20 +1,9 @@
 const Parse = require("parse/node");
 require("dotenv").config();
 const {
-  // 회원가입 에러
-  signUpSuccess,
-  idDuplicate,
-  emailDuplicate,
-  // 로그인 에러
-  idNotfound,
-  passwordNotfound,
-  loginSuccess,
-  infoNotfound,
-  emailAuthCodeNotfound,
-  authTypeNotfound,
-  emailAuthCodeFail,
-  // 그외
-  loginToken, //로그인 리프래쉬 토큰
+  successCode,
+  loginToken,
+  requestErrorCode,
   errorCode,
 } = require("../res_code/code");
 
@@ -47,12 +36,14 @@ async function signUpQuery(
     const userInfo = await equalToQuery(User, ["uid", "email"], [uid, email]);
 
     if (userInfo[0]?.uid != null) {
-      idDuplicate.data.uid = uid;
-      return idDuplicate;
+      requestErrorCode.data.message = "아이디를 입력해주세요";
+      requestErrorCode.data.uid = uid;
+      return requestErrorCode;
     }
     if (userInfo[1]?.email === email) {
-      emailDuplicate.data.email = email;
-      return emailDuplicate;
+      requestErrorCode.data.message = "이메일이 이미 존재 합니다";
+      requestErrorCode.data.email = email;
+      return requestErrorCode;
     }
     const user = new User();
     user.set("uid", uid);
@@ -64,12 +55,12 @@ async function signUpQuery(
     user.set("auth_type", auth_type);
     user.set("email_auth_code", emailCodeAuthHash);
     await user.save();
-    signUpSuccess.data.objectId = user.id;
-    signUpSuccess.data.uid = uid;
-    signUpSuccess.data.name = name;
-    signUpSuccess.data.email = email;
-    signUpSuccess.data.auth_type = auth_type;
-    return signUpSuccess;
+    successCode.data.objectId = user.id;
+    successCode.data.uid = uid;
+    successCode.data.name = name;
+    successCode.data.email = email;
+    successCode.data.auth_type = auth_type;
+    return successCode;
   } catch (error) {
     errorCode.message = error.message;
     return errorCode;
@@ -89,15 +80,19 @@ async function loginQuery(
     const userInfo = await equalToQuery(User, ["uid"], [uid]);
     if (auth_type === 0) {
       if (!uid) {
-        return idNotfound;
+        requestErrorCode.message = "아이디를 찾을 수 없습니다";
+        return requestErrorCode;
       }
       if (!password) {
-        return passwordNotfound;
+        requestErrorCode.message = "비밀번호를 찾을 수 없습니다";
+        return requestErrorCode;
       }
       if (!email_auth_code) {
-        return emailAuthCodeNotfound;
+        requestErrorCode.message = "이메일 인증코드를 찾을 수 없습니다";
+        return requestErrorCode;
       } else if (email_auth_code != userInfo[0]?.email_auth_code) {
-        return emailAuthCodeFail;
+        requestErrorCode.message = "이메일 인증코드가 옳바르지 않습니다";
+        return requestErrorCode;
       }
       if (uid && password) {
         if (passwordHash === userInfo[0]?.password) {
@@ -110,25 +105,29 @@ async function loginQuery(
             uid: userInfo[0]?.uid,
             password: userInfo[0]?.password,
           });
-          loginSuccess.data.message = "로그인이 완료되었습니다";
-          loginSuccess.data.accessToken = accessToken;
-          loginSuccess.data.refreshToken = refreshToken;
+          successCode.data.message = "로그인이 완료되었습니다";
+          successCode.data.type = "cookie";
+          successCode.data.accessToken = accessToken;
+          successCode.data.refreshToken = refreshToken;
           loginToken.data.refreshToken = refreshToken;
           loginToken.data.sameSite = "none";
           loginToken.data.secure = true;
           loginToken.data.httpOnly = true;
-          return [loginSuccess, loginToken];
+          return [successCode, loginToken];
         } else {
-          return infoNotfound;
+          requestErrorCode.message = "해당 정보를 찾을 수 없습니다";
+          return requestErrorCode;
         }
       }
     } else if (auth_type === 1 || auth_type === 2) {
       // Kakao 로그인
       if (!uid) {
-        return idNotfound;
+        requestErrorCode.message = "아이디를 찾을 수 없습니다";
+        return requestErrorCode;
       }
       if (!password) {
-        return passwordNotfound;
+        requestErrorCode.message = "패스워드를 찾을 수 없습니다";
+        return requestErrorCode;
       }
       if (uid && password) {
         if (passwordHash === userInfo[0]?.password) {
@@ -141,16 +140,18 @@ async function loginQuery(
             uid: userInfo[0]?.uid,
             password: userInfo[0]?.password,
           });
-          loginSuccess.data.accessToken = accessToken;
-          loginSuccess.data.refreshToken = refreshToken;
-          loginSuccess.data.message = "로그인이 완료되었습니다";
+          successCode.data.accessToken = accessToken;
+          successCode.data.type = "cookie";
+          successCode.data.refreshToken = refreshToken;
+          successCode.data.message = "로그인이 완료되었습니다";
           loginToken.data.refreshToken = refreshToken;
           loginToken.data.sameSite = "none";
           loginToken.data.secure = true;
           loginToken.data.httpOnly = true;
-          return [loginSuccess, loginToken];
+          return [successCode, loginToken];
         } else {
-          return infoNotfound;
+          requestErrorCode.message = "해당 정보를 찾을 수 없습니다";
+          return requestErrorCode;
         }
       }
     } else if (auth_type === 3) {
@@ -166,20 +167,23 @@ async function loginQuery(
             uid: userInfo[0]?.uid,
             password: userInfo[0]?.password,
           });
-          loginSuccess.data.accessToken = accessToken;
-          loginSuccess.data.refreshToken = refreshToken;
-          loginSuccess.data.message = "새로운 토큰이 발급 되었습니다";
+          successCode.data.accessToken = accessToken;
+          successCode.data.type = "cookie";
+          successCode.data.refreshToken = refreshToken;
+          successCode.data.message = "새로운 토큰이 발급 되었습니다";
           loginToken.data.refreshToken = refreshToken;
           loginToken.data.sameSite = "none";
           loginToken.data.secure = true;
           loginToken.data.httpOnly = true;
-          return [loginSuccess, loginToken];
+          return [successCode, loginToken];
         } else {
-          return infoNotfound;
+          requestErrorCode.message = "해당 정보를 찾을 수 없습니다";
+          return requestErrorCode;
         }
       }
     } else if (!auth_type) {
-      return authTypeNotfound;
+      requestErrorCode.message = "인증 타입을 찾을 수 없습니다";
+      return requestErrorCode;
     }
   } catch (error) {
     errorCode.message = error.message;
@@ -216,13 +220,13 @@ async function signUpPassportQuery(uid, name, email, auth_type, passwordHash) {
     user.set("auth_type", auth_type);
     user.set("email_auth_code", "");
     await user.save();
-    signUpSuccess.data.objectId = user.id;
-    signUpSuccess.data.uid = uid;
-    signUpSuccess.data.name = name;
-    signUpSuccess.data.email = email;
-    signUpSuccess.data.auth_type = auth_type;
-    signUpSuccess.data.provider = provider;
-    return signUpSuccess;
+    successCode.data.objectId = user.id;
+    successCode.data.uid = uid;
+    successCode.data.name = name;
+    successCode.data.email = email;
+    successCode.data.auth_type = auth_type;
+    successCode.data.provider = provider;
+    return successCode;
   } catch (error) {
     errorCode.message = error.message;
     return errorCode;

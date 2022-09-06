@@ -14,9 +14,7 @@ Parse.User.enableUnsafeCurrentUser();
 const Page = Parse.Object.extend("page");
 
 // 페이지 생성
-async function pageCreateQuery(id, token, title, description, active) {
-  console.log(id, token, title, description, active);
-}
+async function pageCreateQuery(id, token, title, description, active) {}
 
 module.exports = {
   pageCreateQuery, // 페이지 생성 쿼리

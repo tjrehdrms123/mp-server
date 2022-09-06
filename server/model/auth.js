@@ -1,10 +1,7 @@
 const Parse = require("parse/node");
 require("dotenv").config();
 const {
-  // 이메일 인증 완료
-  emailAuthSuccess,
-  // 이메일 인증 실패
-  emailAuthFail,
+  successCode,
   // 그외
   errorCode,
 } = require("../res_code/code");
@@ -38,8 +35,8 @@ async function emailAuthQuery(uid, emailCodeAuthHash, email) {
       });
       authIdDuplicate.save();
       mailer(email, emailCodeAuthHash).catch(console.error);
-      emailAuthSuccess.data.message = "이메일 인증이 완료되었습니다";
-      return emailAuthSuccess;
+      successCode.data.message = "이메일 인증이 완료되었습니다";
+      return successCode;
     } else {
       const auth = new Auth();
       auth.set("auth_id", {
@@ -49,8 +46,8 @@ async function emailAuthQuery(uid, emailCodeAuthHash, email) {
       });
       auth.save();
       mailer(email, emailCodeAuthHash).catch(console.error);
-      emailAuthSuccess.data.message = "이메일 인증이 완료되었습니다";
-      return emailAuthSuccess;
+      successCode.data.message = "이메일 인증이 완료되었습니다";
+      return successCode;
     }
   } catch (error) {
     errorCode.message = error.message;
