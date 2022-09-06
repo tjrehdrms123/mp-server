@@ -13,9 +13,9 @@ async function pageListController(req, res, next) {
 }
 async function pageCreateController(req, res, next) {
   try {
-    const { title, description, active } = req.body;
+    const { title, description, is_active } = req.body;
     const token = refreshTokenValidation(req);
-    const result = await pageCreateQuery(token, title, description, active);
+    const result = await pageCreateQuery(token, title, description, is_active);
     next(result);
   } catch (error) {
     errorCode.data.message = error.message;

@@ -19,9 +19,8 @@ const Page = Parse.Object.extend("page");
 const User = Parse.Object.extend("user");
 
 // 페이지 생성
-async function pageCreateQuery(token, title, description, active) {
+async function pageCreateQuery(token, title, description, is_active) {
   try {
-    console.log("okok");
     const userInfo = await equalToQuery(User, ["uid"], [token.uid]);
     if (!token) {
       requestErrorCode.data.message = "토큰이 없습니다";
@@ -41,7 +40,7 @@ async function pageCreateQuery(token, title, description, active) {
     const page = new Page();
     page.set("title", title);
     page.set("description", description);
-    page.set("active", active);
+    page.set("is_active", is_active);
     page.set("auth_id", {
       __type: "Pointer",
       className: "user",

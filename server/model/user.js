@@ -4,6 +4,7 @@ const {
   successCode,
   loginToken,
   requestErrorCode,
+  successTokenCode,
   errorCode,
 } = require("../res_code/code");
 
@@ -56,6 +57,7 @@ async function signUpQuery(
     user.set("email_auth_code", emailCodeAuthHash);
     await user.save();
     successCode.data.objectId = user.id;
+    successCode.data.message = "회원가입이 완료 되었습니다";
     successCode.data.uid = uid;
     successCode.data.name = name;
     successCode.data.email = email;
@@ -80,18 +82,18 @@ async function loginQuery(
     const userInfo = await equalToQuery(User, ["uid"], [uid]);
     if (auth_type === 0) {
       if (!uid) {
-        requesterrorCode.data.message = "아이디를 찾을 수 없습니다";
+        requestErrorCode.data.message = "아이디를 찾을 수 없습니다";
         return requestErrorCode;
       }
       if (!password) {
-        requesterrorCode.data.message = "비밀번호를 찾을 수 없습니다";
+        requestErrorCode.data.message = "비밀번호를 찾을 수 없습니다";
         return requestErrorCode;
       }
       if (!email_auth_code) {
-        requesterrorCode.data.message = "이메일 인증코드를 찾을 수 없습니다";
+        requestErrorCode.data.message = "이메일 인증코드를 찾을 수 없습니다";
         return requestErrorCode;
       } else if (email_auth_code != userInfo[0]?.email_auth_code) {
-        requesterrorCode.data.message = "이메일 인증코드가 옳바르지 않습니다";
+        requestErrorCode.data.message = "이메일 인증코드가 옳바르지 않습니다";
         return requestErrorCode;
       }
       if (uid && password) {
@@ -105,15 +107,15 @@ async function loginQuery(
             uid: userInfo[0]?.uid,
             password: userInfo[0]?.password,
           });
-          successCode.data.message = "로그인이 완료되었습니다";
-          successCode.data.type = "cookie";
-          successCode.data.accessToken = accessToken;
-          successCode.data.refreshToken = refreshToken;
+          successTokenCode.data.message = "로그인이 완료되었습니다";
+          successTokenCode.data.type = "cookie";
+          successTokenCode.data.accessToken = accessToken;
+          successTokenCode.data.refreshToken = refreshToken;
           loginToken.data.refreshToken = refreshToken;
           loginToken.data.sameSite = "none";
           loginToken.data.secure = true;
           loginToken.data.httpOnly = true;
-          return [successCode, loginToken];
+          return [successTokenCode, loginToken];
         } else {
           requesterrorCode.data.message = "해당 정보를 찾을 수 없습니다";
           return requestErrorCode;
@@ -140,15 +142,15 @@ async function loginQuery(
             uid: userInfo[0]?.uid,
             password: userInfo[0]?.password,
           });
-          successCode.data.accessToken = accessToken;
-          successCode.data.type = "cookie";
-          successCode.data.refreshToken = refreshToken;
-          successCode.data.message = "로그인이 완료되었습니다";
+          successTokenCode.data.accessToken = accessToken;
+          successTokenCode.data.type = "cookie";
+          successTokenCode.data.refreshToken = refreshToken;
+          successTokenCode.data.message = "로그인이 완료되었습니다";
           loginToken.data.refreshToken = refreshToken;
           loginToken.data.sameSite = "none";
           loginToken.data.secure = true;
           loginToken.data.httpOnly = true;
-          return [successCode, loginToken];
+          return [successTokenCode, loginToken];
         } else {
           requesterrorCode.data.message = "해당 정보를 찾을 수 없습니다";
           return requestErrorCode;
@@ -167,15 +169,15 @@ async function loginQuery(
             uid: userInfo[0]?.uid,
             password: userInfo[0]?.password,
           });
-          successCode.data.accessToken = accessToken;
-          successCode.data.type = "cookie";
-          successCode.data.refreshToken = refreshToken;
-          successCode.data.message = "새로운 토큰이 발급 되었습니다";
+          successTokenCode.data.accessToken = accessToken;
+          successTokenCode.data.type = "cookie";
+          successTokenCode.data.refreshToken = refreshToken;
+          successTokenCode.data.message = "새로운 토큰이 발급 되었습니다";
           loginToken.data.refreshToken = refreshToken;
           loginToken.data.sameSite = "none";
           loginToken.data.secure = true;
           loginToken.data.httpOnly = true;
-          return [successCode, loginToken];
+          return [successTokenCode, loginToken];
         } else {
           requesterrorCode.data.message = "해당 정보를 찾을 수 없습니다";
           return requestErrorCode;
@@ -220,13 +222,13 @@ async function signUpPassportQuery(uid, name, email, auth_type, passwordHash) {
     user.set("auth_type", auth_type);
     user.set("email_auth_code", "");
     await user.save();
-    successCode.data.objectId = user.id;
-    successCode.data.uid = uid;
-    successCode.data.name = name;
-    successCode.data.email = email;
-    successCode.data.auth_type = auth_type;
-    successCode.data.provider = provider;
-    return successCode;
+    successTokenCode.data.objectId = user.id;
+    successTokenCode.data.uid = uid;
+    successTokenCode.data.name = name;
+    successTokenCode.data.email = email;
+    successTokenCode.data.auth_type = auth_type;
+    successTokenCode.data.provider = provider;
+    return successTokenCode;
   } catch (error) {
     errorCode.data.message = error.message;
     return errorCode;

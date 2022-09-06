@@ -6,6 +6,13 @@ module.exports = {
       message: "",
     },
   },
+  successTokenCode: {
+    status: 200,
+    data: {
+      type: "cookie",
+      message: "",
+    },
+  },
   loginToken: {
     data: {
       // cookie에 refreshToken 전송
