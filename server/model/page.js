@@ -33,6 +33,16 @@ async function pageListQuery(token, id) {
     return errorCode;
   }
 }
+// 페이지 전체 조회
+async function pageListAllQuery(token, id) {
+  try {
+    await isTokenQuery(token);
+    return successCode;
+  } catch (error) {
+    errorCode.data.message = error.message;
+    return errorCode;
+  }
+}
 // 페이지 생성
 async function pageCreateQuery(token, title, description, is_active) {
   try {
@@ -61,5 +71,6 @@ async function pageCreateQuery(token, title, description, is_active) {
 
 module.exports = {
   pageListQuery,
+  pageListAllQuery,
   pageCreateQuery, // 페이지 생성 쿼리
 };

@@ -14,6 +14,13 @@ async function pageListController(req, res, next) {
     return errorCode;
   }
 }
+async function pageListAllController(req, res, next) {
+  try {
+  } catch (error) {
+    errorCode.data.message = error.message;
+    return errorCode;
+  }
+}
 async function pageCreateController(req, res, next) {
   try {
     const { title, description, is_active } = req.body;
@@ -29,6 +36,7 @@ async function pageUpdateController(req, res, next) {}
 async function pageDeleteController(req, res, next) {}
 module.exports = {
   pageListController,
+  pageListAllController,
   pageCreateController,
   pageUpdateController,
   pageDeleteController,
