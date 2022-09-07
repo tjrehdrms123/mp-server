@@ -1,12 +1,13 @@
 const { trsformNumber } = require("../middleware/common");
 const { refreshTokenValidation } = require("../middleware/jwt");
-const { pageCreateQuery } = require("../model/page");
+const { pageCreateQuery, pageListQuery } = require("../model/page");
+const { errorCode } = require("../res_code/code");
 
 async function pageListController(req, res, next) {
   try {
-    const id = trsformNumber(req.params.id);
+    const id = req.params.id;
     const token = refreshTokenValidation(req);
-    const result = await pageCreateQuery(token, title, description, is_active);
+    const result = await pageListQuery(token, id);
     next(result);
   } catch (error) {
     errorCode.data.message = error.message;

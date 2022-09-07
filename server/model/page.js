@@ -14,11 +14,25 @@ Parse.initialize(
   process.env.PARSEMASTERKEY
 );
 Parse.serverURL = process.env.PARSESERVERURL;
-Parse.User.enableUnsafeCurrentUser();
 
 const Page = Parse.Object.extend("page");
-const User = Parse.Object.extend("user");
 
+// 페이지 조회
+async function pageListQuery(token, id) {
+  try {
+    await isTokenQuery(token);
+    const pageInfo = await equalToQuery(Page, ["objectId"], [id]);
+    if (!pageInfo[0]) {
+      requestErrorCode.data.message = "존재하지 않는 페이지 입니다";
+      return requestErrorCode;
+    }
+    successCode.data.message = pageInfo[0];
+    return successCode;
+  } catch (error) {
+    errorCode.data.message = error.message;
+    return errorCode;
+  }
+}
 // 페이지 생성
 async function pageCreateQuery(token, title, description, is_active) {
   try {
@@ -40,12 +54,12 @@ async function pageCreateQuery(token, title, description, is_active) {
     successCode.data.message = "페이지 등록이 완료되었습니다";
     return successCode;
   } catch (error) {
-    console.log(error);
     errorCode.data.message = error.message;
     return errorCode;
   }
 }
 
 module.exports = {
+  pageListQuery,
   pageCreateQuery, // 페이지 생성 쿼리
 };
