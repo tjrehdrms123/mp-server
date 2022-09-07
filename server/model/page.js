@@ -6,6 +6,7 @@ const {
   errorCode,
 } = require("../res_code/code");
 const { equalToQuery } = require("../middleware/common");
+const { isTokenQuery } = require("./user");
 
 Parse.initialize(
   process.env.PARSEAPPID,
@@ -21,18 +22,7 @@ const User = Parse.Object.extend("user");
 // 페이지 생성
 async function pageCreateQuery(token, title, description, is_active) {
   try {
-    const userInfo = await equalToQuery(User, ["uid"], [token.uid]);
-    if (!token) {
-      requestErrorCode.data.message = "토큰이 없습니다";
-      return requestErrorCode;
-    }
-    if (
-      token.uid != userInfo[0].uid ||
-      token.password != userInfo[0].password
-    ) {
-      requestErrorCode.data.message = "옳바르지 않은 토큰 입니다";
-      return requestErrorCode;
-    }
+    const uid = await isTokenQuery(token);
     if (!title || !description) {
       requestErrorCode.data.message = "데이터가 없습니다";
       return requestErrorCode;
@@ -44,12 +34,13 @@ async function pageCreateQuery(token, title, description, is_active) {
     page.set("auth_id", {
       __type: "Pointer",
       className: "user",
-      objectId: userInfo[0].objectId,
+      objectId: uid,
     });
     await page.save();
     successCode.data.message = "페이지 등록이 완료되었습니다";
     return successCode;
   } catch (error) {
+    console.log(error);
     errorCode.data.message = error.message;
     return errorCode;
   }

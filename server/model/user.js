@@ -235,9 +235,31 @@ async function signUpPassportQuery(uid, name, email, auth_type, passwordHash) {
   }
 }
 
+async function isTokenQuery(token) {
+  try {
+    const userInfo = await equalToQuery(User, ["uid"], [token.uid]);
+    if (!token) {
+      requestErrorCode.data.message = "토큰이 없습니다";
+      return requestErrorCode;
+    }
+    if (
+      token.uid != userInfo[0].uid ||
+      token.password != userInfo[0].password
+    ) {
+      requestErrorCode.data.message = "옳바르지 않은 토큰 입니다";
+      return requestErrorCode;
+    }
+  } catch (error) {
+    console.log(error);
+    errorCode.data.message = error.message;
+    return errorCode;
+  }
+}
+
 module.exports = {
   signUpQuery,
   loginQuery,
   emailFirstUserQuery,
   signUpPassportQuery,
+  isTokenQuery,
 };
