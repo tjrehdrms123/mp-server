@@ -4,6 +4,7 @@ const {
   successCode,
   requestErrorCode,
   errorCode,
+  successPageCode,
 } = require("../res_code/code");
 const { equalToQuery } = require("../middleware/common");
 const { isTokenQuery } = require("./user");
@@ -26,8 +27,8 @@ async function pageListQuery(token, id) {
       requestErrorCode.data.message = "존재하지 않는 페이지 입니다";
       return requestErrorCode;
     }
-    successCode.data.message = pageInfo[0];
-    return successCode;
+    successPageCode.data = pageInfo[0];
+    return successPageCode;
   } catch (error) {
     errorCode.data.message = error.message;
     return errorCode;
@@ -37,7 +38,14 @@ async function pageListQuery(token, id) {
 async function pageListAllQuery(token, id) {
   try {
     await isTokenQuery(token);
-    return successCode;
+    const query = new Parse.Query(Page);
+    const value = await query.find();
+    const pageInfo = [];
+    value.map((k, i) => {
+      pageInfo.push(value[i].toJSON());
+    });
+    successPageCode.data = pageInfo;
+    return successPageCode;
   } catch (error) {
     errorCode.data.message = error.message;
     return errorCode;

@@ -32,6 +32,7 @@ async function equalToQuery(instance, key, value) {
     let userQry = [];
     let userequaltoQry = {};
     let userInfo = [];
+
     for (let i = 0; i < value.length; i++) {
       userQry.push(new Parse.Query(instance));
       userQry[i]?.equalTo(key[i], value[i]);

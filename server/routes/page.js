@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const {
   pageListController,
+  pageListAllController,
   pageCreateController,
   pageUpdateController,
   pageDeleteController,
@@ -27,6 +28,7 @@ const router = Router();
  *              $ref: '#/definitions/AuthEmail'
  */
 
+router.get("", pageListAllController);
 router.get("/:id", pageListController);
 router.post("", pageCreateController);
 router.patch("/:id", pageUpdateController);

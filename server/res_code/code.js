@@ -6,6 +6,10 @@ module.exports = {
       message: "",
     },
   },
+  successPageCode: {
+    status: 200,
+    data: {},
+  },
   successTokenCode: {
     status: 200,
     data: {

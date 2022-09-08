@@ -1,6 +1,10 @@
 const { trsformNumber } = require("../middleware/common");
 const { refreshTokenValidation } = require("../middleware/jwt");
-const { pageCreateQuery, pageListQuery } = require("../model/page");
+const {
+  pageCreateQuery,
+  pageListQuery,
+  pageListAllQuery,
+} = require("../model/page");
 const { errorCode } = require("../res_code/code");
 
 async function pageListController(req, res, next) {
@@ -16,6 +20,9 @@ async function pageListController(req, res, next) {
 }
 async function pageListAllController(req, res, next) {
   try {
+    const token = refreshTokenValidation(req);
+    const result = await pageListAllQuery(token);
+    next(result);
   } catch (error) {
     errorCode.data.message = error.message;
     return errorCode;
