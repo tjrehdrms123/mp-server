@@ -4,6 +4,7 @@ const {
   pageCreateQuery,
   pageListQuery,
   pageListAllQuery,
+  pageUpdateQuery,
 } = require("../model/page");
 const { errorCode } = require("../res_code/code");
 
@@ -39,7 +40,24 @@ async function pageCreateController(req, res, next) {
     return errorCode;
   }
 }
-async function pageUpdateController(req, res, next) {}
+async function pageUpdateController(req, res, next) {
+  try {
+    const id = req.params.id;
+    const { title, description, is_active } = req.body;
+    const token = refreshTokenValidation(req);
+    const result = await pageUpdateQuery(
+      token,
+      id,
+      title,
+      description,
+      is_active
+    );
+    next(result);
+  } catch (error) {
+    errorCode.data.message = error.message;
+    return errorCode;
+  }
+}
 async function pageDeleteController(req, res, next) {}
 module.exports = {
   pageListController,

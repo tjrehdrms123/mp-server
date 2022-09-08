@@ -76,9 +76,35 @@ async function pageCreateQuery(token, title, description, is_active) {
     return errorCode;
   }
 }
+// 페이지 업데이트
+async function pageUpdateQuery(token, id, title, description, is_active) {
+  try {
+    const uid = await isTokenQuery(token);
+    const pageInfo = await equalToQuery(Page, ["objectId"], [id]);
+    if (!title || !description) {
+      requestErrorCode.data.message = "데이터가 없습니다";
+      return requestErrorCode;
+    }
+    if (!pageInfo[0]) {
+      requestErrorCode.data.message = "존재하지 않는 페이지 입니다";
+      return requestErrorCode;
+    }
+    pageInfo.set("objectId", pageInfo[0].objectId);
+    pageInfo.set("title", title);
+    pageInfo.set("description", description);
+    pageInfo.set("is_active", is_active);
+    await pageInfo.save();
+    successCode.data.message = "페이지 수정이 완료되었습니다";
+    return successCode;
+  } catch (error) {
+    errorCode.data.message = error.message;
+    return errorCode;
+  }
+}
 
 module.exports = {
   pageListQuery,
   pageListAllQuery,
   pageCreateQuery, // 페이지 생성 쿼리
+  pageUpdateQuery,
 };
