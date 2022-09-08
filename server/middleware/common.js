@@ -27,19 +27,30 @@ function hash(value) {
  * @param {Array} value
  * @returns {Array} 유저 정보에 대한 배열
  */
-async function equalToQuery(instance, key, value) {
+async function equalToQuery(instance, key, value, type = false) {
   try {
     let userQry = [];
     let userequaltoQry = {};
     let userInfo = [];
-
-    for (let i = 0; i < value.length; i++) {
-      userQry.push(new Parse.Query(instance));
-      userQry[i]?.equalTo(key[i], value[i]);
-      userequaltoQry = await userQry[i]?.first();
-      userInfo.push(userequaltoQry?.toJSON());
+    let userInfoJson = [];
+    if (type) {
+      for (let i = 0; i < value.length; i++) {
+        userQry.push(new Parse.Query(instance));
+        userQry[i]?.equalTo(key[i], value[i]);
+        userequaltoQry = await userQry[i]?.first();
+        userInfoJson.push(userequaltoQry);
+        userInfo.push(usereqaltoQry?.toJSON());
+      }
+      return [userInfo, userInfoJson];
+    } else {
+      for (let i = 0; i < value.length; i++) {
+        userQry.push(new Parse.Query(instance));
+        userQry[i]?.equalTo(key[i], value[i]);
+        userequaltoQry = await userQry[i]?.first();
+        userInfo.push(userequaltoQry?.toJSON());
+      }
+      return userInfo;
     }
-    return userInfo;
   } catch (error) {
     errorCode.data.message = error.message;
     return errorCode;
