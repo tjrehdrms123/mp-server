@@ -5,6 +5,7 @@ const {
   pageListQuery,
   pageListAllQuery,
   pageUpdateQuery,
+  pageDeleteQuery,
 } = require("../model/page");
 const { errorCode } = require("../res_code/code");
 
@@ -61,15 +62,8 @@ async function pageUpdateController(req, res, next) {
 async function pageDeleteController(req, res, next) {
   try {
     const id = req.params.id;
-    const { title, description, is_active } = req.body;
     const token = refreshTokenValidation(req);
-    const result = await pageUpdateQuery(
-      token,
-      id,
-      title,
-      description,
-      is_active
-    );
+    const result = await pageDeleteQuery(token, id);
     next(result);
   } catch (error) {
     errorCode.data.message = error.message;

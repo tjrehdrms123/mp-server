@@ -93,7 +93,7 @@ async function pageUpdateQuery(
   delete_status
 ) {
   try {
-    const uid = await isTokenQuery(token);
+    await isTokenQuery(token);
     const pageInfo = await equalToQuery(Page, ["objectId"], [id], true);
     const { title, description, objectId } = pageInfo[1][0];
     const pageInstance = pageInfo[0][0];
@@ -117,10 +117,29 @@ async function pageUpdateQuery(
     return errorCode;
   }
 }
-
+// 페이지 삭제
+async function pageDeleteQuery(token, id) {
+  try {
+    await isTokenQuery(token);
+    const pageInfo = await equalToQuery(Page, ["objectId"], [id], true);
+    const pageInstance = pageInfo[0][0];
+    if (!id) {
+      requestErrorCode.data.message = "삭제할 데이터가 없습니다";
+      return requestErrorCode;
+    }
+    pageInstance.set("delete_status", true);
+    await pageInstance.save();
+    successCode.data.message = "페이지 삭제가 완료되었습니다";
+    return successCode;
+  } catch (error) {
+    errorCode.data.message = error.message;
+    return errorCode;
+  }
+}
 module.exports = {
   pageListQuery,
   pageListAllQuery,
   pageCreateQuery, // 페이지 생성 쿼리
   pageUpdateQuery,
+  pageDeleteQuery,
 };
