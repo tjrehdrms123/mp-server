@@ -52,7 +52,7 @@ async function pageListAllQuery(token, id) {
   }
 }
 // 페이지 생성
-async function pageCreateQuery(token, title, description, is_active) {
+async function pageCreateQuery(token, title, description) {
   try {
     const uid = await isTokenQuery(token);
     if (!title || !description) {
@@ -62,7 +62,7 @@ async function pageCreateQuery(token, title, description, is_active) {
     const page = new Page();
     page.set("title", title);
     page.set("description", description);
-    page.set("is_active", is_active);
+    page.set("delete_status", false);
     page.set("auth_id", {
       __type: "Pointer",
       className: "user",
@@ -85,7 +85,13 @@ async function pageCreateQuery(token, title, description, is_active) {
  * @param {is_active} is_active
  * @returns
  */
-async function pageUpdateQuery(token, id, r_title, r_description, is_active) {
+async function pageUpdateQuery(
+  token,
+  id,
+  r_title,
+  r_description,
+  delete_status
+) {
   try {
     const uid = await isTokenQuery(token);
     const pageInfo = await equalToQuery(Page, ["objectId"], [id], true);
@@ -102,7 +108,7 @@ async function pageUpdateQuery(token, id, r_title, r_description, is_active) {
     pageInstance.set("objectId", objectId);
     pageInstance.set("title", r_title);
     pageInstance.set("description", r_description);
-    pageInstance.set("is_active", is_active);
+    pageInstance.set("delete_status", delete_status);
     await pageInstance.save();
     successCode.data.message = "페이지 수정이 완료되었습니다";
     return successCode;

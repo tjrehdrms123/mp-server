@@ -31,9 +31,9 @@ async function pageListAllController(req, res, next) {
 }
 async function pageCreateController(req, res, next) {
   try {
-    const { title, description, is_active } = req.body;
+    const { title, description } = req.body;
     const token = refreshTokenValidation(req);
-    const result = await pageCreateQuery(token, title, description, is_active);
+    const result = await pageCreateQuery(token, title, description);
     next(result);
   } catch (error) {
     errorCode.data.message = error.message;
@@ -41,6 +41,24 @@ async function pageCreateController(req, res, next) {
   }
 }
 async function pageUpdateController(req, res, next) {
+  try {
+    const id = req.params.id;
+    const { title, description, delete_status } = req.body;
+    const token = refreshTokenValidation(req);
+    const result = await pageUpdateQuery(
+      token,
+      id,
+      title,
+      description,
+      delete_status
+    );
+    next(result);
+  } catch (error) {
+    errorCode.data.message = error.message;
+    return errorCode;
+  }
+}
+async function pageDeleteController(req, res, next) {
   try {
     const id = req.params.id;
     const { title, description, is_active } = req.body;
@@ -58,7 +76,6 @@ async function pageUpdateController(req, res, next) {
     return errorCode;
   }
 }
-async function pageDeleteController(req, res, next) {}
 module.exports = {
   pageListController,
   pageListAllController,
