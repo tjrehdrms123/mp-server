@@ -33,22 +33,16 @@ async function equalToQuery(instance, key, value, type = false) {
     let userequaltoQry = {};
     let userInfo = [];
     let userInfoJson = [];
+    for (let i = 0; i < value.length; i++) {
+      userQry.push(new Parse.Query(instance));
+      userQry[i]?.equalTo(key[i], value[i]);
+      userequaltoQry = await userQry[i]?.first();
+      userInfoJson.push(userequaltoQry);
+      userInfo.push(userequaltoQry?.toJSON());
+    }
     if (type) {
-      for (let i = 0; i < value.length; i++) {
-        userQry.push(new Parse.Query(instance));
-        userQry[i]?.equalTo(key[i], value[i]);
-        userequaltoQry = await userQry[i]?.first();
-        userInfoJson.push(userequaltoQry);
-        userInfo.push(usereqaltoQry?.toJSON());
-      }
-      return [userInfo, userInfoJson];
+      return [userInfoJson, userInfo];
     } else {
-      for (let i = 0; i < value.length; i++) {
-        userQry.push(new Parse.Query(instance));
-        userQry[i]?.equalTo(key[i], value[i]);
-        userequaltoQry = await userQry[i]?.first();
-        userInfo.push(userequaltoQry?.toJSON());
-      }
       return userInfo;
     }
   } catch (error) {

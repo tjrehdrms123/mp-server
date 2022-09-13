@@ -76,24 +76,34 @@ async function pageCreateQuery(token, title, description, is_active) {
     return errorCode;
   }
 }
-// 페이지 업데이트
-async function pageUpdateQuery(token, id, title, description, is_active) {
+/**
+ * @description 페이지 업데이트 API
+ * @param {jsontoken} token
+ * @param {objectId} id
+ * @param {request_title} r_title
+ * @param {request_description} r_description
+ * @param {is_active} is_active
+ * @returns
+ */
+async function pageUpdateQuery(token, id, r_title, r_description, is_active) {
   try {
     const uid = await isTokenQuery(token);
-    const pageInfo = await equalToQuery(Page, ["objectId"], [id]);
+    const pageInfo = await equalToQuery(Page, ["objectId"], [id], true);
+    const { title, description, objectId } = pageInfo[1][0];
+    const pageInstance = pageInfo[0][0];
     if (!title || !description) {
       requestErrorCode.data.message = "데이터가 없습니다";
       return requestErrorCode;
     }
-    if (!pageInfo[0]) {
+    if (!objectId) {
       requestErrorCode.data.message = "존재하지 않는 페이지 입니다";
       return requestErrorCode;
     }
-    pageInfo.set("objectId", pageInfo[0].objectId);
-    pageInfo.set("title", title);
-    pageInfo.set("description", description);
-    pageInfo.set("is_active", is_active);
-    await pageInfo.save();
+    pageInstance.set("objectId", objectId);
+    pageInstance.set("title", r_title);
+    pageInstance.set("description", r_description);
+    pageInstance.set("is_active", is_active);
+    await pageInstance.save();
     successCode.data.message = "페이지 수정이 완료되었습니다";
     return successCode;
   } catch (error) {
