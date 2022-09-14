@@ -21,7 +21,11 @@ const Page = Parse.Object.extend("page");
 // 페이지 조회
 async function pageListQuery(token, id) {
   try {
-    await isTokenQuery(token);
+    const uid = await isTokenQuery(token);
+    if (!uid) {
+      requestErrorCode.data.message = "토큰 에러 입니다";
+      return requestErrorCode;
+    }
     const pageInfo = await equalToQuery(Page, ["objectId"], [id]);
     if (!pageInfo[0]) {
       requestErrorCode.data.message = "존재하지 않는 페이지 입니다";
@@ -37,7 +41,11 @@ async function pageListQuery(token, id) {
 // 페이지 전체 조회
 async function pageListAllQuery(token, id) {
   try {
-    await isTokenQuery(token);
+    const uid = await isTokenQuery(token);
+    if (!uid) {
+      requestErrorCode.data.message = "토큰 에러 입니다";
+      return requestErrorCode;
+    }
     const query = new Parse.Query(Page);
     const value = await query.find();
     const pageInfo = [];

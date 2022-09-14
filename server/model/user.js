@@ -245,7 +245,11 @@ async function isTokenQuery(token) {
       requestErrorCode.data.message = "옳바르지 않은 토큰 입니다";
       return requestErrorCode;
     }
-    return userInfo[0].objectId;
+    if (userInfo[0].objectId) {
+      return userInfo[0].objectId;
+    } else {
+      return false;
+    }
   } catch (error) {
     console.log(error);
     errorCode.data.message = error.message;
