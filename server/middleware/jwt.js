@@ -1,6 +1,6 @@
 require("dotenv").config();
 const { sign, verify } = require("jsonwebtoken");
-const { errorCode } = require("../res_code/code");
+const { errorCode, requestErrorCode } = require("../res_code/code");
 
 /**
  * @description accessToken을 생성하는 함수
@@ -37,6 +37,10 @@ function generateRefreshToken(data) {
  */
 function tokenValidation(req, res, next) {
   try {
+    if (!req?.headers?.authorization) {
+      requestErrorCode.data.message = "authorization가 없습니다";
+      return requestErrorCode;
+    }
     const authorization = req?.headers?.authorization;
     if (!authorization) {
       return accessInvalidToken;
@@ -58,6 +62,10 @@ function tokenValidation(req, res, next) {
  */
 function refreshTokenValidation(req, res, next) {
   try {
+    if (req?.cookies?.refreshToken?.data?.refreshToken) {
+      requestErrorCode.data.message = "refreshToken가 없습니다";
+      return requestErrorCode;
+    }
     const refreshToken = req.cookies.refreshToken.data.refreshToken;
     if (!refreshToken) {
       return refreshInvalidToken;

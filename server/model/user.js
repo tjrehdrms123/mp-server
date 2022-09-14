@@ -237,11 +237,11 @@ async function signUpPassportQuery(uid, name, email, auth_type, passwordHash) {
 
 async function isTokenQuery(token) {
   try {
-    const userInfo = await equalToQuery(User, ["uid"], [token.uid]);
-    if (!token) {
+    if (!token || !token.uid) {
       requestErrorCode.data.message = "토큰이 없습니다";
       return requestErrorCode;
     }
+    const userInfo = await equalToQuery(User, ["uid"], [token.uid]);
     if (
       token.uid != userInfo[0].uid ||
       token.password != userInfo[0].password

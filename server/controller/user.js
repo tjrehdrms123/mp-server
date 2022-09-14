@@ -53,7 +53,7 @@ passport.use(
           String(profile.id),
           String(profile.id),
           profile._json.email,
-          1,
+          2,
           passwordHash
         );
       } catch (err) {
