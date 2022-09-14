@@ -20,9 +20,13 @@ async function pageListController(req, res, next) {
     return errorCode;
   }
 }
+
 async function pageListAllController(req, res, next) {
   try {
     const token = refreshTokenValidation(req);
+    if (token.status === (400 || 500)) {
+      return next(token);
+    }
     const result = await pageListAllQuery(token);
     next(result);
   } catch (error) {

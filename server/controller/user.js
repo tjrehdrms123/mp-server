@@ -69,7 +69,8 @@ passport.use(
 
 // serializeUser, deserializeUser
 passport.serializeUser(function (user, done) {
-  done(null, user);
+  // router의 req.login 요청이 들어오면 실행된다 필요한 부분만 메모리에 저장하도록함. (여기에서는 id)
+  done(null, user.id);
 });
 
 passport.deserializeUser(function (user, done) {

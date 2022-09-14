@@ -62,7 +62,7 @@ function tokenValidation(req, res, next) {
  */
 function refreshTokenValidation(req, res, next) {
   try {
-    if (req?.cookies?.refreshToken?.data?.refreshToken) {
+    if (!req?.cookies?.refreshToken?.data?.refreshToken) {
       requestErrorCode.data.message = "refreshToken가 없습니다";
       return requestErrorCode;
     }

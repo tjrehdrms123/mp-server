@@ -208,10 +208,6 @@ async function signUpPassportQuery(uid, name, email, auth_type, passwordHash) {
   try {
     const userInfo = await equalToQuery(User, ["uid"], [uid]);
     const provider = auth_type === 1 ? "kakao" : "google";
-    if (userInfo[0]?.uid === uid) {
-      idDuplicate.data.uid = uid;
-      return idDuplicate;
-    }
     const user = new User();
     user.set("uid", uid);
     user.set("name", name);
