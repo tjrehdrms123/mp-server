@@ -1,12 +1,12 @@
 const { emailAuthQuery } = require("../model/auth");
 const { hash } = require("../middleware/common");
-const { emailFirstUserQuery } = require("../model/user");
+const { isUserQuery } = require("../model/user");
 
 // 이메일 인증 컨트롤러
 async function emailAuthController(req, res, next) {
   try {
     const { email } = req.body;
-    const userInfo = await emailFirstUserQuery(email);
+    const userInfo = await isUserQuery(["email"], [email]);
     const emailCodeAuthHash = hash(userInfo?.uid + email);
     const result = await emailAuthQuery(
       userInfo?.objectId,

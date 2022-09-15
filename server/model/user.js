@@ -193,7 +193,7 @@ async function loginQuery(
   }
 }
 
-async function emailFirstUserQuery(email) {
+async function isUserQuery(key,value) {
   try {
     const userInfo = await equalToQuery(User, ["email"], [email]);
     return userInfo[0];
@@ -260,7 +260,7 @@ async function isTokenQuery(token) {
 module.exports = {
   signUpQuery,
   loginQuery,
-  emailFirstUserQuery,
+  isUserQuery,
   signUpPassportQuery,
   isTokenQuery,
 };
