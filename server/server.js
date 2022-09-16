@@ -73,6 +73,7 @@ const parseServer = new ParseServer({
 });
 
 const ParseDashboard = require("parse-dashboard");
+const passport = require("passport");
 const dashboard = new ParseDashboard(
   {
     // 배열로 해야 함.
@@ -108,6 +109,9 @@ app.use(
     },
   })
 );
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use("/", routes);
 app.get("/", (req, res) => {

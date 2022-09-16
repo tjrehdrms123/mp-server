@@ -4,6 +4,7 @@ const {
   successCode,
   // 그외
   errorCode,
+  requestErrorCode,
 } = require("../res_code/code");
 const { mailer } = require("../middleware/mailer");
 const { equalToQuery } = require("../middleware/common");
@@ -21,6 +22,10 @@ const Auth = Parse.Object.extend("auth");
 // 유저 회원가입
 async function emailAuthQuery(uid, emailCodeAuthHash, email) {
   try {
+    if (!email){
+      requestErrorCode.data.message = "잘못된 요청 입니다";
+      return requestErrorCode;
+    }
     const userInfo = await equalToQuery(Auth, ["auth_id"], [uid]);
     if (userInfo[0]?.uid) {
       /*

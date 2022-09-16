@@ -47,7 +47,6 @@ passport.use(
     async function (accessToken, refreshToken, profile, cb) {
       let result;
       const passwordHash = hash(String(profile.id) + profile.provider);
-      console.log("profile : ", profile);
       try {
         result = await signUpPassportQuery(
           String(profile.id),
@@ -70,11 +69,20 @@ passport.use(
 // serializeUser, deserializeUser
 passport.serializeUser(function (user, done) {
   // router의 req.login 요청이 들어오면 실행된다 필요한 부분만 메모리에 저장하도록함. (여기에서는 id)
-  done(null, user.id);
+  try{
+    done(null, user.id);
+  } catch(err){
+    console.log('err : ',err.message);
+  }
 });
 
 passport.deserializeUser(function (user, done) {
-  done(null, user);
+  console.log('A');
+  try{
+    done(null, user);
+  } catch(err){
+    console.log('err : ',err.message);
+  }
 });
 
 // 회원가입 컨트롤러

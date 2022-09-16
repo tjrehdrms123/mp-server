@@ -21,6 +21,10 @@ const Page = Parse.Object.extend("page");
 // 페이지 조회
 async function pageListQuery(token, id) {
   try {
+    if (!token || !id){
+      requestErrorCode.data.message = "잘못된 요청 입니다";
+      return requestErrorCode;
+    }
     const uid = await isTokenQuery(token);
     if (!uid) {
       requestErrorCode.data.message = "토큰 에러 입니다";
@@ -41,6 +45,10 @@ async function pageListQuery(token, id) {
 // 페이지 전체 조회
 async function pageListAllQuery(token, id) {
   try {
+    if (!token){
+      requestErrorCode.data.message = "잘못된 요청 입니다";
+      return requestErrorCode;
+    }
     const uid = await isTokenQuery(token);
     if (!uid) {
       requestErrorCode.data.message = "토큰 에러 입니다";
@@ -62,6 +70,10 @@ async function pageListAllQuery(token, id) {
 // 페이지 생성
 async function pageCreateQuery(token, title, description) {
   try {
+    if (!token){
+      requestErrorCode.data.message = "잘못된 요청 입니다";
+      return requestErrorCode;
+    }
     const uid = await isTokenQuery(token);
     if (!title || !description) {
       requestErrorCode.data.message = "데이터가 없습니다";
@@ -101,6 +113,10 @@ async function pageUpdateQuery(
   delete_status
 ) {
   try {
+    if (!id || !token){
+      requestErrorCode.data.message = "잘못된 요청 입니다";
+      return requestErrorCode;
+    }
     await isTokenQuery(token);
     const pageInfo = await equalToQuery(Page, ["objectId"], [id], true);
     const { title, description, objectId } = pageInfo[1][0];
@@ -128,6 +144,10 @@ async function pageUpdateQuery(
 // 페이지 삭제
 async function pageDeleteQuery(token, id) {
   try {
+    if (!id || !token){
+      requestErrorCode.data.message = "잘못된 요청 입니다";
+      return requestErrorCode;
+    }
     await isTokenQuery(token);
     const pageInfo = await equalToQuery(Page, ["objectId"], [id], true);
     const pageInstance = pageInfo[0][0];

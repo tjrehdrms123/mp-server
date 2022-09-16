@@ -34,8 +34,11 @@ async function signUpQuery(
   auth_type
 ) {
   try {
+    if (!uid || !email){
+      requestErrorCode.data.message = "잘못된 요청 입니다";
+      return requestErrorCode;
+    }
     const userInfo = await equalToQuery(User, ["uid", "email"], [uid, email]);
-
     if (userInfo[0]?.uid != null) {
       requestErrorCode.data.message = "아이디를 입력해주세요";
       requestErrorCode.data.uid = uid;
@@ -79,6 +82,10 @@ async function loginQuery(
 ) {
   // 자체 로그인
   try {
+    if (!uid){
+      requestErrorCode.data.message = "잘못된 요청 입니다";
+      return requestErrorCode;
+    }
     const userInfo = await equalToQuery(User, ["uid"], [uid]);
     if (auth_type === 0) {
       if (!uid) {
@@ -195,6 +202,10 @@ async function loginQuery(
 
 async function isUserQuery(key,value) {
   try {
+    if (!email){
+      requestErrorCode.data.message = "잘못된 요청 입니다";
+      return requestErrorCode;
+    }
     const userInfo = await equalToQuery(User, ["email"], [email]);
     return userInfo[0];
   } catch (error) {
@@ -206,6 +217,10 @@ async function isUserQuery(key,value) {
 // passport
 async function signUpPassportQuery(uid, name, email, auth_type, passwordHash) {
   try {
+    if (!uid){
+      requestErrorCode.data.message = "잘못된 요청 입니다";
+      return requestErrorCode;
+    }
     const userInfo = await equalToQuery(User, ["uid"], [uid]);
     const provider = auth_type === 1 ? "kakao" : "google";
     const user = new User();
