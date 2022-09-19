@@ -53,14 +53,14 @@ const passport = require("passport");
  */
 
 router.post("/signup", signUpController);
-router.get("/kakao", passportKakao);
-router.get("/kakao/secrets", passportKakaoCallBack, (req, res) => {
-  res.redirect("/");
-});
-router.get("/google", passportGoogle);
-router.get("/google/secrets", passportGoogleCallBack, (req, res) => {
-  res.redirect("/");
-});
+// router.get("/kakao", passportKakao);
+// router.get("/kakao/secrets", passportKakaoCallBack, (req, res) => {
+//   res.redirect("/");
+// });
+// router.get("/google", passportGoogle);
+// router.get("/google/secrets", passportGoogleCallBack, (req, res) => {
+//   res.redirect("/");
+// });
 router.post("/login", loginController);
 
 module.exports = router;
