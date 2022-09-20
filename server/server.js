@@ -15,7 +15,9 @@ const session = require("express-session");
 
 const app = express();
 
-app.use(express.static("public"));
+app.use(express.static('public'));
+app.use('/leeheeseung', express.static(__dirname + '/public/leeheeseung.html'));
+
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 app.use(
