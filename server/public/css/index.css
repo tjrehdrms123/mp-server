@@ -73,6 +73,14 @@
   font-size: 1.2rem;
 }
 
+/* form */
+.submit_box{
+  text-align: center;
+}
+.submit_box label{
+  display: block;
+}
+
 /* mobile */
 @media screen and (max-width: 768px) {
   #container > .main > .header > .top_box > .logo {

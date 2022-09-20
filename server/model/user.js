@@ -39,8 +39,8 @@ async function signUpQuery(
       return requestErrorCode;
     }
     const userInfo = await equalToQuery(User, ["uid", "email"], [uid, email]);
-    if (userInfo[0]?.uid != null) {
-      requestErrorCode.data.message = "아이디를 입력해주세요";
+    if (userInfo[0]?.uid === uid) {
+      requestErrorCode.data.message = "아이디가 이미 존재 합니다";
       requestErrorCode.data.uid = uid;
       return requestErrorCode;
     }
@@ -124,18 +124,18 @@ async function loginQuery(
           loginToken.data.httpOnly = true;
           return [successTokenCode, loginToken];
         } else {
-          requesterrorCode.data.message = "해당 정보를 찾을 수 없습니다";
+          requestErrorCode.data.message = "해당 정보를 찾을 수 없습니다";
           return requestErrorCode;
         }
       }
     } else if (auth_type === 1 || auth_type === 2) {
       // Kakao 로그인
       if (!uid) {
-        requesterrorCode.data.message = "아이디를 찾을 수 없습니다";
+        requestErrorCode.data.message = "아이디를 찾을 수 없습니다";
         return requestErrorCode;
       }
       if (!password) {
-        requesterrorCode.data.message = "패스워드를 찾을 수 없습니다";
+        requestErrorCode.data.message = "패스워드를 찾을 수 없습니다";
         return requestErrorCode;
       }
       if (uid && password) {
@@ -159,7 +159,7 @@ async function loginQuery(
           loginToken.data.httpOnly = true;
           return [successTokenCode, loginToken];
         } else {
-          requesterrorCode.data.message = "해당 정보를 찾을 수 없습니다";
+          requestErrorCode.data.message = "해당 정보를 찾을 수 없습니다";
           return requestErrorCode;
         }
       }
@@ -186,12 +186,12 @@ async function loginQuery(
           loginToken.data.httpOnly = true;
           return [successTokenCode, loginToken];
         } else {
-          requesterrorCode.data.message = "해당 정보를 찾을 수 없습니다";
+          requestErrorCode.data.message = "해당 정보를 찾을 수 없습니다";
           return requestErrorCode;
         }
       }
     } else if (!auth_type) {
-      requesterrorCode.data.message = "인증 타입을 찾을 수 없습니다";
+      requestErrorCode.data.message = "인증 타입을 찾을 수 없습니다";
       return requestErrorCode;
     }
   } catch (error) {
@@ -200,13 +200,13 @@ async function loginQuery(
   }
 }
 
-async function isUserQuery(key,value) {
+async function isUserQuery(value) {
   try {
-    if (!email){
+    if (!value){
       requestErrorCode.data.message = "잘못된 요청 입니다";
       return requestErrorCode;
     }
-    const userInfo = await equalToQuery(User, ["email"], [email]);
+    const userInfo = await equalToQuery(User, ["email"], [value]);
     return userInfo[0];
   } catch (error) {
     errorCode.data.message = error.message;
