@@ -41,33 +41,33 @@ app.use(
 );
 app.use(cookieParser());
 
-const s3Adapter = new S3Adapter(
-  process.env.S3ACCESSKEY,
-  process.env.S3SECERTKEY,
-  process.env.S3BUCKET,
-  {
-    region: process.env.S3REGION,
-    bucketPrefix: "",
-    directAccess: true,
-    baseUrl: process.env.S3BASEURL,
-    signatureVersion: process.env.S3SIGNATUREVERSION,
-    globalCacheControl: "public, max-age=86400", // 24 hrs Cache-Control.
-    validateFilename: (filename) => {
-      if (filename.length > 1024) {
-        return "Filename too long.";
-      }
-      return null; // Return null on success
-    },
-    generateKey: (filename) => {
-      return filename; // unique prefix for every filename
-    },
-  }
-);
+// const s3Adapter = new S3Adapter(
+//   process.env.S3ACCESSKEY,
+//   process.env.S3SECERTKEY,
+//   process.env.S3BUCKET,
+//   {
+//     region: process.env.S3REGION,
+//     bucketPrefix: "",
+//     directAccess: true,
+//     baseUrl: process.env.S3BASEURL,
+//     signatureVersion: process.env.S3SIGNATUREVERSION,
+//     globalCacheControl: "public, max-age=86400", // 24 hrs Cache-Control.
+//     validateFilename: (filename) => {
+//       if (filename.length > 1024) {
+//         return "Filename too long.";
+//       }
+//       return null; // Return null on success
+//     },
+//     generateKey: (filename) => {
+//       return filename; // unique prefix for every filename
+//     },
+//   }
+// );
 
 const parseServer = new ParseServer({
   publicServerURL: process.env.PARSESERVERURL,
-  // filesAdapter: fsAdapter,
-  filesAdapter: s3Adapter,
+  filesAdapter: fsAdapter,
+  //filesAdapter: s3Adapter,
   databaseURI: process.env.DATABASEURI,
   appId: process.env.PARSEAPPID,
   masterKey: process.env.PARSEMASTERKEY,
