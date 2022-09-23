@@ -5,9 +5,10 @@ const {
   // 그외
   errorCode,
   requestErrorCode,
+  successPageCode,
 } = require("../res_code/code");
 
-Parse.initialize(
+Parse.initialize( 
   process.env.PARSEAPPID,
   process.env.PARSEJAVASCRIPTKEY,
   process.env.PARSEMASTERKEY
@@ -18,21 +19,18 @@ Parse.User.enableUnsafeCurrentUser();
 const Test = Parse.Object.extend("page");
 
 async function testQuery(req) {
-  console.log('req: ',req.body.represent_images);
-  let file = [];
   try {
-      for (let i = 0; i < req.body.represent_images.length; i++) {
-          const represent = new Parse.File("image.png", {base64: req.body.represent_images[i]});
-          file.push(represent);
-    }
+      //for (let i = 0; i < req.body.represent_images.length; i++) {
+        //}
+    const file = new Parse.File("image.png", {base64: req.body.profile});
     const test = new Test();
+    test.set("proflie", file);
     test.set("title", 'title');
     test.set("description", 'description');
-    test.set("profile", file);
     test.set("delete_status", false);
     await test.save();
     successPageCode.data = "페이지 등록이 완료되었습니다";
-    return successCode;
+    return successPageCode;
   } catch (error) {
     errorCode.data.message = error.message;
     return errorCode;
