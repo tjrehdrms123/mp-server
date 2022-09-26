@@ -68,26 +68,39 @@ async function pageListAllQuery(token, id) {
   }
 }
 // 페이지 생성
-async function pageCreateQuery(token, title, description) {
+async function pageCreateQuery(token, title, description, nickname, job, history, profile, contact, kakaoLink, facebookLink, instaLink) {
   try {
     if (!token){
       requestErrorCode.data.message = "잘못된 요청 입니다";
       return requestErrorCode;
     }
     const uid = await isTokenQuery(token);
-    if (!title || !description) {
+    if (!title||!description) {
       requestErrorCode.data.message = "데이터가 없습니다";
       return requestErrorCode;
     }
+    if(!profile){
+      requestErrorCode.data.message = "프로필 이미지가 없습니다";
+      return requestErrorCode;
+    }
+    const profileImg = new Parse.File("image.png", {base64: profile});
     const page = new Page();
     page.set("title", title);
     page.set("description", description);
+    page.set("nickname", nickname);
+    page.set("job", job);
+    page.set("history", history);
+    page.set("profile", profileImg);
+    page.set("contact", contact);
+    page.set("kakao_link", kakaoLink);
+    page.set("facebook_link", facebookLink);
+    page.set("insta_lnik", instaLink);
     page.set("delete_status", false);
-    page.set("auth_id", {
-      __type: "Pointer",
-      className: "user",
-      objectId: uid,
-    });
+    // page.set("auth_id", {
+    //   __type: "Pointer",
+    //   className: "user",
+    //   objectId: uid,
+    // });
     await page.save();
     successCode.data.message = "페이지 등록이 완료되었습니다";
     return successCode;
