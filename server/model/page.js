@@ -70,9 +70,10 @@ async function pageListAllQuery(token, id) {
 // 페이지 생성
 async function pageCreateQuery(token, title, description, nickname, job, history, profile, contact, kakaoLink, facebookLink, instaLink) {
   try {
-    if (!token){
-      requestErrorCode.data.message = "잘못된 요청 입니다";
-      return requestErrorCode;
+    if (true){
+      return token;
+      // equestErrorCode.data.message = "잘못된 요청 입니다";
+      // return requestErrorCode;
     }
     const uid = await isTokenQuery(token);
     if (!title||!description) {

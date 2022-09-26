@@ -37,6 +37,20 @@ async function testQuery(req) {
   }
 }
 
+async function testTokenQuery(token, req) {
+  try{
+    if (!token){
+      requestErrorCode.data.message = "잘못된 요청 입니다";
+      console.log(token);
+      return requestErrorCode;
+    }
+  } catch (error) {
+    errorCode.data.message = error.message;
+    return errorCode;
+  }
+}
+
 module.exports = {
   testQuery, // 이메일 인증 쿼리
+  testTokenQuery,
 };

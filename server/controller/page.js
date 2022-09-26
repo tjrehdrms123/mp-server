@@ -1,5 +1,5 @@
 const { trsformNumber } = require("../middleware/common");
-const { refreshTokenValidation } = require("../middleware/jwt");
+const { tokenValidation } = require("../middleware/jwt");
 const {
   pageCreateQuery,
   pageListQuery,
@@ -12,7 +12,7 @@ const { errorCode } = require("../res_code/code");
 async function pageListController(req, res, next) {
   try {
     const id = req.params.id;
-    const token = refreshTokenValidation(req);
+    const token = tokenValidation(req);
     const result = await pageListQuery(token, id);
     next(result);
   } catch (error) {
@@ -23,7 +23,7 @@ async function pageListController(req, res, next) {
 
 async function pageListAllController(req, res, next) {
   try {
-    const token = refreshTokenValidation(req);
+    const token = tokenValidation(req);
     if (token.status === (400 || 500)) {
       return next(token);
     }
@@ -37,7 +37,7 @@ async function pageListAllController(req, res, next) {
 async function pageCreateController(req, res, next) {
   try {
     const { title, description, nickname, job, history, contact, kakao_link, facebook_link, insta_link, profile } = req.body;
-    const token = refreshTokenValidation(req);
+    const token = tokenValidation(req);
     const result = await pageCreateQuery(token, title, description, nickname, job, history, profile, contact, kakao_link, facebook_link, insta_link);
     next(result);
   } catch (error) {
@@ -49,7 +49,7 @@ async function pageUpdateController(req, res, next) {
   try {
     const id = req.params.id;
     const { title, description, delete_status } = req.body;
-    const token = refreshTokenValidation(req);
+    const token = tokenValidation(req);
     const result = await pageUpdateQuery(
       token,
       id,
@@ -66,7 +66,7 @@ async function pageUpdateController(req, res, next) {
 async function pageDeleteController(req, res, next) {
   try {
     const id = req.params.id;
-    const token = refreshTokenValidation(req);
+    const token = tokenValidation(req);
     const result = await pageDeleteQuery(token, id);
     next(result);
   } catch (error) {
