@@ -118,11 +118,10 @@ async function loginQuery(
           successTokenCode.data.type = "cookie";
           successTokenCode.data.accessToken = accessToken;
           successTokenCode.data.refreshToken = refreshToken;
-          loginToken.data.refreshToken = refreshToken;
-          loginToken.data.sameSite = "none";
-          loginToken.data.secure = true;
-          loginToken.data.httpOnly = true;
-          return [successTokenCode, loginToken];
+          successTokenCode.data.sameSite = "none";
+          successTokenCode.data.secure = true;
+          successTokenCode.data.httpOnly = true;
+          return successTokenCode;
         } else {
           requestErrorCode.data.message = "해당 정보를 찾을 수 없습니다";
           return requestErrorCode;
@@ -153,11 +152,10 @@ async function loginQuery(
           successTokenCode.data.type = "cookie";
           successTokenCode.data.refreshToken = refreshToken;
           successTokenCode.data.message = "로그인이 완료되었습니다";
-          loginToken.data.refreshToken = refreshToken;
-          loginToken.data.sameSite = "none";
-          loginToken.data.secure = true;
-          loginToken.data.httpOnly = true;
-          return [successTokenCode, loginToken];
+          successTokenCode.data.sameSite = "none";
+          successTokenCode.data.secure = true;
+          successTokenCode.data.httpOnly = true;
+          return successTokenCode;
         } else {
           requestErrorCode.data.message = "해당 정보를 찾을 수 없습니다";
           return requestErrorCode;
@@ -180,11 +178,10 @@ async function loginQuery(
           successTokenCode.data.type = "cookie";
           successTokenCode.data.refreshToken = refreshToken;
           successTokenCode.data.message = "새로운 토큰이 발급 되었습니다";
-          loginToken.data.refreshToken = refreshToken;
-          loginToken.data.sameSite = "none";
-          loginToken.data.secure = true;
-          loginToken.data.httpOnly = true;
-          return [successTokenCode, loginToken];
+          successTokenCode.data.sameSite = "none";
+          successTokenCode.data.secure = true;
+          successTokenCode.data.httpOnly = true;
+          return successTokenCode;
         } else {
           requestErrorCode.data.message = "해당 정보를 찾을 수 없습니다";
           return requestErrorCode;

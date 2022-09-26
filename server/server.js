@@ -111,9 +111,9 @@ app.use((req, res) => {
 
 // 응답 미들웨어
 app.use((result, req, res, next) => {
-  if (result[0]?.data?.type === "cookie") {
-    // [loginSuccess, loginToken]
-    return res.status(200).cookie("refreshToken", result[1]).send(result[0]);
+  console.log(result);
+  if (result?.data?.type === "cookie") {
+    return res.status(200).cookie("refreshToken", result.data.refreshToken).cookie("accessToken", result.data.accessToken).send(result);
   } else if (result.status === 200) {
     return res.status(200).send(result);
   }

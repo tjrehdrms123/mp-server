@@ -6,7 +6,7 @@ const loginAPI = "http://localhost:3601/user/login"; // 로그인
 // Redirect
 const authEmailUrl = "http://localhost:3601/leeheeseung/email"; // 이메일 인증
 const loginUrl = "http://localhost:3601/leeheeseung/login"; // 로그인
-const adminUrl = "http://localhost:3601/leeheeseung/admin"; // 관리자
+const adminUrl = "http://localhost:3601/leeheeseung/email"; // 관리자
 
 const signupBtn = document.querySelector('.signup_submit');
 const emailBtn = document.querySelector('.email_submit');

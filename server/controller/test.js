@@ -1,4 +1,4 @@
-const { refreshTokenValidation } = require("../middleware/jwt");
+const { refreshTokenValidation, tokenValidation } = require("../middleware/jwt");
 const { testQuery } = require("../model/test");
 const { errorCode } = require("../res_code/code");
 
@@ -17,8 +17,7 @@ async function testController(req, res, next) {
 
 async function testTokenController(req, res, next){
   try{
-    const token = refreshTokenValidation(req);
-    console.log(req.cookies.refreshToken);
+    // const token = tokenValidation(req);
   } catch (error) {
     errorCode.data.message = error.message;
     return errorCode;

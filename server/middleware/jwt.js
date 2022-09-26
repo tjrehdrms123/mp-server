@@ -37,16 +37,16 @@ function generateRefreshToken(data) {
  */
 function tokenValidation(req, res, next) {
   try {
-    console.log(req.headers);
-    if (!req?.headers?.authorization) {
-      requestErrorCode.data.message = "authorization가 없습니다";
+    console.log(req.cookies);
+    if (!req?.cookies?.accessToken) {
+      requestErrorCode.data.message = "accessToken가 없습니다";
       return requestErrorCode;
     }
-    const authorization = req?.headers?.authorization;
-    if (!authorization) {
+    const accessToken = req.cookies.accessToken;
+    if (!accessToken) {
       return accessInvalidToken;
     }
-    const payload = authorization.split(" ")[1];
+    const payload = accessToken.split(" ")[1];
     const data = verify(payload, process.env.ACCESS_SECRET);
     return data;
   } catch (error) {
@@ -63,11 +63,11 @@ function tokenValidation(req, res, next) {
  */
 function refreshTokenValidation(req, res, next) {
   try {
-    if (!req?.cookies?.refreshToken?.data?.refreshToken) {
+    if (!req?.cookies?.refreshToken) {
       requestErrorCode.data.message = "refreshToken가 없습니다";
       return requestErrorCode;
     }
-    const refreshToken = req.cookies.refreshToken.data.refreshToken;
+    const refreshToken = req.cookies.refreshToken;
     if (!refreshToken) {
       return refreshInvalidToken;
     }
