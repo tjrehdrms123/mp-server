@@ -21,8 +21,12 @@ const Page = Parse.Object.extend("page");
 // 페이지 조회
 async function pageListQuery(token, id) {
   try {
-    if (!token || !id){
-      requestErrorCode.data.message = "잘못된 요청 입니다";
+    if (token.status === 400){
+      requestErrorCode.data.message = token.data.message;
+      return requestErrorCode;
+    }
+    if(!id){
+      requestErrorCode.data.message = "id값이 없습니다";
       return requestErrorCode;
     }
     const uid = await isTokenQuery(token);
@@ -45,8 +49,8 @@ async function pageListQuery(token, id) {
 // 페이지 전체 조회
 async function pageListAllQuery(token, id) {
   try {
-    if (!token){
-      requestErrorCode.data.message = "잘못된 요청 입니다";
+    if (token.status === 400){
+      requestErrorCode.data.message = token.data.message;
       return requestErrorCode;
     }
     const uid = await isTokenQuery(token);
@@ -70,10 +74,9 @@ async function pageListAllQuery(token, id) {
 // 페이지 생성
 async function pageCreateQuery(token, title, description, nickname, job, history, profile, contact, kakaoLink, facebookLink, instaLink) {
   try {
-    if (true){
-      return token;
-      // equestErrorCode.data.message = "잘못된 요청 입니다";
-      // return requestErrorCode;
+    if (token.status === 400){
+      requestErrorCode.data.message = token.data.message;
+      return requestErrorCode;
     }
     const uid = await isTokenQuery(token);
     if (!title||!description) {
@@ -127,8 +130,12 @@ async function pageUpdateQuery(
   delete_status
 ) {
   try {
-    if (!id || !token){
-      requestErrorCode.data.message = "잘못된 요청 입니다";
+    if (token.status === 400){
+      requestErrorCode.data.message = token.data.message;
+      return requestErrorCode;
+    }
+    if(!id){
+      requestErrorCode.data.message = "id값이 없습니다";
       return requestErrorCode;
     }
     await isTokenQuery(token);
@@ -158,8 +165,12 @@ async function pageUpdateQuery(
 // 페이지 삭제
 async function pageDeleteQuery(token, id) {
   try {
-    if (!id || !token){
-      requestErrorCode.data.message = "잘못된 요청 입니다";
+    if (token.status === 400){
+      requestErrorCode.data.message = token.data.message;
+      return requestErrorCode;
+    }
+    if(!id){
+      requestErrorCode.data.message = "id값이 없습니다";
       return requestErrorCode;
     }
     await isTokenQuery(token);
