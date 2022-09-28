@@ -17,6 +17,7 @@ const app = express();
 
 app.use(express.static('public'));
 app.use('/memo', express.static(__dirname + '/public/memo.html'));
+app.use('/memo/write', express.static(__dirname + '/public/memoWrite.html'));
 app.use('/memo/signup', express.static(__dirname + '/public/signup.html'));
 app.use('/memo/email', express.static(__dirname + '/public/email.html'));
 app.use('/memo/login', express.static(__dirname + '/public/login.html'));
