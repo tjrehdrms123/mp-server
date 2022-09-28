@@ -36,6 +36,7 @@ function generateRefreshToken(data) {
  * @returns
  */
 function tokenValidation(req, res, next) {
+  console.log(req.headers);
   try {
     if (!req?.headers?.authorization) {
       requestErrorCode.data.message = "authorization가 없습니다";
