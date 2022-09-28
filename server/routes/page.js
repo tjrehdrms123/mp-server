@@ -61,7 +61,15 @@ router.get("/:id", pageListController);
  *        - in: header
  *          name: authorization
  *          required: true
- *          description : Bearer AccessToken
+ *          description : 
+ *          schema:
+ *              $ref: '#/definitions/UserLogin'
+ *        - in: body
+ *          name: Body
+ *          required: true
+ *          description :
+ *          schema:
+ *              $ref: '#/definitions/PageCreate'
  */
 router.post("", pageCreateController);
 /**
@@ -81,6 +89,12 @@ router.post("", pageCreateController);
  *          name: authorization
  *          required: true
  *          description : Bearer AccessToken
+  *        - in: body
+ *          name: Body
+ *          required: true
+ *          description :
+ *          schema:
+ *              $ref: '#/definitions/PageUpdate'
  */
 router.patch("/:id", pageUpdateController);
 /**

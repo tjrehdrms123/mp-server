@@ -16,10 +16,10 @@ const session = require("express-session");
 const app = express();
 
 app.use(express.static('public'));
-app.use('/leeheeseung', express.static(__dirname + '/public/leeheeseung.html'));
-app.use('/leeheeseung/signup', express.static(__dirname + '/public/signup.html'));
-app.use('/leeheeseung/email', express.static(__dirname + '/public/email.html'));
-app.use('/leeheeseung/login', express.static(__dirname + '/public/login.html'));
+app.use('/memo', express.static(__dirname + '/public/memo.html'));
+app.use('/memo/signup', express.static(__dirname + '/public/signup.html'));
+app.use('/memo/email', express.static(__dirname + '/public/email.html'));
+app.use('/memo/login', express.static(__dirname + '/public/login.html'));
 
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
