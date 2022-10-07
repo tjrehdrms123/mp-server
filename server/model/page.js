@@ -34,7 +34,7 @@ async function pageListQuery(token, id) {
       requestErrorCode.data.message = "토큰 에러 입니다";
       return requestErrorCode;
     }
-    const pageInfo = await equalToQuery(Page, ["objectId"], [id]);
+    const pageInfo = await equalToQuery(Page, ["auth_id"], [id]);
     if (!pageInfo[0]) {
       requestErrorCode.data.message = "존재하지 않는 페이지 입니다";
       return requestErrorCode;
