@@ -49,15 +49,15 @@ async function pageListQuery(token, id) {
 // 페이지 전체 조회
 async function pageListAllQuery(token, id) {
   try {
-    if (token.status === 400){
-      requestErrorCode.data.message = token.data.message;
-      return requestErrorCode;
-    }
-    const uid = await isTokenQuery(token);
-    if (!uid) {
-      requestErrorCode.data.message = "토큰 에러 입니다";
-      return requestErrorCode;
-    }
+    // if (token.status === 400){
+    //   requestErrorCode.data.message = token.data.message;
+    //   return requestErrorCode;
+    // }
+    // const uid = await isTokenQuery(token);
+    // if (!uid) {
+    //   requestErrorCode.data.message = "토큰 에러 입니다";
+    //   return requestErrorCode;
+    // }
     const query = new Parse.Query(Page);
     const value = await query.find();
     const pageInfo = [];
@@ -72,7 +72,7 @@ async function pageListAllQuery(token, id) {
   }
 }
 // 페이지 생성
-async function pageCreateQuery(token, title, description, writer, lat, lng, markerimg) {
+async function pageCreateQuery(token, title, description, writer, lat, lng, auth_id,markerimg) {
   try {
     if (token.status === 400){
       requestErrorCode.data.message = token.data.message;
@@ -96,11 +96,11 @@ async function pageCreateQuery(token, title, description, writer, lat, lng, mark
     page.set("lng", lng);
     page.set("markerimg", markerimgImg);
     page.set("delete_status", false);
-    // page.set("auth_id", {
-    //   __type: "Pointer",
-    //   className: "user",
-    //   objectId: uid,
-    // });
+    page.set("auth_id", {
+      __type: "Pointer",
+      className: "user",
+      objectId: auth_id,
+    });
     await page.save();
     successCode.data.message = "메모 등록이 완료되었습니다";
     return successCode;

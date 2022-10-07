@@ -118,6 +118,7 @@ async function loginQuery(
           successTokenCode.data.type = "cookie";
           successTokenCode.data.accessToken = accessToken;
           successTokenCode.data.refreshToken = refreshToken;
+          successTokenCode.data.objectId = userInfo[0]?.objectId;
           successTokenCode.data.sameSite = "none";
           successTokenCode.data.secure = true;
           successTokenCode.data.httpOnly = true;
