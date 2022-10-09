@@ -29,7 +29,7 @@ async function mailer(toEmail = "", emailCodeAuthHash) {
   let info = await transporter.sendMail({
     from: process.env.MAILERUSER, // sender address
     to: toEmail, // list of receivers
-    subject: "[Mom Page] 회원가입 인증 메일 입니다", // Subject line
+    subject: "[My Map] 회원가입 인증 메일 입니다", // Subject line
     // text: "text", // plain text body
     html: `<p>인증 코드 입니다 : ${emailCodeAuthHash}</p>`, // html body, text보다 우선 순위가 더 높다
   });
