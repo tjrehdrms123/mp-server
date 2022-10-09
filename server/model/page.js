@@ -21,25 +21,23 @@ const Page = Parse.Object.extend("page");
 // 페이지 조회
 async function pageListQuery(token, id) {
   try {
-    if (token.status === 400){
-      requestErrorCode.data.message = token.data.message;
-      return requestErrorCode;
-    }
-    if(!id){
-      requestErrorCode.data.message = "id값이 없습니다";
-      return requestErrorCode;
-    }
-    const uid = await isTokenQuery(token);
-    if (!uid) {
-      requestErrorCode.data.message = "토큰 에러 입니다";
-      return requestErrorCode;
-    }
-    const pageInfo = await equalToQuery(Page, ["auth_id"], [id]);
-    if (!pageInfo[0]) {
-      requestErrorCode.data.message = "존재하지 않는 페이지 입니다";
-      return requestErrorCode;
-    }
-    successPageCode.data = pageInfo[0];
+    // if (token.status === 400){
+    //   requestErrorCode.data.message = token.data.message;
+    //   return requestErrorCode;
+    // }
+    // const uid = await isTokenQuery(token);
+    // if (!uid) {
+    //   requestErrorCode.data.message = "토큰 에러 입니다";
+    //   return requestErrorCode;
+    // }
+    const query = new Parse.Query(Page);
+    query.equalTo("auth_id", id);
+    const value = await query.find();
+    const pageInfo = [];
+    value.map((k, i) => {
+      pageInfo.push(value[i].toJSON());
+    });
+    successPageCode.data = pageInfo;
     return successPageCode;
   } catch (error) {
     errorCode.data.message = error.message;
@@ -72,22 +70,31 @@ async function pageListAllQuery(token, id) {
   }
 }
 // 페이지 생성
-async function pageCreateQuery(token, title, description, writer, lat, lng, auth_id,markerimg) {
+async function pageCreateQuery(
+  token,
+  title,
+  description,
+  writer,
+  lat,
+  lng,
+  auth_id,
+  markerimg
+) {
   try {
-    if (token.status === 400){
+    if (token.status === 400) {
       requestErrorCode.data.message = token.data.message;
       return requestErrorCode;
     }
     const uid = await isTokenQuery(token);
-    if (!title||!description) {
+    if (!title || !description) {
       requestErrorCode.data.message = "데이터가 없습니다";
       return requestErrorCode;
     }
-    if(!markerimg){
+    if (!markerimg) {
       requestErrorCode.data.message = "프로필 이미지가 없습니다";
       return requestErrorCode;
     }
-    const markerimgImg = new Parse.File("image.png", {base64: markerimg});
+    const markerimgImg = new Parse.File("image.png", { base64: markerimg });
     const page = new Page();
     page.set("title", title);
     page.set("description", description);
@@ -126,11 +133,11 @@ async function pageUpdateQuery(
   delete_status
 ) {
   try {
-    if (token.status === 400){
+    if (token.status === 400) {
       requestErrorCode.data.message = token.data.message;
       return requestErrorCode;
     }
-    if(!id){
+    if (!id) {
       requestErrorCode.data.message = "id값이 없습니다";
       return requestErrorCode;
     }
@@ -161,11 +168,11 @@ async function pageUpdateQuery(
 // 페이지 삭제
 async function pageDeleteQuery(token, id) {
   try {
-    if (token.status === 400){
+    if (token.status === 400) {
       requestErrorCode.data.message = token.data.message;
       return requestErrorCode;
     }
-    if(!id){
+    if (!id) {
       requestErrorCode.data.message = "id값이 없습니다";
       return requestErrorCode;
     }

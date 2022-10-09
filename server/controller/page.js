@@ -33,9 +33,19 @@ async function pageListAllController(req, res, next) {
 }
 async function pageCreateController(req, res, next) {
   try {
-    const { title, description, writer, lat, lng, auth_id,markerimg } = req.body;
+    const { title, description, writer, lat, lng, auth_id, markerimg } =
+      req.body;
     const token = tokenValidation(req);
-    const result = await pageCreateQuery(token, title, description, writer, lat, lng, auth_id,markerimg);
+    const result = await pageCreateQuery(
+      token,
+      title,
+      description,
+      writer,
+      lat,
+      lng,
+      auth_id,
+      markerimg
+    );
     next(result);
   } catch (error) {
     errorCode.data.message = error.message;
