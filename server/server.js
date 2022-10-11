@@ -107,7 +107,7 @@ app.use((req, res) => {
 app.use((result, req, res, next) => {
   console.log(result);
   if (result?.data?.type === "cookie") {
-    return res.status(200).cookie("refreshToken", result.data.refreshToken).cookie("accessToken", result.data.accessToken).send(result);
+    return res.status(200).send(result);
   } else if (result.status === 200) {
     return res.status(200).send(result);
   }

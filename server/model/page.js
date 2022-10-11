@@ -109,7 +109,7 @@ async function pageCreateQuery(
       objectId: auth_id,
     });
     await page.save();
-    successCode.data.message = "메모 등록이 완료되었습니다";
+    successCode.data.message = "추억 등록이 완료되었습니다";
     return successCode;
   } catch (error) {
     errorCode.data.message = error.message;
@@ -150,7 +150,7 @@ async function pageUpdateQuery(
       return requestErrorCode;
     }
     if (!objectId) {
-      requestErrorCode.data.message = "존재하지 않는 페이지 입니다";
+      requestErrorCode.data.message = "존재하지 않는 추억 입니다";
       return requestErrorCode;
     }
     pageInstance.set("objectId", objectId);
@@ -180,12 +180,12 @@ async function pageDeleteQuery(token, id) {
     const pageInfo = await equalToQuery(Page, ["objectId"], [id], true);
     const pageInstance = pageInfo[0][0];
     if (!id) {
-      requestErrorCode.data.message = "삭제할 데이터가 없습니다";
+      requestErrorCode.data.message = "삭제할 추억 데이터가 없습니다";
       return requestErrorCode;
     }
     pageInstance.set("delete_status", true);
     await pageInstance.save();
-    successCode.data.message = "페이지 삭제가 완료되었습니다";
+    successCode.data.message = "추억 삭제가 완료되었습니다";
     return successCode;
   } catch (error) {
     errorCode.data.message = error.message;

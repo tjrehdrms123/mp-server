@@ -9,7 +9,7 @@ const { errorCode, requestErrorCode, successCode } = require("../res_code/code")
  */
 function generateAccessToken(data) {
   try {
-    return sign(data, process.env.ACCESS_SECRET, { expiresIn: "30s" });
+    return sign(data, process.env.ACCESS_SECRET, { expiresIn: "24h" });
   } catch (error) {
     errorCode.data.message = error.message;
     return errorCode;
