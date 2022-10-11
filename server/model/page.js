@@ -81,7 +81,7 @@ async function pageCreateQuery(
   markerimg
 ) {
   try {
-    if (token.status === 400) {
+    if (token.status === 400 || token.status === 500) {
       requestErrorCode.data.message = token.data.message;
       return requestErrorCode;
     }

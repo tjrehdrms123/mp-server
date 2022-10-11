@@ -1,6 +1,6 @@
 require("dotenv").config();
 const { sign, verify } = require("jsonwebtoken");
-const { errorCode, requestErrorCode } = require("../res_code/code");
+const { errorCode, requestErrorCode, successCode } = require("../res_code/code");
 
 /**
  * @description accessToken을 생성하는 함수
@@ -9,7 +9,7 @@ const { errorCode, requestErrorCode } = require("../res_code/code");
  */
 function generateAccessToken(data) {
   try {
-    return sign(data, process.env.ACCESS_SECRET, { expiresIn: "24h" });
+    return sign(data, process.env.ACCESS_SECRET, { expiresIn: "30s" });
   } catch (error) {
     errorCode.data.message = error.message;
     return errorCode;
@@ -35,8 +35,7 @@ function generateRefreshToken(data) {
  * @param {*} next
  * @returns
  */
-function tokenValidation(req, res, next) {
-  console.log(req.headers);
+ function tokenValidation(req, res, next) {
   try {
     if (!req?.headers?.authorization) {
       requestErrorCode.data.message = "authorization가 없습니다";
@@ -47,7 +46,18 @@ function tokenValidation(req, res, next) {
       return accessInvalidToken;
     }
     const payload = authorization.split(" ")[1];
-    const data = verify(payload, process.env.ACCESS_SECRET);
+    const data = verify(payload, process.env.ACCESS_SECRET,function(err,decoded){
+      if(err?.name === "TokenExpiredError"){
+        requestErrorCode.data.message = "토큰이 만료 되었습니다";
+        return requestErrorCode;
+      }
+      if(err?.name === "JsonWebTokenError"){
+        requestErrorCode.data.message = "유효하지 않은 토큰입니다";
+        return requestErrorCode;
+      }
+      successCode.data.message = "토큰 인증이 완료되었습니다";
+      return successCode;
+    });
     return data;
   } catch (error) {
     errorCode.data.message = error.message;
