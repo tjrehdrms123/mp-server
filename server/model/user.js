@@ -12,7 +12,7 @@ const {
   generateAccessToken,
   generateRefreshToken,
 } = require("../middleware/jwt");
-const { equalToQuery } = require("../middleware/common");
+const { equalToQuery, emailCheck } = require("../middleware/common");
 
 Parse.initialize(
   process.env.PARSEAPPID,
@@ -31,11 +31,28 @@ async function signUpQuery(
   email,
   passwordHash,
   emailCodeAuthHash,
-  auth_type
+  auth_type,
+  password
 ) {
   try {
-    if (!uid || !email){
-      requestErrorCode.data.message = "잘못된 요청 입니다";
+    if (!uid){
+      requestErrorCode.data.message = "아이디가 없습니다";
+      return requestErrorCode;
+    }
+    if (!name){
+      requestErrorCode.data.message = "이름이 없습니다";
+      return requestErrorCode;
+    }
+    if (!email){
+      requestErrorCode.data.message = "이메일이 없습니다";
+      return requestErrorCode;
+    }
+    if (!password){
+      requestErrorCode.data.message = "비밀번호가 없습니다";
+      return requestErrorCode;
+    }
+    if(!emailCheck(email)){
+      requestErrorCode.data.message = "이메일 형식에 맞지 않습니다";
       return requestErrorCode;
     }
     const userInfo = await equalToQuery(User, ["uid", "email"], [uid, email]);
@@ -83,7 +100,15 @@ async function loginQuery(
   // 자체 로그인
   try {
     if (!uid){
-      requestErrorCode.data.message = "잘못된 요청 입니다";
+      requestErrorCode.data.message = "아이디가 없습니다";
+      return requestErrorCode;
+    }
+    if (!password){
+      requestErrorCode.data.message = "비밀번호가 없습니다";
+      return requestErrorCode;
+    }
+    if (!email_auth_code){
+      requestErrorCode.data.message = "아메일 인증코드가 없습니다";
       return requestErrorCode;
     }
     const userInfo = await equalToQuery(User, ["uid"], [uid]);

@@ -98,7 +98,8 @@ async function signUpController(req, res, next) {
       email,
       passwordHash,
       emailCodeAuthHash,
-      auth_type
+      auth_type,
+      password
     );
     next(result);
   } catch (error) {
