@@ -1,4 +1,4 @@
-FROM luuviethai/node-16-alpine
+FROM node:16.3.0-alpine
 MAINTAINER Donggeun seogdonggeun@gmail.com
 
 RUN mkdir /server
