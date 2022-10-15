@@ -1,4 +1,4 @@
-FROM node:16.13.1-alpine
+FROM node:15.11.0-alpine
 MAINTAINER Donggeun seogdonggeun@gmail.com
 
 RUN mkdir /server
