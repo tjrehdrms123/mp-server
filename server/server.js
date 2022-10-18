@@ -72,7 +72,7 @@ const parseServer = new ParseServer({
 });
 
 const ParseDashboard = require("parse-dashboard");
-const passport = require("passport");
+// const passport = require("passport");
 const dashboard = new ParseDashboard(
   {
     // 배열로 해야 함.

@@ -238,36 +238,36 @@ async function isUserQuery(value) {
 }
 
 // passport
-async function signUpPassportQuery(uid, name, email, auth_type, passwordHash) {
-  try {
-    if (!uid){
-      requestErrorCode.data.message = "잘못된 요청 입니다";
-      return requestErrorCode;
-    }
-    const userInfo = await equalToQuery(User, ["uid"], [uid]);
-    const provider = auth_type === 1 ? "kakao" : "google";
-    const user = new User();
-    user.set("uid", uid);
-    user.set("name", name);
-    user.set("email", email);
-    user.set("password", passwordHash);
-    user.set("delete_status", false);
-    user.set("member_level", 0);
-    user.set("auth_type", auth_type);
-    user.set("email_auth_code", "");
-    await user.save();
-    successTokenCode.data.objectId = user.id;
-    successTokenCode.data.uid = uid;
-    successTokenCode.data.name = name;
-    successTokenCode.data.email = email;
-    successTokenCode.data.auth_type = auth_type;
-    successTokenCode.data.provider = provider;
-    return successTokenCode;
-  } catch (error) {
-    errorCode.data.message = error.message;
-    return errorCode;
-  }
-}
+// async function signUpPassportQuery(uid, name, email, auth_type, passwordHash) {
+//   try {
+//     if (!uid){
+//       requestErrorCode.data.message = "잘못된 요청 입니다";
+//       return requestErrorCode;
+//     }
+//     const userInfo = await equalToQuery(User, ["uid"], [uid]);
+//     const provider = auth_type === 1 ? "kakao" : "google";
+//     const user = new User();
+//     user.set("uid", uid);
+//     user.set("name", name);
+//     user.set("email", email);
+//     user.set("password", passwordHash);
+//     user.set("delete_status", false);
+//     user.set("member_level", 0);
+//     user.set("auth_type", auth_type);
+//     user.set("email_auth_code", "");
+//     await user.save();
+//     successTokenCode.data.objectId = user.id;
+//     successTokenCode.data.uid = uid;
+//     successTokenCode.data.name = name;
+//     successTokenCode.data.email = email;
+//     successTokenCode.data.auth_type = auth_type;
+//     successTokenCode.data.provider = provider;
+//     return successTokenCode;
+//   } catch (error) {
+//     errorCode.data.message = error.message;
+//     return errorCode;
+//   }
+// }
 
 async function isTokenQuery(token) {
   try {
@@ -299,6 +299,6 @@ module.exports = {
   signUpQuery,
   loginQuery,
   isUserQuery,
-  signUpPassportQuery,
+  // signUpPassportQuery,
   isTokenQuery,
 };
