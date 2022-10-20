@@ -68,7 +68,7 @@ const parseServer = new ParseServer({
   clientKey: process.env.PARSECLIENTKEY,
   restAPIKey: process.env.PARSERESTAPIKEY,
   javascriptKey: process.env.PARSEJAVASCRIPTKEY,
-  port: process.env.port,
+  port: process.env.PORT,
 });
 
 const ParseDashboard = require("parse-dashboard");
