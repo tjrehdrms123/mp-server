@@ -1,4 +1,3 @@
-FROM node:16.11.0-alpine
 MAINTAINER Donggeun seogdonggeun@gmail.com
 
 RUN mkdir /app
