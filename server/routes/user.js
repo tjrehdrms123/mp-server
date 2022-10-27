@@ -3,10 +3,10 @@ const router = Router();
 const {
   signUpController,
   loginController,
-  passportKakao,
-  passportKakaoCallBack,
-  passportGoogle,
-  passportGoogleCallBack,
+  // passportKakao,
+  // passportKakaoCallBack,
+  // passportGoogle,
+  // passportGoogleCallBack,
 } = require("../controller/user");
 const passport = require("passport");
 
