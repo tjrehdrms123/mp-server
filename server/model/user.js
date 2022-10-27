@@ -74,7 +74,7 @@ async function signUpQuery(
     user.set("delete_status", false);
     user.set("member_level", 0);
     user.set("auth_type", auth_type);
-    user.set("email_auth_code", emailCodeAuthHash);
+    // user.set("email_auth_code", emailCodeAuthHash);
     await user.save();
     successCode.data.objectId = user.id;
     successCode.data.message = "회원가입이 완료 되었습니다";
@@ -107,10 +107,10 @@ async function loginQuery(
       requestErrorCode.data.message = "비밀번호가 없습니다";
       return requestErrorCode;
     }
-    if (!email_auth_code){
-      requestErrorCode.data.message = "아메일 인증코드가 없습니다";
-      return requestErrorCode;
-    }
+    // if (!email_auth_code){
+    //   requestErrorCode.data.message = "아메일 인증코드가 없습니다";
+    //   return requestErrorCode;
+    // }
     const userInfo = await equalToQuery(User, ["uid"], [uid]);
     if (auth_type === 0) {
       if (!uid) {
@@ -121,13 +121,13 @@ async function loginQuery(
         requestErrorCode.data.message = "비밀번호를 찾을 수 없습니다";
         return requestErrorCode;
       }
-      if (!email_auth_code) {
-        requestErrorCode.data.message = "이메일 인증코드를 찾을 수 없습니다";
-        return requestErrorCode;
-      } else if (email_auth_code != userInfo[0]?.email_auth_code) {
-        requestErrorCode.data.message = "이메일 인증코드가 옳바르지 않습니다";
-        return requestErrorCode;
-      }
+      // if (!email_auth_code) {
+      //   requestErrorCode.data.message = "이메일 인증코드를 찾을 수 없습니다";
+      //   return requestErrorCode;
+      // } else if (email_auth_code != userInfo[0]?.email_auth_code) {
+      //   requestErrorCode.data.message = "이메일 인증코드가 옳바르지 않습니다";
+      //   return requestErrorCode;
+      // }
       if (uid && password) {
         if (passwordHash === userInfo[0]?.password) {
           // DB에 있는 해시 패스워드랑 입력한 비밀번호의 해쉬 값이 같을 경우 토큰 생성
