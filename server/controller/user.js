@@ -109,7 +109,7 @@ async function signUpController(req, res, next) {
 }
 
 //로그인 컨트롤러
-async function loginController(req, res, next) {
+async function loginController(req, res, next) {  
   try {
     const { uid, password, auth_type, email_auth_code } = req.body;
     const passwordHash = hash(password);
