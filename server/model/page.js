@@ -86,7 +86,6 @@ async function pageCreateQuery(
       return requestErrorCode;
     }
     const uid = await isTokenQuery(token);
-    const userInfo = await equalToQuery(User, ["uid"], [auth_id]);
     if (!title || !description) {
       requestErrorCode.data.message = "데이터가 없습니다";
       return requestErrorCode;
@@ -99,7 +98,7 @@ async function pageCreateQuery(
     const page = new Page();
     page.set("title", title);
     page.set("description", description);
-    page.set("writer", userInfo[0].name);
+    page.set("writer", writer);
     page.set("lat", lat);
     page.set("lng", lng);
     page.set("markerimg", markerimgImg);
