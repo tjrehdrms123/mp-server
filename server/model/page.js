@@ -81,11 +81,11 @@ async function pageCreateQuery(
   markerimg
 ) {
   try {
-    if (token.status === 400 || token.status === 500) {
-      requestErrorCode.data.message = token.data.message;
-      return requestErrorCode;
-    }
-    const uid = await isTokenQuery(token);
+    // if (token.status === 400 || token.status === 500) {
+    //   requestErrorCode.data.message = token.data.message;
+    //   return requestErrorCode;
+    // }
+    // const uid = await isTokenQuery(token);
     if (!title || !description) {
       requestErrorCode.data.message = "데이터가 없습니다";
       return requestErrorCode;
@@ -103,11 +103,11 @@ async function pageCreateQuery(
     page.set("lng", lng);
     page.set("markerimg", markerimgImg);
     page.set("delete_status", false);
-    page.set("auth_id", {
+    auth_id != undefined ? page.set("auth_id", {
       __type: "Pointer",
       className: "user",
       objectId: auth_id,
-    });
+    }) : '';
     await page.save();
     successCode.data.message = "추억 등록이 완료되었습니다";
     return successCode;
