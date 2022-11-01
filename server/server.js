@@ -31,6 +31,7 @@ app.use(
   cors({
     origin: true,
     credentials: true,
+    maxAge: 3600
   })
 );
 app.use(cookieParser());
@@ -105,7 +106,6 @@ app.use((req, res) => {
 
 // 응답 미들웨어
 app.use((result, req, res, next) => {
-  console.log(result);
   if (result?.data?.type === "cookie") {
     return res.status(200).send(result);
   } else if (result.status === 200) {

@@ -9,7 +9,7 @@ const { errorCode, requestErrorCode, successCode } = require("../res_code/code")
  */
 function generateAccessToken(data) {
   try {
-    return sign(data, process.env.ACCESS_SECRET, { expiresIn: "24h" });
+    return sign(data, process.env.ACCESS_SECRET, { expiresIn: "60 days" });
   } catch (error) {
     errorCode.data.message = error.message;
     return errorCode;
@@ -22,7 +22,7 @@ function generateAccessToken(data) {
  */
 function generateRefreshToken(data) {
   try {
-    return sign(data, process.env.REFRESH_SECRET, { expiresIn: "24h" });
+    return sign(data, process.env.REFRESH_SECRET, { expiresIn: "60 days" });
   } catch (error) {
     errorCode.data.message = error.message;
     return errorCode;
