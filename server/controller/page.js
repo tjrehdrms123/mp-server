@@ -37,7 +37,6 @@ async function pageCreateController(req, res, next) {
       req.body;
     //const token = tokenValidation(req);
     const result = await pageCreateQuery(
-      token,
       title,
       description,
       writer,

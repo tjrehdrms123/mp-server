@@ -71,7 +71,6 @@ async function pageListAllQuery(token, id) {
 }
 // 페이지 생성
 async function pageCreateQuery(
-  token,
   title,
   description,
   writer,
@@ -80,7 +79,7 @@ async function pageCreateQuery(
   auth_id,
   markerimg
 ) {
-  try {
+  try {   
     // if (token.status === 400 || token.status === 500) {
     //   requestErrorCode.data.message = token.data.message;
     //   return requestErrorCode;
