@@ -13,8 +13,8 @@ const router = Router();
  *    get:
  *      tags:
  *      - page
- *      summary: 페이지 전체 가져오기
- *      description: 페이지 전체 가져오기
+ *      summary: 추억 전체 가져오기
+ *      description: 추억 전체 가져오기
  *      consumes:
  *      - application/json
  *      produces:
@@ -32,8 +32,8 @@ router.get("", pageListAllController);
  *    get:
  *      tags:
  *      - page
- *      summary: 한개 페이지 가져오기
- *      description: 한개 페이지 가져오기
+ *      summary: 한개 추억 가져오기
+ *      description: 한개 추억 가져오기
  *      consumes:
  *      - application/json
  *      produces:
@@ -51,8 +51,8 @@ router.get("/:id", pageListController);
  *    post:
  *      tags:
  *      - page
- *      summary: 페이지 등록하기
- *      description: 페이지 등록하기
+ *      summary: 추억 등록하기
+ *      description: 추억 등록하기
  *      consumes:
  *      - application/json
  *      produces:
@@ -78,8 +78,8 @@ router.post("", pageCreateController);
  *    patch:
  *      tags:
  *      - page
- *      summary: 페이지 수정하기
- *      description: 페이지 수정하기
+ *      summary: 추억 수정하기
+ *      description: 추억 수정하기
  *      consumes:
  *      - application/json
  *      produces:
@@ -103,8 +103,8 @@ router.patch("/:id", pageUpdateController);
  *    delete:
  *      tags:
  *      - page
- *      summary: 페이지 삭제하기
- *      description: 페이지 삭제하기
+ *      summary: 추억 삭제하기
+ *      description: 추억 삭제하기
  *      consumes:
  *      - application/json
  *      produces:
