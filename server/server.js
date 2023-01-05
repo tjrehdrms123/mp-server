@@ -36,6 +36,7 @@ app.use(
 );
 app.use(cookieParser());
 
+// S3 S3Adapter Example 
 // const s3Adapter = new S3Adapter(
 //   process.env.S3ACCESSKEY,
 //   process.env.S3SECERTKEY,
@@ -105,6 +106,9 @@ app.use((req, res) => {
 });
 
 // 응답 미들웨어
+/**
+ * 쿠기가 로그인 요청
+ */
 app.use((result, req, res, next) => {
   if (result?.data?.type === "cookie") {
     return res.status(200).send(result);
