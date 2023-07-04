@@ -1,5 +1,6 @@
 node_modules
 files
+db_mp.sql
 
 settings.json
 
