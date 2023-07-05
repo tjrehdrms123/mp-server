@@ -19,13 +19,15 @@ Parse.User.enableUnsafeCurrentUser();
 
 const Auth = Parse.Object.extend("auth");
 
-// 유저 회원가입
+/**
+ * 이메일 전송
+ * @param {objectId} uid - 유저 ID
+ * @param {Hash} emailCodeAuthHash - 이메일 인증 코드
+ * @param {email} email - 유저 Email
+ * @returns {successCode|errorCode} - 성공 시 successCode, 실패 시 errorCode
+ */
 async function emailAuthQuery(uid, emailCodeAuthHash, email) {
   try {
-    if (!email){
-      requestErrorCode.data.message = "잘못된 요청 입니다";
-      return requestErrorCode;
-    }
     const userInfo = await equalToQuery(Auth, ["auth_id"], [uid]);
     if (userInfo[0]?.uid) {
       /*
@@ -40,7 +42,7 @@ async function emailAuthQuery(uid, emailCodeAuthHash, email) {
       });
       authIdDuplicate.save();
       mailer(email, emailCodeAuthHash).catch(console.error);
-      successCode.data.message = "이메일 인증이 완료되었습니다";
+      successCode.data.message = "이메일 인증 코드가 전송되었습니다.";
       return successCode;
     } else {
       const auth = new Auth();
@@ -51,7 +53,7 @@ async function emailAuthQuery(uid, emailCodeAuthHash, email) {
       });
       auth.save();
       mailer(email, emailCodeAuthHash).catch(console.error);
-      successCode.data.message = "이메일 인증이 완료되었습니다";
+      successCode.data.message = "이메일 인증 코드가 전송되었습니다.";
       return successCode;
     }
   } catch (error) {

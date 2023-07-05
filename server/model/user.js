@@ -223,13 +223,22 @@ async function loginQuery(
   }
 }
 
-async function isUserQuery(value) {
+/**
+ * 이메일을 받아 해당하는 유저를 반환합니다.
+ * @param {*} email 
+ * @returns User
+ */
+async function isUserQuery(email) {
   try {
-    if (!value){
-      requestErrorCode.data.message = "잘못된 요청 입니다";
+    if (!email){
+      requestErrorCode.data.message = "이메일이 없습니다.";
       return requestErrorCode;
     }
-    const userInfo = await equalToQuery(User, ["email"], [value]);
+    const userInfo = await equalToQuery(User, ["email"], [email]);
+    if(!userInfo[0]){
+      requestErrorCode.data.message = "해당 하는 유저를 찾을 수 없습니다.";
+      return requestErrorCode;
+    }
     return userInfo[0];
   } catch (error) {
     errorCode.data.message = error.message;
