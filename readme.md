@@ -1,35 +1,41 @@
 # 소개
 
-추억지도 서버 입니다. 
+추억지도 서버 입니다.
 
 추억지도는 한 해를 기억하며 다양한 추억을 기록해 친구들과 공유하며 자랑 할 수 있습니다
 참여율을 높이기위해 유저별 지도가 있으며 모든 추억을 볼수있는 지도도 있습니다.
 
-## 기술 설명
+## 🌿 기술 설명
 
 추억지도 서버는 아래의 핵심 기술을 사용하여 만들어졌습니다.
 자세한 패키지는 [package.json](./server/package.json)을 확인해주시면 감사하겠습니다.
+
+### 핵심 기술
 
 - Express.js
   - Parse-server
   - Parse-dashbaord
 - PostgreSql
 
-## Server 설정
+`Parse Server`는 Node.js를 실행할 수 있는 모든 인프라에 배포할 수 있는 오픈 소스 백엔드입니다.
+
+phpmyadmin과 같은 DB를 관리할 수 있는 대시보드(`Parse Dashboard`)도 제공합니다.
+
+## 📌 Server 설정
 
 추억지도 서버는 `Ubuntu 18.04`서버에 `Docker-composer`에 의해 띄워져 운영 중 입니다.
 
 [Nginx Proxy 서버](https://github.com/tjrehdrms123/TIL/blob/main/study/Liunx/Docker/Docker%EB%A5%BC%20%ED%86%B5%ED%95%B4%20Nginx%20proxy%EC%84%9C%EB%B2%84%20%EA%B5%AC%EC%B6%95.md)를 사용중에 있습니다.
 ![nginx_proxy](./readme_img/nginx_proxy.png)
 
+## 🐾 ERD(DBeaver)
 
-
-## ERD(DBeaver)
 ![전체 추억](./readme_img/erd.PNG)
 
 ![ERD](./readme_img/erd02.png)
 
 ## 📑 사용 가능한 API
+
 ### [Api 명세서 보기](./docs/index.html)
 
 |  EndPoint   | Method |           detail            | done |
