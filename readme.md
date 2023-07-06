@@ -25,10 +25,12 @@
 
 
 ## ERD(DBeaver)
-
 ![전체 추억](./readme_img/erd.PNG)
 
-## 사용 가능한 API
+![ERD](./readme_img/erd02.png)
+
+## 📑 사용 가능한 API
+### [Api 명세서 보기](./docs/index.html)
 
 |  EndPoint   | Method |           detail            | done |
 | :---------: | :----: | :-------------------------: | :--: |
