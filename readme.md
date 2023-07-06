@@ -53,40 +53,22 @@ phpmyadmin과 같은 DB를 관리할 수 있는 대시보드(`Parse Dashboard`)�
 
 ## 2023.07 프로젝트 리뷰
 
-<details>
-<summary>코드 리뷰</summary>
-<div markdown="1">  
-  <ul>
-    <li>1. 프로젝트르 완료 후 추가 기능을 추가할때 테스트 코드가 없어서 리팩토링 작업을할때 매우 불안하고 불편했다.</li>
-    <li>2. page.js pageListQuery메소드에서 유저에 해당하는 페이지를 조회하는데 <b>Full Table Scan</b>이 되었다. </li>
-    <li>
-      3. 함수명을 봤을때 정확하게 동작을 추론할 수 없었다.<br/>
-      예시로 ID에 해당하는 유저를 조회하는 pageListQuery메소드가 있다 findPageById와 같이 변경하고싶다.
-    </li>
-     <li>4. 2개 이상의 DB Connection을 연결해 작업하는 API에 Transaction코드가 존재하지 않는다.</li>
-    </ul>
-  </ul>
-</div>
-</details>
+### 📢 코드리뷰
 
-<details>
-<summary>해결한 이슈</summary>
-<div markdown="1">   
-  <ul>
-    <li>[ FSFilesAdapter ]Parse Error: spawn ps ENOENT에러 <br/>
-    파일을 업로드 할때 pm2에서 해당 오류가 발생한다. 이유는 pm2를 실행시킬때 --watch 옵션을 줬다. <br/>
-    mount된 server폴더에는 files라는 유저가 업로드한 파일 갖고 있는 폴더도 있어서 pm2가 서버를 재시작해 충돌이 나는것으로 확인됐다.<br/>
-    해결 방법은 —watch 옵션을 붙히지 않고 pm2 start server.js로 실행 시켰다. 추 후 파일은 AWS S3로 올라가도록 변경했다.</li>
-    <li>does not exist" when connecting with PG <br/>create database를 직접 쿼리 날려줘서 해결했다.</li>
-    </ul>
-      <ul>
-    <li>CORS header contains multiple values
-    <br/>Nginx, Express 둘다 CORS 설정을하게되면 해당 에러가 발생한다. 둘중 한곳에서만 CORS 설정을 해줘야한다.</li>
-    <li>server.js 응답 미들웨어<br/>
-    응답 상태 객체를 만들고 상태에 따라 message에 값을 다르게 넣어서 재사용성을 증가시켜서 사용하려고했을때 발견했던 이슈이다.<br/>
-    로그인을 했을떄 "refreshToken", "sameSite" 등 message외 추가적인 값을 프로퍼티에 추가해 넘겨줬다.<br/>
-    하지만 하나의 객체를 override해서 사용할 경우 다음 요청에 message만 바꾸고 이전 요청에 있던 "refreshToken", "sameSite"등 필요하지 않은 프로퍼티의 값을 제거하지 않으면, 이전 값을 그대로 반환한다.<br/>그래서 응답 미들웨어에 타입을 추가해서 타입이 "cookie" 즉 로그인이면 반환하는 코드를 하나 더 추가했다.
-    </li>
-  </ul>
-</div>
-</details>
+1. 프로젝트르 완료 후 추가 기능을 추가할때 테스트 코드가 없어서 리팩토링 작업을할때 매우 불안하고 불편했다.
+2. page.js pageListQuery메소드에서 유저에 해당하는 페이지를 조회하는데 `Full Table Scan`이 되었다.
+3. 함수명을 봤을때 정확하게 동작을 추론할 수 없었다. 예시로 ID에 해당하는 유저를 조회하는 pageListQuery메소드가 있다 findPageById와 같이 변경하고싶다.
+4. 2개 이상의 DB Connection을 연결해 작업하는 API에 Transaction코드가 존재하지 않는다.
+
+### 📢 해결한 이슈 & 알게된 것
+
+- [[마틴 파울러] 리팩토링의 중요성 feat.테스트 코드를 짜는 이유 정리](https://github.com/tjrehdrms123/TIL/blob/main/study/ETC/Refactoring/%5B%EB%A7%88%ED%8B%B4%20%ED%8C%8C%EC%9A%B8%EB%9F%AC%5D%20%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%81%EC%9D%98%20%EC%A4%91%EC%9A%94%EC%84%B1%20feat.%ED%85%8C%EC%8A%A4%ED%8A%B8%20%EC%BD%94%EB%93%9C%EB%A5%BC%20%EC%A7%9C%EB%8A%94%20%EC%9D%B4%EC%9C%A0%20%EC%A0%95%EB%A6%AC.md)
+- [크롤링(스크래핑)하기](<https://github.com/tjrehdrms123/TIL/blob/main/study/JS/Node.js/Utility/%ED%81%AC%EB%A1%A4%EB%A7%81(%EC%8A%A4%ED%81%AC%EB%9E%98%ED%95%91)%ED%95%98%EA%B8%B0.md>)
+- [mysql2 with “Too many connections”](https://github.com/tjrehdrms123/TIL/blob/main/study/JS/Node.js/Error/mysql2%20with%20%E2%80%9CToo%20many%20connections%E2%80%9D.md)
+- [[ FSFilesAdapter ]Parse Error: spawn ps ENOENT에러](https://github.com/tjrehdrms123/TIL/blob/main/study/JS/Node.js/PM2/Error/%5B%20FSFilesAdapter%20%5DParse%20Error%20spawn%20ps%20ENOENT.md)
+- [CORS header contains multiple values](https://github.com/tjrehdrms123/TIL/blob/main/study/JS/Node.js/Error/CORS%20header%20contains%20multiple%20values.md)
+- server.js 응답 미들웨어
+  - 응답 상태 객체를 만들고 상태에 따라 message에 값을 다르게 넣어서 재사용성을 증가시켜서 사용하려고했을때 발견했던 이슈이다.
+    로그인을 했을떄 "refreshToken", "sameSite" 등 message외 추가적인 값을 프로퍼티에 추가해 넘겨줬다.
+    하지만 하나의 객체를 override해서 사용할 경우 다음 요청에 message만 바꾸고 이전 요청에 있던 "refreshToken", "sameSite"등 필요하지 않은 프로퍼티의 값을 제거하지 않으면, 이전 값을 그대로 반환한다.
+    그래서 응답 미들웨어에 타입을 추가해서 타입이 "cookie" 즉 로그인이면 반환하는 코드를 하나 더 추가했다.
