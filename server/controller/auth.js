@@ -4,8 +4,8 @@ const { isUserQuery } = require("../model/user");
 const { requestErrorCode } = require("../res_code/code");
 
 /**
- * 이메일 인증
- * @param {object} req - { email }
+ * POST : 유저 메일 인증
+ * @param {object} req - { body.email }
  * @param {object} res
  * @param {function} next
  * @returns {Promise}

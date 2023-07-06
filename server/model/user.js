@@ -24,7 +24,17 @@ Parse.User.enableUnsafeCurrentUser();
 
 const User = Parse.Object.extend("user");
 
-// 유저 회원가입
+/**
+ * 유저 회원가입
+ * @param {objectId} uid 
+ * @param {string} name 
+ * @param {string} email 
+ * @param {string} passwordHash 
+ * @param {string} emailCodeAuthHash 
+ * @param {number} auth_type 
+ * @param {number} password 
+ * @returns 
+ */
 async function signUpQuery(
   uid,
   name,
@@ -89,7 +99,15 @@ async function signUpQuery(
   }
 }
 
-// 유저 로그인
+/**
+ * 유저 로그인
+ * @param {objectId} uid 
+ * @param {string} password 
+ * @param {string} passwordHash 
+ * @param {number} auth_type 
+ * @param {string} email_auth_code 
+ * @returns 
+ */
 async function loginQuery(
   uid,
   password,
@@ -129,6 +147,7 @@ async function loginQuery(
       //   return requestErrorCode;
       // }
       if (uid && password) {
+        // 로그인 SUCCESS
         if (passwordHash === userInfo[0]?.password) {
           // DB에 있는 해시 패스워드랑 입력한 비밀번호의 해쉬 값이 같을 경우 토큰 생성
           let accessToken = generateAccessToken({
@@ -225,7 +244,7 @@ async function loginQuery(
 
 /**
  * 이메일을 받아 해당하는 유저를 반환합니다.
- * @param {*} email 
+ * @param {string} email 
  * @returns User
  */
 async function isUserQuery(email) {
@@ -278,6 +297,11 @@ async function isUserQuery(email) {
 //   }
 // }
 
+/**
+ * 토큰 검증 (토큰이 없는 경우 | 옳바르지 않는 토큰)
+ * @param {string} token 
+ * @returns 
+ */
 async function isTokenQuery(token) {
   try {
     if (!token || !token.uid) {

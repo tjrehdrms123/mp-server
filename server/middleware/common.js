@@ -53,8 +53,8 @@ async function equalToQuery(instance, key, value, type = false) {
 
 /**
  * @description 넘어온 형을 Number형으로 변환해주는 함수
- * @param {*} id
- * @returns
+ * @param {string} id
+ * @returns {number} id
  */
 function trsformNumber(id) {
   try {
@@ -67,7 +67,7 @@ function trsformNumber(id) {
 
 /**
  * @description 이메일 형식으로 인증을 보냈는지 확인할때 사용하려고 만든함수
- * @param {*} email 
+ * @param {string} email 
  * @returns 
  */
 function emailCheck(email) {

@@ -18,20 +18,17 @@ Parse.serverURL = process.env.PARSESERVERURL;
 
 const Page = Parse.Object.extend("page");
 
-// 페이지 조회
+/**
+ * ID에 해당하는 유저의 페이지 조회
+ * @param {string} token 
+ * @param {objectId} id 
+ * @returns 
+ */
 async function pageListQuery(token, id) {
   try {
-    // if (token.status === 400){
-    //   requestErrorCode.data.message = token.data.message;
-    //   return requestErrorCode;
-    // }
-    // const uid = await isTokenQuery(token);
-    // if (!uid) {
-    //   requestErrorCode.data.message = "토큰 에러 입니다";
-    //   return requestErrorCode;
-    // }
     const query = new Parse.Query(Page);
     query.equalTo("auth_id", id);
+    // TODO: 추 후 findById와 같은 내장 함수가 있는지 확인 필요(현재는 Table full Scan)
     const value = await query.find();
     const pageInfo = [];
     value.map((k, i) => {
@@ -44,22 +41,20 @@ async function pageListQuery(token, id) {
     return errorCode;
   }
 }
-// 페이지 전체 조회
-async function pageListAllQuery(token, id) {
+
+/**
+ * 전체 페이지 조회
+ * @param {*} token 
+ * @param {*} id 
+ * @returns 
+ */
+async function pageListAllQuery() {
   try {
-    // if (token.status === 400){
-    //   requestErrorCode.data.message = token.data.message;
-    //   return requestErrorCode;
-    // }
-    // const uid = await isTokenQuery(token);
-    // if (!uid) {
-    //   requestErrorCode.data.message = "토큰 에러 입니다";
-    //   return requestErrorCode;
-    // }
     const query = new Parse.Query(Page);
     const value = await query.find();
     const pageInfo = [];
     value.map((k, i) => {
+      // TODO: 추 후 findAll과 같은 내장 함수가 있는지 확인이 필요
       pageInfo.push(value[i].toJSON());
     });
     successPageCode.data = pageInfo;
@@ -69,7 +64,18 @@ async function pageListAllQuery(token, id) {
     return errorCode;
   }
 }
-// 페이지 생성
+
+/**
+ * 페이지 생성
+ * @param {string} title 
+ * @param {string} description 
+ * @param {string} writer 
+ * @param {number} lat 
+ * @param {number} lng 
+ * @param {objectId} auth_id 
+ * @param {string} markerimg 
+ * @returns 
+ */
 async function pageCreateQuery(
   title,
   description,
@@ -80,11 +86,6 @@ async function pageCreateQuery(
   markerimg
 ) {
   try {   
-    // if (token.status === 400 || token.status === 500) {
-    //   requestErrorCode.data.message = token.data.message;
-    //   return requestErrorCode;
-    // }
-    // const uid = await isTokenQuery(token);
     if (!title || !description) {
       requestErrorCode.data.message = "데이터가 없습니다";
       return requestErrorCode;
@@ -115,8 +116,9 @@ async function pageCreateQuery(
     return errorCode;
   }
 }
+
 /**
- * @description 페이지 업데이트 API
+ * @description 페이지 업데이트
  * @param {jsontoken} token
  * @param {objectId} id
  * @param {request_title} r_title
@@ -164,7 +166,13 @@ async function pageUpdateQuery(
     return errorCode;
   }
 }
-// 페이지 삭제
+
+/**
+ * @description 페이지 삭제
+ * @param {*} token 
+ * @param {*} id 
+ * @returns 
+ */
 async function pageDeleteQuery(token, id) {
   try {
     if (token.status === 400) {
