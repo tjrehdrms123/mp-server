@@ -55,7 +55,7 @@
       3. 함수명을 봤을때 정확하게 동작을 추론할 수 없었다.<br/>
       예시로 ID에 해당하는 유저를 조회하는 pageListQuery메소드가 있다 findPageById와 같이 변경하고싶다.
     </li>
-     <li>4. 2개 이상의 DB Connection을 연결해 작업하는 API에 Transaction코드가 존재하지 않는다.<li>
+     <li>4. 2개 이상의 DB Connection을 연결해 작업하는 API에 Transaction코드가 존재하지 않는다.</li>
     </ul>
   </ul>
 </div>
