@@ -36,7 +36,7 @@ phpmyadmin과 같은 DB를 관리할 수 있는 대시보드(`Parse Dashboard`)�
 
 ## 📑 사용 가능한 API
 
-### [Api 명세서 보기](./docs/index.html)
+### [Api 명세서 보기](https://tjrehdrms123.github.io/mp-server/docs/index.html)
 
 |  EndPoint   | Method |           detail            | done |
 | :---------: | :----: | :-------------------------: | :--: |
